@@ -1,0 +1,13 @@
+---
+# Localhost Environment 
+local_path: "{{ lookup('env','PWD') }}"
+local_home: "{{ lookup('env','HOME') }}"
+local_user: "{{ lookup('env','USER') }}"
+dir_tmpl: "../templates"
+ccio_home: "{{ local_home }}/.ccio"
+dir_tmpl: "../templates"
+
+# Ansible Playbook Run Variables
+ansible_name: "ContainerCraft | CloudCtl Pod"
+sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
