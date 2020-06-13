@@ -1,6 +1,7 @@
 all:
   hosts:
   children:
-    ensign:
+    cloudctl:
       hosts:
-        ensign.ministack.dev: 
+        localhost
+
