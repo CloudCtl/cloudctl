@@ -1,0 +1,138 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-05-25T03:56:36Z"
+  labels:
+    app: registry
+  name: registry
+spec:
+  hostAliases:
+  - ip: "127.0.0.1"
+    hostnames:
+    - "registry.{{ cluster_domain }}"
+  containers:
+  - env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: {{ target_environment }}
+    - name: container
+      value: podman
+    - name: versOCP
+      value: {{ version_openshift }}
+    - name: BUILDAH_ISOLATION
+      value: chroot
+    image: docker.io/containercraft/one:ccio
+    name: {{ target_environment }}
+    ports:
+    - containerPort: 80
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 5000
+      hostPort: 5000
+      protocol: TCP
+    - containerPort: 22
+      hostPort: 2022
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /root/ArtifactCore:z
+      name: var-home-core-ArtifactCore
+    workingDir: /root/ArtifactCore
+  - command:
+    - /etc/docker/registry/config.yml
+    env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: registry
+    - name: container
+      value: podman
+    - name: REGISTRY_AUTH
+      value: htpasswd
+    - name: REGISTRY_AUTH_HTPASSWD_REALM
+      value: RegistryRealm
+    - name: REGISTRY_AUTH_HTPASSWD_PATH
+      value: /root/auth/htpasswd
+    - name: REGISTRY_HTTP_TLS_KEY
+      value: /root/ssl/{{ cluster_domain }}.key
+    - name: REGISTRY_HTTP_TLS_CERTIFICATE
+      value: /root/ssl/{{ cluster_domain }}.crt
+    image: docker.io/library/registry:2
+    name: registry2
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /var/lib/registry:z
+      name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-registry
+    - mountPath: /root/ssl:z
+      name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-ssl
+    - mountPath: /root/auth/htpasswd:z
+      name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-auth-htpasswd
+    workingDir: /
+  - command:
+    - nginx
+    - -g
+    - daemon off;
+    env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: nginx
+    - name: container
+      value: podman
+    - name: NGINX_VERSION
+      value: 1.17.10
+    - name: NJS_VERSION
+      value: 0.3.9
+    - name: PKG_RELEASE
+      value: 1~buster
+    image: docker.io/library/nginx:latest
+    name: nginx
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html:z
+      name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-data
+    workingDir: /
+  volumes:
+  - hostPath:
+      path: /var/home/core/ArtifactCore
+      type: Directory
+    name: var-home-core-ArtifactCore
+  - hostPath:
+      path: /var/home/core/ArtifactCore/{{ cluster_domain }}/registry
+      type: Directory
+    name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-registry
+  - hostPath:
+      path: /var/home/core/ArtifactCore/{{ cluster_domain }}/ssl
+      type: Directory
+    name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-ssl
+  - hostPath:
+      path: /var/home/core/ArtifactCore/{{ cluster_domain }}/auth/htpasswd
+      type: File
+    name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-auth-htpasswd
+  - hostPath:
+      path: /var/home/core/ArtifactCore/{{ cluster_domain }}/data
+      type: Directory
+    name: var-home-core-ArtifactCore-{{ name_cluster_vpc }}.{{ cluster_domain }}-data
+status: {}

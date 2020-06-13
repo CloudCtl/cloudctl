@@ -1,0 +1,19 @@
+---
+
+# Localhost Environment 
+local_path: "{{ lookup('env','PWD') }}"
+local_home: "{{ lookup('env','HOME') }}"
+local_user: "{{ lookup('env','USER') }}"
+
+# Ansible Playbook Run Variables
+ansible_name: "MSIO | Ensign"
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
+ensign_fqdn: "{{ lookup('env','ccioEnsign_domainFqdn') }}"
+
+# Terraform Variables
+tf_vars: "{{ local_home }}/.ccio/tf"
+tf_home: "{{ local_home }}/.ccio/ensign/terraform"
+
+# Cloud Provider
+cloud: "{{ lookup('env','ccioEnsign_provider') }}"

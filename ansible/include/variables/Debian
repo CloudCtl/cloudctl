@@ -1,0 +1,9 @@
+---
+packages_base_Debian:
+  - tmux
+  - htop
+  - podman
+  - hostname
+  - net-tools
+  - wireguard-tools
+  - openvswitch-switch

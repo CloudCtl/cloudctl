@@ -1,0 +1,5 @@
+terraform {
+  backend "local" {
+    path = "/home/{{ local_home }}/.ccio/state/lxd/terraform.tfstate"
+  }
+}

@@ -1,0 +1,35 @@
+#!/bin/bash -x
+
+run_vars_mgmt () {
+hwAddr=$(cat /sys/class/net/${hwIface}/address)
+mgmtAddr=$(echo "${hwIface} ${HOSTNAME} ${ovsBridge} ${intIface}" | md5sum \
+  | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+}
+
+run_ovs_mgmt () {
+
+  run_vars_mgmt
+
+  ovs-vsctl \
+	  --may-exist add-port ${ovsBridge} ${intIface} \
+	  -- set interface ${intIface} type=internal
+
+  ovs-vsctl set interface ${intIface} mac=${mgmtAddr}  
+}
+
+run_ip_mgmt () {
+
+  ip link set ${ovsBridge} up
+  ip link set ${intIface}  up
+
+  ip addr  add ${addrInt}/24 dev ${intIface}
+  ip route add ${subnetInt}  via ${addrInt}  dev ${intIface}
+  ip route add default       via ${gwInt}    dev ${intIface}
+}
+
+run () {
+  run_ovs_mgmt
+  run_ip_mgmt
+}
+
+run

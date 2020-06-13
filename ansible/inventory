@@ -1,0 +1,6 @@
+all:
+  hosts:
+  children:
+    ensign:
+      hosts:
+        ensign.ministack.dev: 

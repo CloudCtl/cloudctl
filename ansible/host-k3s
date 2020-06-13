@@ -1,0 +1,76 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+# Purpose:
+# - build k3s on target host
+############################################################################
+# Configure Host
+- name: '{{ ansible_name_module_cloud }} | K3s Deploy'
+  hosts: ensigns
+  user: ccio
+  become: true
+  vars:
+    module: "k3s"
+    ansible_name_module_cloud: "{{ ansible_name }} | {{ module }} | {{ cloud }}"
+  vars_files:
+    - 'variables'
+  tasks:
+    - include_vars: 'include/variables/{{ ansible_os_family }}'
+
+    ####### Add /usr/local/bin to PATH
+    - name: '{{ ansible_name_module_cloud }} | copy | Add /usr/local/bin to $PATH'
+      copy:
+        dest: /etc/profile.d/usr-local-bin-to-path.sh
+        content: 'PATH=$PATH:/usr/local/bin'
+
+    ####### Install packages
+    - name: '{{ ansible_name_module_cloud }} | include | {{ ansible_os_family }} | Install Packages'
+      include_tasks: 'include/packages/url-packages-{{ ansible_os_family }}'
+
+    ####### Start Docker Service
+    - name: '{{ ansible_name_module_cloud }} | systemd | {{ ansible_os_family }} | Start Docker service'
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+
+    ####### TEMPORARY Disable Firewalld
+    - name: '{{ ansible_name_module_cloud }} | systemd | {{ ansible_os_family }} | Disable Firewalld service'
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: no
+      become: yes
+
+    ####### Run K3s Setup Script
+    - name: '{{ ansible_name_module_cloud }} | shell | {{ ansible_os_family }} | Run k3s Install Script'
+      shell: /usr/local/bin/get-k3s-io
+     #shell: /usr/local/bin/get-k3s-io --no-deploy=traefik --no-flannel
+
+    ####### Place k3s .kube/config
+    - name: '{{ ansible_name_module_cloud }} | file | {{ ansible_os_family }} | stage .kube/config'
+      file:
+        dest: "/root/.kube"
+        state: directory
+    - wait_for:
+        path: "/etc/rancher/k3s/k3s.yaml"
+    - file:
+        src: "/etc/rancher/k3s/k3s.yaml"
+        dest: "/root/.kube/config"
+        state: hard
+
+    ####### Copy k3s .kube/config to localhost .kube/ensign
+    - name: '{{ ansible_name_module_cloud }} | fetch | copy config to localhost .kube/ensign'
+      fetch:
+        src: "/etc/rancher/k3s/k3s.yaml"
+        dest: "{{ local_home }}/.kube/ensign"
+        flat: yes
+
+    ####### Purge SSH known_hosts entries if previous entries found
+    - name: '{{ ansible_name_module_cloud }} | lineinfile | find replace localhost/ensign'
+      delegate_to: localhost
+      lineinfile:
+        dest: "{{ local_home }}/.kube/ensign"
+        regexp: "{{ item.match }}"
+        line: "{{ item.new }}"
+      with_items:
+        - { match: '    server: https://127.0.0.1:6443', new: '    server: https://{{ ensign_fqdn }}:6443' }

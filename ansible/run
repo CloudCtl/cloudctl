@@ -1,0 +1,18 @@
+#!/usr/bin/env ansible-playbook
+# Inventory of Tasks:
+# 1 Build a cloud dns zone from your domain
+# 2 Build a public cloud instance (centos)
+# 3 Create public DNS records for instance
+# 4 Build a K3s "cluster" on the instance
+
+# - [Build GCP DNS Zone] ---------------------
+- import_playbook: 00-configure-dns
+
+# - [Build GCP instance] ---------------------
+- import_playbook: 01-build-instance
+
+# - [Build GCP K3s on the instance] ----------
+- import_playbook: 02-build-k3s
+
+# - [Build GCP OpenWRT Gateway the instance] -
+# import_playbook: 03-build-gateway

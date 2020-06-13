@@ -1,0 +1,8 @@
+#!/bin/bash
+run_ovs_clear () {
+for i in $(ovs-vsctl show | awk '/error: /{print $7}'); do
+  ovs-vsctl del-port $i;
+done
+clear && ovs-vsctl show
+}
+run_ovs_clear

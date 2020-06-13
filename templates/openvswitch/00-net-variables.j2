@@ -1,0 +1,11 @@
+#!/bin/bash -x
+
+export intIface="mgmt1"
+export ovsBridge="internal"
+
+export gwInt="192.168.16.1"
+export addrInt="192.168.16.2"
+export subnetInt="192.168.16.0/24"
+
+export hwIface="{{ ansible_default_ipv4.interface }}"
+ip addr flush dev ${hwIface}
