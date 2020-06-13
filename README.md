@@ -1,2 +1,2 @@
 # CloudCTL
-cloudctl | Cloud Deployment Administrative Services &amp; Utilities
+Cloud Deployment Administrative Services & Utilities
