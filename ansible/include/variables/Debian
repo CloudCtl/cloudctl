@@ -1,4 +1,0 @@
----
-list_packages_base_Debian:
-  - podman
-  - wireguard-tools

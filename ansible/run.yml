@@ -1,14 +1,13 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
-##/usr/bin/env ansible-playbook
+#!/usr/bin/ansible-playbook --inventory=inventory
 # Inventory of Tasks:
 # 1 Install Dependencies
 # 2 Configure Systemd Services
 
 # - [Prepare Host] -----------------------------------
-- import_playbook: dependencies-{{ ansible_os_family }}.yml
+- import_playbook: dependencies.yml
 
 # - [Configure Systemd Services] ---------------------
-- import_playbook: systemd.yml
+# import_playbook: systemd.yml
 
 # - [Build GCP K3s on the instance] ------------------
-- import_playbook: 02-build-k3s
+# import_playbook: 02-build-k3s

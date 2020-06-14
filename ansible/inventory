@@ -4,4 +4,3 @@ all:
     cloudctl:
       hosts:
         localhost
-

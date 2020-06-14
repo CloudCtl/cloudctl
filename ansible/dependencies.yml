@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook --inventory=inventory
 ############################################################################
 - name: "ContainerCraft | CloudCTL Pod | https://github.com/containercraft/CloudCtl"
-  hosts: cloudctl
+  hosts: localhost
   vars_files:
     - "vars/{{ build_target | default('cloudctl') }}.yml"
     - 'vars/global.yml'

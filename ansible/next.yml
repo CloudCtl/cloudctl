@@ -1,17 +1,3 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
-############################################################################
-- name: "ContainerCraft | CloudCTL Pod | https://github.com/containercraft/CloudCtl"
-  hosts: cloudctl
-  vars_files:
-    - 'vars/{{ target_environment | default(cloudctl) }}.yml'
-    - 'vars/global.yml'
-    - 'vars/git.yml'
-  vars:
-    module: "debian"
-    ansible_name_module: "{{ ansible_name }} | {{ module }}"
-  become: true
-  become_user: root
-
 ############################################################################
 # Configure Host
   tasks:
