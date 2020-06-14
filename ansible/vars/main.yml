@@ -1,10 +1,12 @@
 ---
+# Project Variables:
+ccio_home: "{{ lookup('env','HOME') }}/.ccio"
+
 # Localhost Environment 
+dir_tmpl: "../templates"
 local_path: "{{ lookup('env','PWD') }}"
 local_home: "{{ lookup('env','HOME') }}"
 local_user: "{{ lookup('env','USER') }}"
-dir_tmpl: "../templates"
-ccio_home: "{{ local_home }}/.ccio"
 
 # Ansible Playbook Run Variables
 ansible_name: "ContainerCraft | CloudCtl Pod"
