@@ -1,0 +1,13 @@
+---
+- name: '{{ ansible_name_module }} | Gather Package Facts on {{ ansible_os_family }}' 
+  package_facts:
+    manager: auto
+
+- name: '{{ ansible_name_module }} | Check if package requirements met' 
+  debug:
+    msg: "{{ ansible_facts.packages['podman'] | length }} requirements met.. skipping task"
+  when: "'podman' in ansible_facts.packages"
+
+- name: '{{ ansible_name_module }} | role | Install Dependencies on {{ ansible_os_family }}' 
+  include_tasks: packages-{{ ansible_os_family }}.yml
+  when: "'podman' not in ansible_facts.packages"

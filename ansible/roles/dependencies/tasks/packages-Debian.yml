@@ -1,0 +1,22 @@
+---
+- name: "{{ ansible_name_module }} | apt_key:add | Add Podman Repo Key"
+  apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+    state: present
+
+- name: "{{ ansible_name_module }} | apt_key:add | Add Podman Repo Key"
+  apt_repository:
+    repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/ /"
+    state: present
+    filename: podman
+
+- name: "{{ ansible_name_module  }} | apt:upgrade.dist | Upgrade all Packages"
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: "{{ ansible_name_module  }} | apt:install | Install Packages"
+  apt:
+    name: "{{ packages_base_Ubuntu }}"
+    state: latest
+    install_recommends: yes

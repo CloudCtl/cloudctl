@@ -1,0 +1,6 @@
+---
+packages_base_Ubuntu:
+  - podman
+
+packages_base_Pop!_OS:
+  - podman
