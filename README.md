@@ -22,7 +22,7 @@ On CentOS 8+
 ```
 ####  2. Clone Repo
 ```
-git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl && cd ~/.ccio/Git/cloudctl
+git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; cd ~/.ccio/Git/cloudctl/ansible
 ```
 ####  3. Run Ansible
 ```
