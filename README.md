@@ -28,6 +28,12 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 ./run.yml
 ```
+####  4. Start CloudCtl Pod
+```
+podman pod create              \
+    --name cloudctl            \
+    --pod-id-file ~/.ccio/run/pod.id
+```
 ####  4. Exec into CloudCtl ContainerOne
 ```
 podman exec -it one connect
