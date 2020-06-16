@@ -1,0 +1,5 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.play.kube | Podman create CloudCtl' 
+  template:
+    src: pod/cloudctl.yml.j2
+    dest: /tmp/cloudctl.yml

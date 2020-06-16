@@ -1,0 +1,12 @@
+zone          = "{{ lookup('env', 'ccioEnsign_regionGcpRegion') }}-a"
+region        = "{{ lookup('env', 'ccioEnsign_regionGcpRegion') }}"
+sshkeys       = "ccio:{{ sshkeys_pub }}"
+hostname      = "{{ lookup('env', 'ccioEnsign_domainFqdn') }}"
+ensign_type   = "{{ lookup('env', 'ccioEnsign_instanceGcpType') }}"
+base_domain   = "{{ lookup('env', 'ccioEnsign_domainBase') }}"
+project_name  = "{{ lookup('env', 'ccioEnsign_nameGcpProject') }}"
+instance_name = "{{ lookup('env', 'ccioEnsign_domainSub') }}"
+
+instance_os   = "centos-cloud/centos-8"
+# instance_os = "ubuntu-os-cloud/ubuntu-2004-lts"
+

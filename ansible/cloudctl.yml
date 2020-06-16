@@ -1,0 +1,17 @@
+#!/usr/bin/ansible-playbook --inventory=inventory
+############################################################################
+- name: "ContainerCraft | CloudCTL Pod | https://github.com/containercraft/CloudCtl"
+  hosts: cloudctl
+  become_user: root
+  become: true
+
+  vars_files:
+    - 'vars/main.yml'
+  vars:
+    module: "cloudctl"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+
+  tasks:
+
+  roles:
+    - cloudctl

@@ -46,7 +46,7 @@ spec:
     volumeMounts:
     - mountPath: /root/.ccio
       name: ccio-home
-    - mountPath: /root/.ssh/authorized-keys
+    - mountPath: /root/.ssh/authorized_keys
       name: ccio-ssh-authorized-keys
     workingDir: /root/.ccio
   volumes:
@@ -55,7 +55,7 @@ spec:
       type: Directory
     name: ccio-home
   - hostPath:
-      path: /root/.ssh/authorized-keys
+      path: /root/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
 status: {}

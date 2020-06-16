@@ -1,0 +1,10 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.pod.rm | Podman purge CloudCtl' 
+  command:
+    cmd: podman pod rm --force cloudctl
+  ignore_errors: true
+  no_log: true
+  when:  pod_force_remove == true
+- name: '{{ ansible_name_module }} | cmd:podman.play.kube | Podman create CloudCtl' 
+  command:
+    cmd: podman play kube /tmp/cloudctl.yml
