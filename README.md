@@ -43,7 +43,7 @@ podman exec -it one connect
   > SSH (EG from a different host)
 
 ```
-ssh -p 2022 root@{IP_ADDR}
+ssh -p 2022 root@localhost
 ```
 ####  6. Disconnect from ContainerOne console
 ```
