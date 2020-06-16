@@ -28,42 +28,28 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 ./run.yml
 ```
-####  4. Start CloudCtl Pod
+####  4. Review pod status
 ```
-podman pod create              \
-    --name cloudctl            \
-    --publish 2022:2022        \
-    --pod-id-file ~/.ccio/run/cloudctlPod.id
-```
-####  4. Start CloudCtl Pod
-```
-podman run \
-    --name one                                                         \
-    --userns=keep-id                                                   \
-    --detach                                                           \
-    --restart always      --pull always                                \
-    --volume ${HOME}/.ccio:/root/.ccio:z                               \
-    --pod $(cat ~/.ccio/run/cloudctlPod.id)                            \
-    --volume ${HOME}/.ssh/authorized_keys:/root/.ssh/authorized_keys:z \
-  docker.io/containercraft/one:ccio
-```
-```
-/usr/sbin/sshd -E /dev/stderr -f /etc/ssh/sshd_config -p 2022
-```
-####  4. Exec into CloudCtl ContainerOne
-```
-podman pod ps
 podman ps -a
+podman pod ps
+podman log one
 ```
-####  4. Exec into CloudCtl ContainerOne
+####  5. Exec or SSH into CloudCtl pod ContainerOne
+  > Exec from container host
+
 ```
 podman exec -it one connect
 ```
-####  5. Disconnect from ContainerOne console
+  > SSH (EG from a different host)
+
+```
+ssh -p 2022 root@{IP_ADDR}
+```
+####  6. Disconnect from ContainerOne console
 ```
 quit
 ```
-####  6. Disconnect from ContainerOne console
+####  7. Disconnect from ContainerOne console
 ```
 podman pod rm --force cloudctl
 ```
