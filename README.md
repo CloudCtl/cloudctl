@@ -40,7 +40,7 @@ podman pod create              \
 podman run \
     --name one                                                         \
     --userns=keep-id                                                   \
-    --detach              --privileged                                 \
+    --detach                                                           \
     --restart always      --pull always                                \
     --volume ${HOME}/.ccio:/root/.ccio:z                               \
     --pod $(cat ~/.ccio/run/cloudctlPod.id)                            \
