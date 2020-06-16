@@ -27,7 +27,7 @@ spec:
       value: 4.3.8
     - name: BUILDAH_ISOLATION
       value: chroot
-    image: docker.io/containercraft/one:ccio
+    image: {{ container_uri_one }}
     name: one
     ports:
     - containerPort: 2022
@@ -48,6 +48,8 @@ spec:
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys
       name: ccio-ssh-authorized-keys
+    - mountPath: /run/podman/io.podman
+      name: socket-io.podman
     workingDir: /root/.ccio
   volumes:
   - hostPath:
@@ -58,5 +60,9 @@ spec:
       path: /root/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
+  - hostPath:
+      path: /run/podman/io.podman
+      type: File
+    name: socket-io.podman
 status: {}
 
