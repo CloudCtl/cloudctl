@@ -38,8 +38,10 @@ podman pod create              \
 ```
 podman run \
     --name one                                       \
-    --disconnect                                     \
-    --privileged                                     \
+    --userns=keep-id           --publish 2022:2022   \
+    --detach                   --privileged          \
+    --restart always           --pull always         \
+    --pod $(cat ~/.ccio/run/cloudctlPod.id)          \
     --volume ${HOME}/PlatformOne:/root/PlatformOne:z \
   docker.io/containercraft/one:fences
 ```
