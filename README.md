@@ -38,12 +38,13 @@ podman pod create              \
 ####  4. Start CloudCtl Pod
 ```
 podman run \
-    --name one                                \
-    --userns=keep-id                          \
-    --detach              --privileged        \
-    --restart always      --pull always       \
-    --volume ${HOME}/.ccio:/root/.ccio:z      \
-    --pod $(cat ~/.ccio/run/cloudctlPod.id)   \
+    --name one                                                         \
+    --userns=keep-id                                                   \
+    --detach              --privileged                                 \
+    --restart always      --pull always                                \
+    --volume ${HOME}/.ccio:/root/.ccio:z                               \
+    --pod $(cat ~/.ccio/run/cloudctlPod.id)                            \
+    --volume ${HOME}/.ssh/authorized_keys:/root/.ssh/authorized_keys:z \
   docker.io/containercraft/one:ccio
 ```
 ####  4. Exec into CloudCtl ContainerOne

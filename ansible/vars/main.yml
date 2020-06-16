@@ -18,6 +18,8 @@ cciotree:
     state: directory
   - path: "{{ ccio_home }}/pods"
     state: directory
+  - path: "{{ ccio_home }}/profile.d"
+    state: directory
 
 # Ansible Playbook Run Variables
 ansible_name: "ContainerCraft | CloudCtl Pod"
