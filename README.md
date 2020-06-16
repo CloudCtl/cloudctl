@@ -32,7 +32,7 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 podman pod create              \
     --name cloudctl            \
-    --pod-id-file ~/.ccio/run/pod.id
+    --pod-id-file ~/.ccio/run/cloudctlPod.id
 ```
 ####  4. Exec into CloudCtl ContainerOne
 ```
