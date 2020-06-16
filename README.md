@@ -32,13 +32,14 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 podman pod create              \
     --name cloudctl            \
+    --publish 2022:22          \
     --pod-id-file ~/.ccio/run/cloudctlPod.id
 ```
 ####  4. Start CloudCtl Pod
 ```
 podman run \
     --name one                                       \
-    --userns=keep-id           --publish 2022:2022   \
+    --userns=keep-id                                 \
     --detach                   --privileged          \
     --restart always           --pull always         \
     --pod $(cat ~/.ccio/run/cloudctlPod.id)          \
