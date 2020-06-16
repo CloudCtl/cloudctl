@@ -1,9 +1,0 @@
-#!/bin/bash
-pathStart="/etc/ccio/start.d/"
-listStart="$(ls ${pathStart})"
-
-if [[ $1 == "start" ]]; then
-  for start in ${listStart}; do
-    source ${pathStart}/${start}
-  done
-fi
