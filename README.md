@@ -32,7 +32,7 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 podman pod create              \
     --name cloudctl            \
-    --publish 2022:22          \
+    --publish 2022:2022        \
     --pod-id-file ~/.ccio/run/cloudctlPod.id
 ```
 ####  4. Start CloudCtl Pod
@@ -46,6 +46,9 @@ podman run \
     --pod $(cat ~/.ccio/run/cloudctlPod.id)                            \
     --volume ${HOME}/.ssh/authorized_keys:/root/.ssh/authorized_keys:z \
   docker.io/containercraft/one:ccio
+```
+```
+/usr/sbin/sshd -E /dev/stderr -f /etc/ssh/sshd_config -p 2022
 ```
 ####  4. Exec into CloudCtl ContainerOne
 ```
