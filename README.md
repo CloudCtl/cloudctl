@@ -32,7 +32,7 @@ git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/Git/cloudctl ; 
 ```
 podman ps -a
 podman pod ps
-podman log one
+podman logs one
 ```
 ####  5. Exec or SSH into CloudCtl pod ContainerOne
   > Exec from container host
