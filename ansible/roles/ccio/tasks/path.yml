@@ -1,0 +1,7 @@
+---
+- name: '{{ ansible_name_module }} | file:path | Creating base directory tree' 
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+  with_items:
+    - "{{ cciotree }}"

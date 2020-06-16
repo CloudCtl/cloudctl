@@ -8,8 +8,18 @@ local_path: "{{ lookup('env','PWD') }}"
 local_home: "{{ lookup('env','HOME') }}"
 local_user: "{{ lookup('env','USER') }}"
 
+# CCIO Directory Vars
+cciotree:
+  - path: "{{ ccio_home }}"
+    state: directory
+  - path: "{{ ccio_home }}/run"
+    state: directory
+  - path: "{{ ccio_home }}/secrets"
+    state: directory
+
 # Ansible Playbook Run Variables
 ansible_name: "ContainerCraft | CloudCtl Pod"
 sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 ansible_python_interpreter: auto_silent
+
