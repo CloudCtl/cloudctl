@@ -43,7 +43,7 @@ podman run \
     --restart always           --pull always         \
     --pod $(cat ~/.ccio/run/cloudctlPod.id)          \
     --volume ${HOME}/PlatformOne:/root/PlatformOne:z \
-  docker.io/containercraft/one:fences
+  docker.io/containercraft/one:ccio
 ```
 ####  4. Exec into CloudCtl ContainerOne
 ```
