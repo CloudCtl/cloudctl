@@ -34,6 +34,20 @@ podman pod create              \
     --name cloudctl            \
     --pod-id-file ~/.ccio/run/cloudctlPod.id
 ```
+####  4. Start CloudCtl Pod
+```
+podman run \
+    --name one                                       \
+    --disconnect                                     \
+    --privileged                                     \
+    --volume ${HOME}/PlatformOne:/root/PlatformOne:z \
+  docker.io/containercraft/one:fences
+```
+####  4. Exec into CloudCtl ContainerOne
+```
+podman pod ps
+podman ps -a
+```
 ####  4. Exec into CloudCtl ContainerOne
 ```
 podman exec -it one connect
