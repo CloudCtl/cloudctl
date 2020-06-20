@@ -21,7 +21,7 @@ cciotree:
     state: directory
 
 # Ansible Playbook Run Variables
-ansible_name: "ContainerCraft | CloudCtl Pod"
+ansible_name: "ContainerCraft | CloudCtl Pod | {{ ansible_distribution }}"
 sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 ansible_python_interpreter: auto_silent

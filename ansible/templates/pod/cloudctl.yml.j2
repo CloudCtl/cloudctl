@@ -30,7 +30,7 @@ spec:
     image: {{ container_uri_one }}
     name: one
     ports:
-    - containerPort: 2022
+    - containerPort: 22
       hostPort: 2022
       protocol: TCP
     resources: {}
@@ -44,25 +44,25 @@ spec:
       seLinuxOptions: {}
     tty: true
     volumeMounts:
-    - mountPath: /root/.ccio
+    - mountPath: /root/.ccio:z
       name: ccio-home
-    - mountPath: /root/.ssh/authorized_keys
+    - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
-    - mountPath: /run/podman/io.podman
-      name: socket-io.podman
+#   - mountPath: /run/podman/io.podman
+#     name: socket-io.podman
     workingDir: /root/.ccio
   volumes:
   - hostPath:
-      path: /root/.ccio
+      path: {{ local_home }}/.ccio
       type: Directory
     name: ccio-home
   - hostPath:
-      path: /root/.ssh/authorized_keys
+      path: {{ local_home }}/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
-  - hostPath:
-      path: /run/podman/io.podman
-      type: File
-    name: socket-io.podman
+# - hostPath:
+#     path: /run/podman/io.podman
+#     type: File
+#   name: socket-io.podman
 status: {}
 

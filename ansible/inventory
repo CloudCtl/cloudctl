@@ -1,6 +1,12 @@
 all:
   hosts:
   children:
-    cloudctl:
+    host:
       hosts:
-        localhost
+        localhost:
+          ansible_connection: local
+    podman:
+      children:
+        host:
+        
+           

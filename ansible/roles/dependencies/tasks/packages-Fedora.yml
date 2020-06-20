@@ -1,0 +1,10 @@
+---
+- name: "{{ ansible_name_module  }} | dnf:upgrade | Upgrade all Packages"
+  dnf:
+    name: "*"
+    state: latest
+
+- name: "{{ ansible_name_module  }} | dnf:install | Install Packages"
+  dnf:
+    name: "{{ packages_base_Ubuntu }}"
+    state: latest

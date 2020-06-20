@@ -1,4 +1,10 @@
 ---
 packages_base_Ubuntu:
+  - git
+  - podman
+  - wireguard-tools
+
+packages_base_Fedora:
+  - git
   - podman
   - wireguard-tools
