@@ -17,20 +17,14 @@ spec:
       value: xterm
     - name: HOSTNAME
       value: cloudctl
-    - name: DISTTAG
-      value: f32container
-    - name: FGC
-      value: f32
     - name: container
       value: oci
-    - name: versOCP
-      value: 4.3.8
     - name: BUILDAH_ISOLATION
       value: chroot
     image: {{ container_uri_one }}
     name: one
     ports:
-    - containerPort: 22
+    - containerPort: 2022
       hostPort: 2022
       protocol: TCP
     resources: {}
@@ -48,8 +42,6 @@ spec:
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
-#   - mountPath: /run/podman/io.podman
-#     name: socket-io.podman
     workingDir: /root/.ccio
   volumes:
   - hostPath:
@@ -60,9 +52,5 @@ spec:
       path: {{ local_home }}/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
-# - hostPath:
-#     path: /run/podman/io.podman
-#     type: File
-#   name: socket-io.podman
 status: {}
 
