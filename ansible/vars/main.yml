@@ -28,4 +28,4 @@ ansible_python_interpreter: auto_silent
 
 # play vars
 pod_force_remove: true
-container_uri_one: docker.io/containercraft/one:ccio
+container_uri_one: docker.io/containercraft/one:latest
