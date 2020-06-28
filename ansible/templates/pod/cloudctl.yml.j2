@@ -42,6 +42,8 @@ spec:
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
+#   - mountPath: /run/podman/io.podman
+#     name: socket-io.podman
     workingDir: /root/deploy
   volumes:
   - hostPath:
@@ -52,5 +54,9 @@ spec:
       path: {{ local_home }}/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
+# - hostPath: # need to add play to configure host unix podman socket
+#     path: /run/podman/io.podman
+#     type: File
+#     name: socket-io.podman
 status: {}
 
