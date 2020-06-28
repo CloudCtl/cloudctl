@@ -38,11 +38,11 @@ spec:
       seLinuxOptions: {}
     tty: true
     volumeMounts:
-    - mountPath: /root/.ccio:z
+    - mountPath: /root/deploy:z
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
-    workingDir: /root/.ccio
+    workingDir: /root/deploy
   volumes:
   - hostPath:
       path: {{ local_home }}/.ccio
