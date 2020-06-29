@@ -72,7 +72,7 @@ for i in $(sudo podman images | awk '/one|pause/{print $3}'); do podman rmi --fo
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
 [(IaC)]:https://www.ibm.com/cloud/learn/infrastructure-as-code
-[CloudCtl]:https://github.com/containercraft/CloudCTL
+[ContainerOne]:https://github.com/containercraft/ContainerOne
 [Podman]:https://docs.podman.io/en/latest
 [Install Podman]:https://podman.io/getting-started/installation
 [Fedora]:https://getfedora.org
