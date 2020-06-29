@@ -1,6 +1,6 @@
 # CloudCTL
 ## About
-Cloudctl is an Infrastructure as Code (IaC) toolkit based DevOps Deployment Services & Utilities Container Pod.
+DevOps Deployment Services & Utilities Container Pod Infrastructure as Code (IaC) toolkit.
 ## Problem
 Infrastructure deployment requires a wide set of user enablement & automation 
 utilities, network services, and Infrastructure as Code resources. These can 
