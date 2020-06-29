@@ -5,11 +5,16 @@ Infrastructure deployment requires a wide set of user enablement & automation
 utilities, network services, and Infrastructure as Code resources. These can 
 become difficult & inconsistent to maintain and support.
 ## Solution
-CloudCtl provides a consistent, dynamic, and portable [Podman] container 
-[Pod] "Point of Origin" Infrastructure as Code [(IaC)] toolkit for 
-deployment operations tasks with core features delivered via the [UBI8] 
-based [ContainerOne] as the primary orchestration base capable of dynamically
- allocating additional pod contained services.
+CloudCtl provides a [Podman] container [Pod] based "Point of Origin" 
+Infrastructure as Code [(IaC)] toolkit for deployment operations tasks 
+with core features delivered via [UBI8] based [ContainerOne] as primary 
+orchestration base capable of dynamically allocating additional pod 
+contained services.
+##### Core Features
+  - stateful
+  - dynamic
+  - portable 
+  - consistent
 ##### Supported Distributions
   - [Fedora] 32+
   - [CentOS] 8.0+
