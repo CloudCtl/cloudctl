@@ -1,0 +1,29 @@
+---
+####### Prep Host for ContainerOne SSH Access
+- name: '{{ ansible_name_module }} | stat:path.register | Check for Git Clone Lockfile'
+  firewalld:
+    port: 2022/tcp
+    permanent: yes
+    state: enabled
+
+####### Purge SSH known_hosts entries if previous entries found
+- name: '{{ ansible_name_module_cloud }} | lineinfile | purge previous known_hosts entries'
+  lineinfile:
+    dest: "{{ local_home }}/.ssh/known_hosts"
+    regexp: "{{ item.regex }}"
+    state: absent
+  with_items:
+    - { regex: 'localhost' }
+    - { regex: '10.0.88.1' }
+
+####### Add localhost public key to authorized_keys file
+- name: '{{ ansible_name_module_cloud }} | lineinfile | purge previous known_hosts entries'
+  blockinfile:
+    block: '{{ sshkeys_pub }}'
+    path: "{{ local_home }}/.ssh/authorized_keys"
+    backup: yes
+    create: yes
+    mode: 0600
+    marker: ""
+    marker_begin: ""
+    marker_end: ""

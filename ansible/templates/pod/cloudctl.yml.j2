@@ -17,6 +17,8 @@ spec:
       value: xterm
     - name: HOSTNAME
       value: cloudctl
+    - name: WORKDIR
+      value: /root/deploy
     - name: container
       value: oci
     - name: BUILDAH_ISOLATION
@@ -42,9 +44,9 @@ spec:
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
+    workingDir: /root/deploy
 #   - mountPath: /run/podman/io.podman
 #     name: socket-io.podman
-    workingDir: /root/deploy
   volumes:
   - hostPath:
       path: {{ local_home }}/.ccio
@@ -59,4 +61,3 @@ spec:
 #     type: File
 #     name: socket-io.podman
 status: {}
-

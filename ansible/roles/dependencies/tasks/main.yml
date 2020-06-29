@@ -8,6 +8,9 @@
 #   msg: "{{ ansible_facts.packages['podman'] | length }} requirements met.. skipping task"
 # when: "'podman' in ansible_facts.packages"
 
+- name: '{{ ansible_name_module }} | role | Enable SSH to CloudCTL Pod ContainerOne' 
+  include_tasks: ssh.yml
+  when: ssh_enabled == true
 - name: '{{ ansible_name_module }} | role | Install Dependencies on {{ ansible_distribution }}' 
   include_tasks: packages-{{ ansible_distribution }}.yml
   when: "'podman' not in ansible_facts.packages"
