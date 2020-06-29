@@ -58,9 +58,10 @@ sudo podman logs one
 ```
 podman exec -it one connect
 ```
- > SSH (EG from a different host)
+ > SSH example from localhost 
 
 ```
+cat ~/.ssh/id_rsa.pub >> ~/.ccio/.secrets.d/ssh/user/authorized_keys
 ssh -p 2022 root@localhost
 ```
 ####  6. Disconnect from ContainerOne console
