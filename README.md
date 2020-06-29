@@ -1,5 +1,4 @@
 # CloudCTL
-## About
 DevOps Deployment Services & Utilities Container Pod Infrastructure as Code (IaC) toolkit.
 ## Problem
 Infrastructure deployment requires a wide set of user enablement & automation 
