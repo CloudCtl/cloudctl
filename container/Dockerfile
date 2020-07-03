@@ -55,7 +55,7 @@ COPY --from=rpm /etc/pki /etc/pki
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
-     && mkdir -p /var/lib/trno/ /root/.bak/ /root/deploy                        \
+     && mkdir -p /var/lib/trno/ /root/.bak/                                     \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | tee -a ${listManifest}                                                  \
