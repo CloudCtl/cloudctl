@@ -11,6 +11,8 @@ ARG varVerHelm="${varVerHelm}"
 ARG varVerJq="${varVerJq}"
 
 # OC Download Urls
+ARG varUrlGit="${varUrlGit}"
+ENV varUrlGit="${varUrlGit}"
 ARG urlOC="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
 ARG urlOCINST="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
 
@@ -79,6 +81,7 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
+     && git clone ${varUrlGit} /root/deploy                                     \
      && mv                                                                      \
           /root/original-ks.cfg                                                 \
           /root/anaconda-ks.cfg                                                 \

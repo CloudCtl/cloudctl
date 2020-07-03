@@ -21,6 +21,10 @@ jobs:
       run: |
         export githash="$(git log -1 --pretty=%h)"
         echo "::set-env name=githash::$githash"
+    - name: Variable | Git Commit Hash
+      run: |
+        export gitremote="$(git config --get remote.origin.url)"
+        echo "::set-env name=gitremote::$gitremote"
     - name: Variable | Webscrape OpenShift Release File for latest OC version 
       run: |
         export varveropenshift="$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')"
@@ -48,9 +52,10 @@ jobs:
                  --file ./container/Dockerfile \
                  --build-arg varVerJq=${{ env.varverjq }} \
                  --build-arg varVerHelm=${{ env.varverhelm }} \
+                 --build-arg varRunDate=${{ env.varrundate }} \
                  --build-arg varVerTerraform=${{ env.varverterraform }} \
                  --build-arg varVerOpenshift=${{ env.varveropenshift }} \
-                 --build-arg varRunDate=${{ env.varrundate }} \
+                 --build-arg varUrlGit=${{ env.gitremote }} \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest \
                  --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }} \
