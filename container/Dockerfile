@@ -12,7 +12,6 @@ ARG varVerJq="${varVerJq}"
 
 # OC Download Urls
 ARG varUrlGit="${varUrlGit}"
-ENV varUrlGit="${varUrlGit}"
 ARG urlOC="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
 ARG urlOCINST="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
 
@@ -71,7 +70,7 @@ RUN set -ex                                                                     
      && pip3 install ${varListPip}                                              \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
-     && /bin/oc version | tee /root/versions/oc.release                         \
+     && /bin/oc version                                                         \
      && curl -L ${varUrlOsInst}                                                 \
           | tar xzvf - --directory /bin openshift-install                       \
      && curl -L ${varUrlHelm}                                                   \
@@ -99,6 +98,7 @@ RUN set -ex                                                                     
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
 ENV varVerOpenshift="${varVerOpenshift}"
+ENV varUrlGit="${varUrlGit}"
 LABEL Vendor="containercraft.io"                                                \
       NAME="CCIO_Coffer"                                                        \
       BuildDate="${varRunDate}"                                                 \
