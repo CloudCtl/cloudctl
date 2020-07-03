@@ -1,2 +1,2 @@
 # coffer
-Artifact Rake System
+![CofferBuild](https://github.com/containercraft/coffer/workflows/CofferBuild/badge.svg) Artifact Rake System
