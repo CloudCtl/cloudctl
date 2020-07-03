@@ -1,0 +1,19 @@
+---
+- name: '{{ ansible_name_module }} | git:clone | Clone Git Dependencies' 
+  git:
+    clone: yes
+    version: "{{ item.branch }}"
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    update: true
+#   key_file: "{{ item.key_file }}"
+  with_items:
+    - "{{ ansiblerepos }}"
+    - "{{ terraformrepos }}"
+
+- name: '{{ ansible_name_module }} | shell:terraform.init | Initilize terraform modules'
+  shell: 
+    cmd: terraform init
+    chdir: "{{ item.dest }}"
+  with_items:
+    - "{{ terraformrepos }}"

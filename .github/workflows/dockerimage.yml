@@ -37,10 +37,11 @@ jobs:
       run: |
         export varverjq="$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')"
         echo "::set-env name=varverjq::$varverjq"
-    - name: Quay.io Login
+    - name: Docker.io + Quay.io Login
       run: |
-        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io 
-    - name: Build Image | coffer
+        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io; \
+        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
+    - name: Build Image | Coffer
       run: |
         docker build . \
                  --force-rm \
@@ -58,15 +59,15 @@ jobs:
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest \
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }} \
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | coffer | quay.io
+    - name: Image Push | Coffer | quay.io
       run: |
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
-#   - name: Image Push | coffer | docker.io
-#     run: |
-#       docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
-#       docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
-#       docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
-#       docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+    - name: Image Push | Coffer | docker.io
+      run: |
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};

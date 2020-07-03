@@ -1,0 +1,52 @@
+---
+# openshift-install binary to run
+openshift_install_binary: /usr/bin/openshift-install-mod
+
+# Instance Types
+cloud_instance_type_master: "m5.xlarge"
+cloud_instance_type_worker: "m5.xlarge"
+cloud_instance_type_storage: "m5.xlarge"
+#####################################################################################################
+# End of user configurable variables
+#####################################################################################################
+# OpenShift Version
+version_openshift: "{{ lookup('env', 'varVerOpenshift') }}"
+
+# Ansible Playbook Run Variables
+ansible_name: "RedHat | TRNO | Wharf Artifact Bundle Ubility | branch:{{ git_branch }}"
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+# Terraform Variables
+dir_terraform: "{{ lookup('env', 'HOME') }}/deploy/terraform"
+tf_vars: "{{ lookup('env', 'HOME') }}/deploy/terraform/global.tfvars"
+
+# Directory Inventory
+dir_one: "{{ lookup('env', 'HOME') }}/deploy"
+dir_images: "{{ lookup('env', 'HOME') }}/deploy/images"
+dir_ansible: "{{ lookup('env', 'HOME') }}/deploy/ansible"
+dir_artifacts: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}"
+dir_git_bundle: "{{ lookup('env', 'HOME') }}/deploy/ansible/bundle"
+dir_git_build: "{{ lookup('env', 'HOME') }}/deploy/ansible/build"
+dir_git_cloudctl: "{{ lookup('env', 'HOME') }}/deploy/ansible/cloudctl"
+dir_git_deploy: "{{ lookup('env', 'HOME') }}/deploy/ansible/deploy"
+dir_git_configure: "{{ lookup('env', 'HOME') }}/deploy/ansible/configure"
+
+dir_git_tfcore: "{{ lookup('env', 'HOME') }}/deploy/terraform/core"
+dir_git_tfmasters: "{{ lookup('env', 'HOME') }}/deploy/terraform/masters"
+dir_git_tfcloudctl: "{{ lookup('env', 'HOME') }}/deploy/terraform/cloudctl"
+dir_git_tfbootstrap: "{{ lookup('env', 'HOME') }}/deploy/terraform/bootstrap"
+
+# SSH Keys
+sshkeys_pub_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}.pub"
+sshkeys_priv_file: "{{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}"
+sshkeys_pub_string: "{{ lookup('file', '{{ sshkeys_pub_file }}') }}"
+sshkeys_priv_string: "{{ lookup('file', '{{ sshkeys_priv_file }}') }}"
+
+# Docker Pull Secrets
+redhat_quay_pull_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.docker/master.json }}"
+offline_mirror_pull_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.docker/mirror.json }}"
+
+# Hosts Environment 
+local_home: "{{ lookup('env', 'HOME') }}"
+local_user: "{{ lookup('env', 'USER') }}"
+remote_home: "{{ ansible_env.HOME }}"

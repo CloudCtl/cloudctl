@@ -1,0 +1,6 @@
+---
+# tasks file for task03-deploy
+- name: '{{ ansible_name_module }} | include_tasks | utilities.yml' 
+  include_tasks: utilities.yml
+- name: '{{ ansible_name_module }} | include_tasks | bundle.yml' 
+  include_tasks: bundle.yml

@@ -1,0 +1,21 @@
+---
+#- name: ocp4-deploy | task03-deploy | Stash deployment docker images
+#  command: "{{ item }}"
+#  with_items:
+#    - podman pull docker.io/library/registry:2
+#    - podman pull docker.io/library/nginx:latest
+#    - podman pull docker.io/containercraft/one:4.3.8
+#  register: images
+# ToDo: Make this idempotent
+#  when: "'Image is up to date' not in images.stdout"
+
+# ToDO: This is not idempotent - will report "changed" every run
+#- name: ocp4-deploy | task03-deploy | Export images
+#  command: "{{ item }}"
+#  with_items:
+#    - podman save -o docker-registry2-image.tar registry:2
+#    - podman save -o docker-nginxlatest-image.tar nginx:latest
+#    - podman save -o docker-containerone-image.tar containercraft/one:4.3.8
+#  args:
+#    chdir: "{{ home_directory }}/deploy/images/"
+

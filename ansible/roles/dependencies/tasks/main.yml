@@ -1,0 +1,6 @@
+---
+# tasks file for prep
+- name: '{{ ansible_name_module }} | role | Skopeo Pull Dependencies' 
+  include_tasks: images.yml
+- name: '{{ ansible_name_module }} | role | Clone Git Dependencies' 
+  include_tasks: git.yml

@@ -1,0 +1,74 @@
+---
+- name: '{{ ansible_name_module }} | stat | check for mirror v2.sha256'
+  stat:
+    path: '{{ dir_one }}/mirror/v2.list.sha256'
+  register: mirror_sha_check
+
+###### Download OpenShift Docker Images from Quay.io to File: /root/deploy/mirror/v2
+- name: '{{ ansible_name_module }} | block | Download OpenShift images'
+  block:
+
+  ######### Purge & Prepare
+    - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content'
+      file:
+        path: "{{ dir_one }}/mirror"
+        state: absent
+    - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories'
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      loop:
+        - "{{ dir_one }}/mirror"
+        - "{{ local_home }}/.docker"
+
+  ######### Mirror Images to directory
+    - name: '{{ ansible_name_module }} | shell:registry.serve | Start Local Docker Registry Servie Port:5000'
+      shell: /usr/local/bin/run_registry.sh
+#     shell: registry serve /etc/docker/registry/config.yml &
+
+  ######### Mirror Images to directory
+    - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io'
+      shell: |
+        oc adm release mirror --insecure=true \
+          --to=localhost:5500/openshift-release-dev \
+          --registry-config=/root/.docker/config.json \
+          --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+          --to-release-image=localhost:5500/openshift-release-dev:{{ version_openshift }}-x86_64
+#       oc adm release mirror \
+#         --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+#         --to-dir={{ dir_one }}/mirror
+
+######### Rescue block if there are any failures in the above block
+  rescue:
+
+  ######### Purge & Prepare
+    - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content | RESCUE | Second Attempt!'
+      file:
+        path: "{{ dir_one }}/mirror"
+        state: absent
+    - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories | RESCUE | Second Attempt!'
+      file:
+        path: "{{ dir_one }}/mirror"
+        state: directory
+
+  ######### Mirror Images to directory
+    - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io | RESCUE | Second Attempt!'
+      shell: |
+        oc adm release mirror --insecure=true \
+          --to=localhost:5500/openshift-release-dev \
+          --registry-config=/root/.docker/config.json \
+          --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+          --to-release-image=localhost:5500/openshift-release-dev:{{ version_openshift }}-x86_64
+#       oc adm release mirror \
+#       --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+#       --to-dir={{ dir_one }}/mirror
+      register: mirror
+
+  ####### Block Conditionals
+  when: not mirror_sha_check.stat.exists
+
+###### END OF BLOCK #######
+
+- name: '{{ ansible_name_module }} | stat | sha256 mirror/v2 directory list'
+  shell: 'find -type f ! -iname "sha256checksums" -exec sha256sum "{}" + > {{ local_home }}/deploy/mirror/v2.list.sha256'

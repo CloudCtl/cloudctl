@@ -1,3 +1,12 @@
-# coffer
-![CofferBuild](https://github.com/containercraft/coffer/workflows/CofferBuild/badge.svg)
-Artifact Rake System for Airgap Pivot
+# Coffer | Artifact Rake & Bundle Appliance
+## 1. Create base ArtifactBundle asset images & directories
+```
+mkdir -p ${HOME}/coffer
+```
+## 2. Launch ContainerOne Point of Origin Container
+```
+sudo podman run -qit -h coffer --name coffer --volume ${HOME}/TRNO:/root/deploy:z quay.io/containercraft/coffer
+```
+# Demo:
+  - Building the bundle    
+![bundle](./web/bundle.svg)

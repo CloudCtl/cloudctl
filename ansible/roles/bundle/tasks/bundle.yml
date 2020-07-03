@@ -1,0 +1,60 @@
+---
+####### Create Unified ArtifactsBundle.tar.gz Tarball with all offline deploy requirements
+- name: '{{ ansible_name_module }} | stat | Check for pre-existing ArtifactsBundle.tar.gz.sha256'
+  stat:
+    path: '/tmp/ArtifactsBundle.tar.gz.sha256'
+  register: p1tar_sha_check
+
+###### Download OpenShift Docker Images from Quay.io to File: /root/deploy/mirror/v2
+- name: '{{ ansible_name_module }} | block | Download OpenShift images'
+  block:
+
+    ####### Purge preexisting bundles
+    - name: '{{ ansible_name_module }} | file | Purge pre-existing bundles'
+      file:
+        path: "{{ local_home }}/ArtifactsBundle.tar.gz"
+        state: absent
+
+    ####### Build Unified Bundle
+    - name: '{{ ansible_name_module }} | command:tar | build tarball bundle of all artifacts'
+      command:
+        "tar -cvzf /tmp/ArtifactsBundle.tar.gz -C {{ local_home }} deploy"
+      args:
+        creates: "{{ local_home }}/ArtifactsBundle.tar.gz"
+        warn: false
+
+    ####### SHA256sum ArtifactsBundle.tar.gz
+    - name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.gz'
+      stat:
+        path: "/tmp/ArtifactsBundle.tar.gz"
+        checksum_algorithm: sha256
+        get_checksum: yes
+      register: p1tar_sha256
+
+    ####### Write SHA file
+    - name: '{{ ansible_name_module }} | copy | Write ArtifactsBundle.tar.gz.sha256'
+      copy:
+        dest: "/tmp/ArtifactsBundle.tar.gz.sha256"
+        content: "{{ p1tar_sha256 }} ArtifactsBundle.tar.gz"
+
+  ####### Block Conditionals
+  when: not p1tar_sha_check.stat.exists
+
+####### Build Unified Bundle
+- name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
+  command:
+    "tar -cvf {{ local_home }}/deploy/RedHat-OpenShift-{{ version_openshift  }}-WharfArtifactBundle.tar -C /tmp ArtifactsBundle.tar.gz.sha256 ArtifactsBundle.tar.gz registry.yml registry.sh"
+  args:
+    creates: "{{ local_home }}/deploy/RedHat-OpenShift-{{ version_openshift }}-WharfArtifactBundle.tar"
+    warn: false
+
+####### Bundle ArtifactsBundle.tar.gz with unpack + launch utilities
+# name: '{{ ansible_name_module }} | role | archive | Bundle ArtifactsBundle.tar.gz with auxilary files'
+# archive:
+#   path:
+#   - '/tmp/ArtifactsBundle.tar.gz.sha256'
+#   - '/tmp/ArtifactsBundle.tar.gz'
+#   - '/tmp/registry.yml'
+#   - '/tmp/registry.sh'
+#   dest: '{{ local_home }}/deploy/{{ cloud_provider }}-{{ target_environment }}-{{ name_cluster_vpc }}-p1bundle.tar'
+#   format: tar

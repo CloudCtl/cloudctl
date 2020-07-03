@@ -1,0 +1,19 @@
+---
+# Target Cloud Environment Variables
+cloud_region: "us-gov-west-1"
+cloud_provider: "aws"
+cloud_instance_fips: "True"
+cloud_instance_ami: "ami-8e8ab6ef"
+cluster_network_mode: "disconnected"
+openshift_install_publish: 'Internal'
+external_ingress: "false"
+
+# Cloud Zones Enabled
+cloud_zone_a: "{{ cloud_region }}a"
+cloud_zone_b: "{{ cloud_region }}b"
+cloud_zone_c: "{{ cloud_region }}c"
+
+# Terraform State
+terraform_build: "enabled"
+terraform_state_provider: 'local'
+public_ssh_access_enabled: 'true'

@@ -1,0 +1,22 @@
+# CloudCTL Pod Docker Image Pull List
+images_cloudctl:
+  - uri: "k8s.gcr.io"
+    name: pause
+    tag: 3.1
+    path: "{{ dir_one }}/images"
+  - uri: "docker.io/library"
+    name: busybox
+    tag: latest
+    path: "{{ dir_one }}/images"
+  - uri: "docker.io/library"
+    name: nginx
+    tag: latest
+    path: "{{ dir_one }}/images"
+  - uri: "docker.io/library"
+    name: registry
+    tag: 2.7.0
+    path: "{{ dir_one }}/images"
+  - uri: "quay.io/containercraft"
+    tag: nightlies
+    name: one
+    path: "{{ dir_one }}/images"

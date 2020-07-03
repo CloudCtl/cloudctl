@@ -1,0 +1,17 @@
+---
+# defaults file for task03-deploy
+artifact_directory: "{{ lookup('env','dirArtifacts') }}"
+base_directory: "{{ lookup('env','dirBase') }}"
+cluster_name: "{{ lookup('env','clusterName') }}"
+cluster_domain: "{{ lookup('env','clusterDomain') }}"
+ec2_region: "{{ lookup('env', 'awsRegion1') }}"
+home_directory: "{{ lookup('env','HOME') }}"
+ocp_version: "{{ lookup('env','versOCP') }}"
+remote_home: "{{ ansible_env.HOME }}"
+vpc_name: "{{ lookup('env','nameVpc') }}"
+
+#Terraform variable to deploy 
+
+# Setting vars for future region support
+#ec2_region2: "{{ lookup('env', 'awsRegion2') }}"
+#ec2_region3: "{{ lookup('env', 'awsRegion3') }}"
