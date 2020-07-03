@@ -54,7 +54,7 @@ COPY --from=rpm /etc/pki /etc/pki
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
-     && mkdir -p /var/lib/trno/                                                 \
+     && mkdir -p /var/lib/trno/ /root/.bak/ /root/deploy                        \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | tee -a ${listManifest}                                                  \
@@ -79,6 +79,13 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
+     && mv                                                                      \
+          /root/original-ks.cfg                                                 \
+          /root/anaconda-ks.cfg                                                 \
+          /root/anaconda-post-nochroot.log                                      \
+          /root/anaconda-post.log                                               \
+          /root/buildinfo                                                       \
+        /root/.bak/                                                             \
     && rm -rf                                                                   \
         /root/dependencies                                                      \
         /var/cache/*                                                            \
@@ -95,3 +102,4 @@ LABEL Vendor="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
+WORKDIR /root/deploy
