@@ -27,7 +27,6 @@ ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq
 WORKDIR /root
 ARG varDirDependencies="/root/dependencies"
 ARG listManifest="/var/lib/trno/release.list"
-COPY --from=registry /bin/registry  /bin/registry
 
 #################################################################################
 # Package Lists
@@ -47,19 +46,16 @@ ARG varListPip="\
              ansible \
              "
 
-# Create Artifact Directories
-RUN set -ex                                                                     \
-     && mkdir -p /root/versions                                                 \
-     && mkdir -p ${varDirDependencies}/bin                                      \
-     && mkdir -p ${varDirDependencies}/pip                                      \
-     && mkdir -p ${varDirDependencies}/config                                   \
-     && mkdir -p ${varDirDependencies}/gcloud                                   \
-     && mkdir -p /var/lib/trno/                                                 \
-    && echo
+#################################################################################
+# Load Artifacts from builders
+COPY --from=registry /bin/registry  /bin/registry
+COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
+COPY --from=rpm /etc/pki /etc/pki
 
 #################################################################################
-# Generate OCP Release Images List Manifest
-RUN set -ex \
+# Create Artifact Directories
+RUN set -ex                                                                     \
+     && mkdir -p /var/lib/trno/                                                 \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | tee -a ${listManifest}                                                  \
@@ -69,25 +65,9 @@ RUN set -ex \
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | tee -a ${listManifest}                                                  \
       | sed 's/quay.io\///g'                                                    \
-    && echo
-
-#################################################################################
-# Gather Dependencies | rpm
-COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
-COPY --from=rpm /etc/pki /etc/pki
-
-RUN set -ex \
      && yum update  -y --setopt=tsflags=nodocs                                  \
      && yum install -y ${varListRpms}                                           \
-    && echo
-
-RUN set -ex                                                                     \
      && pip3 install ${varListPip}                                              \
-    && echo
-
-RUN set -ex                                                                     \
-     && yum install -y --setopt=tsflags=nodocs                                  \
-                bsdtar                                                          \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory ${varDirDependencies}/bin kubectl oc         \
      && ${varDirDependencies}/bin/oc version | tee /root/versions/oc.release    \
@@ -100,10 +80,6 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C ${varDirDependencies}/bin                           \
      && curl -L ${varUrlJq}                                                     \
              -o ${varDirDependencies}/bin/jq                                    \
-    && echo
-
-# Cleanup container
-RUN yum clean all                                                               \
     && rm -rf                                                                   \
         /root/dependencies                                                      \
         /var/cache/*                                                            \
