@@ -5,7 +5,13 @@ mkdir -p ${HOME}/coffer
 ```
 ## 2. Launch ContainerOne Point of Origin Container
 ```
-sudo podman run -qit -h coffer --name coffer --volume ${HOME}/TRNO:/root/deploy:z quay.io/containercraft/coffer
+sudo podman run \
+    -qit --rm                            \
+    -h coffer                            \
+    --name coffer                        \
+    --entrypoint=/bin/bash               \
+    --volume ${HOME}/TRNO:/root/deploy:z \
+  quay.io/containercraft/coffer
 ```
 # Demo:
   - Building the bundle    
