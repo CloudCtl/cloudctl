@@ -25,7 +25,6 @@ ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq
 
 # Build Variables
 WORKDIR /root
-ARG varDirDependencies="/root/dependencies"
 ARG listManifest="/var/lib/trno/release.list"
 
 #################################################################################
@@ -69,17 +68,17 @@ RUN set -ex                                                                     
      && yum install -y ${varListRpms}                                           \
      && pip3 install ${varListPip}                                              \
      && curl -L ${varUrlOpenshift}                                              \
-          | tar xzvf - --directory ${varDirDependencies}/bin kubectl oc         \
-     && ${varDirDependencies}/bin/oc version | tee /root/versions/oc.release    \
+          | tar xzvf - --directory /bin kubectl oc                              \
+     && /bin/oc version | tee /root/versions/oc.release                         \
      && curl -L ${varUrlOsInst}                                                 \
-          | tar xzvf - --directory ${varDirDependencies}/bin openshift-install  \
+          | tar xzvf - --directory /bin openshift-install                       \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
-     && mv /tmp/linux-amd64/helm   ${varDirDependencies}/bin/                   \
+     && mv /tmp/linux-amd64/helm   /bin/                                        \
      && curl -L ${varUrlTerraform}                                              \
-          | bsdtar -xvf- -C ${varDirDependencies}/bin                           \
+          | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
-             -o ${varDirDependencies}/bin/jq                                    \
+             -o /bin/jq                                                         \
     && rm -rf                                                                   \
         /root/dependencies                                                      \
         /var/cache/*                                                            \
