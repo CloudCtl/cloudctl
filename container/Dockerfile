@@ -1,0 +1,122 @@
+FROM centos:latest as rpm
+FROM registry:2 as registry
+FROM registry.access.redhat.com/ubi8/ubi:latest as ubi8
+FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
+FROM ubi
+#################################################################################
+# OCP Version set in src/ocp
+ARG varVerOpenshift="${varVerOpenshift}"
+ARG varVerTerraform="${varVerTerraform}"
+ARG varVerHelm="${varVerHelm}"
+ARG varVerJq="${varVerJq}"
+
+# OC Download Urls
+ARG urlOC="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
+ARG urlOCINST="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
+
+# Binary Artifact URLS
+ARG varUrlGcloud="https://sdk.cloud.google.com"
+ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
+ARG urlRelease="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt"
+ARG varUrlTerraform="https://releases.hashicorp.com/terraform/${varVerTerraform}/terraform_${varVerTerraform}_linux_amd64.zip"
+ARG varUrlOsInst="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
+ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
+ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
+
+# Build Variables
+WORKDIR /root
+ARG varDirDependencies="/root/dependencies"
+ARG listManifest="/var/lib/trno/release.list"
+COPY --from=registry /bin/registry  /bin/registry
+
+#################################################################################
+# Package Lists
+ARG varListRpms="\
+             git \
+             tree \
+             rsync \
+             skopeo \
+             bsdtar \
+             openssl \
+             python3-pip \
+             openssh-clients \
+             "
+ARG varListPip="\
+             boto3 \
+             awscli \
+             ansible \
+             "
+
+# Create Artifact Directories
+RUN set -ex                                                                     \
+     && mkdir -p /root/versions                                                 \
+     && mkdir -p ${varDirDependencies}/bin                                      \
+     && mkdir -p ${varDirDependencies}/pip                                      \
+     && mkdir -p ${varDirDependencies}/config                                   \
+     && mkdir -p ${varDirDependencies}/gcloud                                   \
+     && mkdir -p /var/lib/trno/                                                 \
+    && echo
+
+#################################################################################
+# Generate OCP Release Images List Manifest
+RUN set -ex \
+     && curl -sL ${urlRelease}                                                  \
+      | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
+      | tee -a ${listManifest}                                                  \
+      | sed 's/quay.io\///g'                                                    \
+     && curl -sL ${urlRelease}                                                  \
+      | grep -v 'Pull From'                                                     \
+      | awk '/quay.io\/openshift-release/{print $2}'                            \
+      | tee -a ${listManifest}                                                  \
+      | sed 's/quay.io\///g'                                                    \
+    && echo
+
+#################################################################################
+# Gather Dependencies | rpm
+COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
+COPY --from=rpm /etc/pki /etc/pki
+
+RUN set -ex \
+     && yum update  -y --setopt=tsflags=nodocs                                  \
+     && yum install -y ${varListRpms}                                           \
+    && echo
+
+RUN set -ex                                                                     \
+     && pip3 install ${varListPip}                                              \
+    && echo
+
+RUN set -ex                                                                     \
+     && yum install -y --setopt=tsflags=nodocs                                  \
+                bsdtar                                                          \
+     && curl -L ${varUrlOpenshift}                                              \
+          | tar xzvf - --directory ${varDirDependencies}/bin kubectl oc         \
+     && ${varDirDependencies}/bin/oc version | tee /root/versions/oc.release    \
+     && curl -L ${varUrlOsInst}                                                 \
+          | tar xzvf - --directory ${varDirDependencies}/bin openshift-install  \
+     && curl -L ${varUrlHelm}                                                   \
+          | tar xzvf - --directory /tmp linux-amd64/helm                        \
+     && mv /tmp/linux-amd64/helm   ${varDirDependencies}/bin/                   \
+     && curl -L ${varUrlTerraform}                                              \
+          | bsdtar -xvf- -C ${varDirDependencies}/bin                           \
+     && curl -L ${varUrlJq}                                                     \
+             -o ${varDirDependencies}/bin/jq                                    \
+    && echo
+
+# Cleanup container
+RUN yum clean all                                                               \
+    && rm -rf                                                                   \
+        /root/dependencies                                                      \
+        /var/cache/*                                                            \
+        /var/log/dnf*                                                           \
+        /var/log/yum*                                                           \
+   ; echo
+
+#################################################################################
+# ContainerOne | Cloud Orchestration Tools - Point of Origin
+ENV varVerOpenshift="${varVerOpenshift}"
+LABEL Vendor="containercraft.io"                                                \
+      NAME="CCIO_Coffer"                                                        \
+      BuildDate="${varRunDate}"                                                 \
+      OpenShift="${varVerOpenshift}"                                            \
+      maintainer="ContainerCraft.io"                                            \
+      License=GPLv3 
