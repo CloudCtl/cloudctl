@@ -6,10 +6,9 @@ mkdir -p ${HOME}/coffer
 ## 2. Launch ContainerOne Point of Origin Container
 ```
 sudo podman run \
-    -qit --rm                              \
-    -h coffer                              \
-    --name coffer                          \
     --entrypoint=/bin/bash                 \
+    -qit --rm --pull-always                \
+    -h coffer --name coffer                \
     --volume ${HOME}/coffer:/root/deploy:z \
   quay.io/containercraft/coffer
 ```
