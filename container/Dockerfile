@@ -54,7 +54,7 @@ COPY conf/registry-config.yml /etc/docker/registry/config.yml
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
-     && mkdir -p /var/lib/trno/ /root/.bak/                                     \
+     && mkdir -p /var/lib/trno/ /root/.bak/ /root/deploy/mirror                 \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | tee -a ${listManifest}                                                  \

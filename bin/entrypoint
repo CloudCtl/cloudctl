@@ -17,4 +17,5 @@ run_registry
 }
 
 run_core
-/usr/bin/tmux -s Coffer
+./site.yml
+#/usr/bin/tmux -s Coffer
