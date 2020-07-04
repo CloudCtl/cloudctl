@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Update repo with latest from master
+git_pull () {
+    cd /root/deploy;
+    git pull;
+}
+
+# Start Registry Server
+run_registry () {
+  registry serve /etc/docker/registry/config.yml &
+}
+
+run_core () {
+git_pull
+run_registry
+}
+
+run_core
+/usr/bin/tmux -s Coffer
