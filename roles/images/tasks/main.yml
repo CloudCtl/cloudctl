@@ -3,4 +3,4 @@
 - name: '{{ ansible_name_module }} | include_tasks | pull-secret.yml' 
   include_tasks: pull-secret.yml
 - name: '{{ ansible_name_module }} | include_tasks | mirror-to-file.yml' 
-  include_tasks: mirror-to-file.yml
+  include_tasks: mirror-to-registry.yml
