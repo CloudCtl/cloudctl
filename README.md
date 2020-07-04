@@ -6,10 +6,9 @@ mkdir -p ${HOME}/coffer
 ## 2. Launch ContainerOne Point of Origin Container
 ```
 sudo podman run \
-    --entrypoint=/bin/bash                 \
-    -qit --rm --pull=always                \
-    -h coffer --name coffer                \
-    --volume ${HOME}/coffer:/root/deploy:z \
+    --rm -qit -h coffer --name coffer             \
+    --pull=always --entrypoint=/bin/bash          \
+    --volume ${HOME}/coffer:/root/deploy/coffer:z \
   docker.io/containercraft/coffer
 ```
 # Demo:
