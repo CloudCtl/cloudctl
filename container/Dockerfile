@@ -107,4 +107,4 @@ LABEL VENDOR="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-CMD ['entrypoint']
+ENTRYPOINT ['/usr/bin/entrypoint']
