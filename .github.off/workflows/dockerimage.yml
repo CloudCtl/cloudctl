@@ -64,15 +64,15 @@ jobs:
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest \
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }} \
                  --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | Coffer | quay.io
-      run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
     - name: Image Push | Coffer | docker.io
       run: |
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
         docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+    - name: Image Push | Coffer | quay.io
+      run: |
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
