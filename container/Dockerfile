@@ -88,7 +88,7 @@ RUN set -ex                                                                     
         /var/cache/*                                                            \
         /var/log/dnf*                                                           \
         /var/log/yum*                                                           \
-     && git clone ${varUrlGit} /root/deploy                                     \
+     && git clone ${varUrlGit} /root/deploy/coffer                              \
    ; echo
 
 #################################################################################
