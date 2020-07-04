@@ -1,6 +1,6 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
 - name: 'RedHat | TRNO | bundle | artifacts' 
-  hosts: containerone
+  hosts: local
   vars_files:
     - 'vars/global.yml'
   vars:
