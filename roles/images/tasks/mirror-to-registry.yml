@@ -36,14 +36,13 @@
 #         --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
 #         --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
  
-  ######### Mirror Images to directory
+  ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
       shell: |
           for i in $(cat /var/lib/trno/release.list); do \
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
-      register: mirror
     - debug:
         msg: mirror
 
@@ -68,16 +67,18 @@
 #         --registry-config=/root/.docker/config.json \
 #         --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
 #         --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
-  ######### Mirror Images to directory
+#
+  ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
       shell: |
           for i in $(cat /var/lib/trno/release.list); do \
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
-      register: mirror
     - debug:
         msg: mirror
+
+      register: mirror
   ####### Block Conditionals
   when: not mirror_sha_check.stat.exists
 
