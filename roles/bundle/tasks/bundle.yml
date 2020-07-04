@@ -18,7 +18,7 @@
     ####### Build Unified Bundle
     - name: '{{ ansible_name_module }} | command:tar | build tarball bundle of all artifacts'
       command:
-        "tar -c --use-compress-program='pigz --best --recursive' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
+        "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
       args:
         creates: "{{ local_home }}/ArtifactsBundle.tar.gz"
         warn: false
