@@ -46,8 +46,9 @@ ARG varListPip="\
 
 #################################################################################
 # Load Artifacts from builders
-COPY bin/entrypoint /bin/entrypoint
+COPY bin/entrypoint /usr/bin/entrypoint
 COPY --from=rpm /etc/pki /etc/pki
+COPY bin/run_registry.sh /usr/bin/run_registry.sh
 COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
 COPY --from=registry /bin/registry  /bin/registry
 COPY conf/registry-config.yml /etc/docker/registry/config.yml

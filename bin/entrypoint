@@ -3,17 +3,18 @@
 # Update repo with latest from master
 git_pull () {
     cd /root/deploy;
+    git checkout nightlies;
     git pull;
 }
 
 # Start Registry Server
 run_registry () {
-  registry serve /etc/docker/registry/config.yml 2>&1 1>/dev/null &
+  /usr/bin/run_registry.sh
 }
 
 run_core () {
 git_pull 2>&1 1>/dev/null
-run_registry
+run_registry 2>&1 1>/dev/null
 }
 
 run_core
