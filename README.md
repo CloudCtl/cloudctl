@@ -5,14 +5,11 @@ mkdir -p ${HOME}/coffer
 ```
 ## 2. Launch ContainerOne Point of Origin Container
 ```
-sudo podman run \
+sudo time podman run \
     --rm -qit -h coffer --name coffer              \
     --pull=always --entrypoint=/usr/bin/entrypoint \
-    --volume ${HOME}/.docker:/root/.docker:z       \
     --volume ${HOME}/coffer:/root/deploy/coffer:z  \
-    --volume /tmp/mirror:/root/deploy/mirror       \
-    --volume /tmp/images:/root/deploy/images       \
-  docker.io/containercraft/coffer
+  docker.io/containercraft/coffer:nightlies
 ```
 # Demo:
   - Building the bundle    
