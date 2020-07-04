@@ -71,6 +71,7 @@ RUN set -ex                                                                     
      && dnf update  -y --setopt=tsflags=nodocs                                  \
      && dnf install -y ${varListRpms}                                           \
      && pip3 install ${varListPip}                                              \
+     && microdnf install -y bsdtar tar                                          \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
      && /bin/oc version                                                         \
