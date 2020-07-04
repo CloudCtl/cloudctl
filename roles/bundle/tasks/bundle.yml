@@ -35,7 +35,7 @@
     - name: '{{ ansible_name_module }} | copy | Write ArtifactsBundle.tar.gz.sha256'
       copy:
         dest: "/tmp/ArtifactsBundle.tar.gz.sha256"
-        content: "{{ p1tar_sha256 }} ArtifactsBundle.tar.gz"
+        content: "{{ p1tar_sha256.stdout }} ArtifactsBundle.tar.gz"
 
   ####### Block Conditionals
   when: not p1tar_sha_check.stat.exists
