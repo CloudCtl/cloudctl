@@ -111,4 +111,4 @@ LABEL VENDOR="containercraft.io"                                                
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
 ENTRYPOINT ["/usr/bin/entrypoint"]
-ORKDIR /root/koffer
+WORKDIR /root/koffer
