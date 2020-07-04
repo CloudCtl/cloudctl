@@ -6,8 +6,8 @@ mkdir -p ${HOME}/coffer
 ## 2. Launch ContainerOne Point of Origin Container
 ```
 sudo podman run \
+    --pull=always                                 \
     --rm -qit -h coffer --name coffer             \
-    --pull=always --entrypoint=/bin/bash          \
     --volume ${HOME}/.docker:/root/.docker:z      \
     --volume ${HOME}/coffer:/root/deploy/coffer:z \
     --volume /tmp/mirror:/root/deploy/mirror      \
