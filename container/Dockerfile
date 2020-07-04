@@ -83,6 +83,7 @@ RUN set -ex                                                                     
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
      && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
+     && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
           /root/anaconda-ks.cfg                                                 \
@@ -101,11 +102,11 @@ RUN set -ex                                                                     
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
 ENV varVerOpenshift="${varVerOpenshift}" varUrlGit="${varUrlGit}"
-WORKDIR /root/deploy
 LABEL VENDOR="containercraft.io"                                                \
       NAME="CCIO_Coffer"                                                        \
       BUILD_DATE="${varRunDate}"                                                \
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-ENTRYPOINT ['/usr/bin/entrypoint']
+ENTRYPOINT ["/usr/bin/entrypoint"]
+WORKDIR /root/deploy
