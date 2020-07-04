@@ -27,7 +27,7 @@
     - name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.xz'
       command: 'sha256sum ArtifactsBundle.tar.xz | tee /tmp/ArtifactsBundle.tar.xz.sha256'
       args:
-        chdir: /tmp
+        chdir: '/tmp/'
 
   ####### Block Conditionals
   when: not p1tar_sha_check.stat.exists
