@@ -60,13 +60,13 @@ RUN set -ex                                                                     
      && mkdir -p /var/lib/trno/                                                 \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
-      | tee -a ${listManifest}                                                  \
       | sed 's/quay.io\///g'                                                    \
+      | tee -a ${listManifest}                                                  \
      && curl -sL ${urlRelease}                                                  \
       | grep -v 'Pull From'                                                     \
       | awk '/quay.io\/openshift-release/{print $2}'                            \
-      | tee -a ${listManifest}                                                  \
       | sed 's/quay.io\///g'                                                    \
+      | tee -a ${listManifest}                                                  \
      && yum update  -y --setopt=tsflags=nodocs                                  \
      && yum install -y ${varListRpms}                                           \
      && pip3 install ${varListPip}                                              \
