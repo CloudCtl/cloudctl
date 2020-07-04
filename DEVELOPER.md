@@ -18,7 +18,7 @@ vim /tmp/docker/config.json
 sudo time podman run \
     --pull=always --entrypoint=/usr/bin/entrypoint \
     --rm -it -h koffer --name koffer               \
-    --volume /tmp/.docker:/root/.docker:z          \
+    --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --volume /tmp/mirror:/root/deploy/mirror       \
     --volume /tmp/images:/root/deploy/images       \
@@ -30,7 +30,7 @@ sudo time podman run \
 sudo podman run \
     --pull=always --entrypoint=/bin/bash       \
     --rm -it -h koffer --name koffer           \
-    --volume /tmp/.docker:/root/.docker:z      \
+    --volume /tmp/docker:/root/.docker:z       \
     --volume /tmp/koffer:/root/deploy/koffer:z \
     --volume /tmp/mirror:/root/deploy/mirror   \
     --volume /tmp/images:/root/deploy/images   \
