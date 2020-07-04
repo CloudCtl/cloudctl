@@ -8,6 +8,7 @@ mkdir -p ${HOME}/coffer
 sudo podman run \
     --rm -qit -h coffer --name coffer             \
     --pull=always --entrypoint=/bin/bash          \
+    --volume ${HOME}/.docker:/root/.docker:z      \
     --volume ${HOME}/coffer:/root/deploy/coffer:z \
   docker.io/containercraft/coffer
 ```
