@@ -85,5 +85,6 @@
 ###### END OF BLOCK #######
 
 - name: '{{ ansible_name_module }} | stat | sha256 mirror/v2 directory list'
-  command: 'find -type f ! -iname "sha256checksums" -exec sha256sum "{}" + > {{ local_home }}/deploy/mirror/v2.list.sha256'
+  command: 
+    'find -type f ! -iname "sha256checksums" -exec sha256sum "{}" + > {{ local_home }}/deploy/mirror/v2.list.sha256'
     chdir: /root/deploy/mirror/
