@@ -45,7 +45,7 @@
   ######### Purge & Prepare
     - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content | RESCUE | Second Attempt!'
       file:
-        path: "{{ dir_one }}/mirror/v2"
+        path: "{{ dir_one }}/mirror/docker/registry/v2"
         state: absent
     - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories | RESCUE | Second Attempt!'
       file:
