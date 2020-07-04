@@ -15,7 +15,7 @@ vim /tmp/docker/config.json
 ## Run Container
 #### Option A. To run with persistent image storage for faster run times
 ```
-sudo time podman run \
+sudo podman run \
     --pull=always --entrypoint=/usr/bin/entrypoint \
     --rm -it -h koffer --name koffer               \
     --volume /tmp/docker:/root/.docker:z           \
