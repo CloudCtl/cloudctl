@@ -12,7 +12,7 @@
     ####### Purge preexisting bundles
     - name: '{{ ansible_name_module }} | file | Purge pre-existing bundles'
       file:
-        path: "{{ local_home }}/ArtifactsBundle.tar.gz"
+        path: "{{ local_home }}/ArtifactsBundle.tar.xz"
         state: absent
 
     ####### Build Unified Bundle
@@ -20,22 +20,22 @@
       command:
         "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
       args:
-        creates: "{{ local_home }}/ArtifactsBundle.tar.gz"
+        creates: "{{ local_home }}/ArtifactsBundle.tar.xz"
         warn: false
 
-    ####### SHA256sum ArtifactsBundle.tar.gz
-    - name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.gz'
+    ####### SHA256sum ArtifactsBundle.tar.xz
+    - name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.xz'
       stat:
-        path: "/tmp/ArtifactsBundle.tar.gz"
+        path: "/tmp/ArtifactsBundle.tar.xz"
         checksum_algorithm: sha256
         get_checksum: yes
       register: p1tar_sha256
 
     ####### Write SHA file
-    - name: '{{ ansible_name_module }} | copy | Write ArtifactsBundle.tar.gz.sha256'
+    - name: '{{ ansible_name_module }} | copy | Write ArtifactsBundle.tar.xz.sha256'
       copy:
-        dest: "/tmp/ArtifactsBundle.tar.gz.sha256"
-        content: "{{ p1tar_sha256 }} ArtifactsBundle.tar.gz"
+        dest: "/tmp/ArtifactsBundle.tar.xz.sha256"
+        content: "{{ p1tar_sha256 }} ArtifactsBundle.tar.xz"
 
   ####### Block Conditionals
   when: not p1tar_sha_check.stat.exists
@@ -43,17 +43,17 @@
 ####### Build Unified Bundle
 - name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
   command:
-    "tar -cvf {{ local_home }}/deploy/coffer/coffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.gz.sha256 ArtifactsBundle.tar.gz registry.yml registry.sh"
+    "tar -cvf {{ local_home }}/deploy/coffer/coffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz.sha256 ArtifactsBundle.tar.xz registry.yml registry.sh"
   args:
     creates: "{{ local_home }}/deploy/coffer/coffer-openshift-bundle.{{ version_openshift }}.tar"
     warn: false
 
-####### Bundle ArtifactsBundle.tar.gz with unpack + launch utilities
-# name: '{{ ansible_name_module }} | role | archive | Bundle ArtifactsBundle.tar.gz with auxilary files'
+####### Bundle ArtifactsBundle.tar.xz with unpack + launch utilities
+# name: '{{ ansible_name_module }} | role | archive | Bundle ArtifactsBundle.tar.xz with auxilary files'
 # archive:
 #   path:
-#   - '/tmp/ArtifactsBundle.tar.gz.sha256'
-#   - '/tmp/ArtifactsBundle.tar.gz'
+#   - '/tmp/ArtifactsBundle.tar.xz.sha256'
+#   - '/tmp/ArtifactsBundle.tar.xz'
 #   - '/tmp/registry.yml'
 #   - '/tmp/registry.sh'
 #   dest: '{{ local_home }}/deploy/{{ cloud_provider }}-{{ target_environment }}-{{ name_cluster_vpc }}-p1bundle.tar'
