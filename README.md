@@ -10,7 +10,7 @@ sudo podman run \
     -qit --rm --pull=always                \
     -h coffer --name coffer                \
     --volume ${HOME}/coffer:/root/deploy:z \
-  quay.io/containercraft/coffer
+  docker.io/containercraft/coffer
 ```
 # Demo:
   - Building the bundle    
