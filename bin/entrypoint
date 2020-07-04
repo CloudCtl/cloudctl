@@ -18,4 +18,4 @@ run_registry 2>&1 1>/dev/null
 }
 
 run_core
-clear && ./site.yml
+clear && time ./site.yml
