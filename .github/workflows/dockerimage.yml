@@ -1,11 +1,11 @@
-name: CofferBuild
+name: KofferBuild
 on:
   push:
     branches: 
-      - master
+      - nightlies
   pull_request:
     branches: 
-      - master
+      - nightlies
   schedule:
     - cron: '0 1 * * *'
 jobs:
@@ -27,7 +27,7 @@ jobs:
         echo "::set-env name=gitremote::$gitremote"
     - name: Variable | Webscrape OpenShift Release File for latest OC version 
       run: |
-        export varveropenshift="$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')"
+        export varveropenshift="$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/candidate/release.txt | awk '/  Version/{print $2}')"
         echo "::set-env name=varveropenshift::$varveropenshift"
     - name: Variable | Webscrape for Latest Terraform Version
       run: |
@@ -45,7 +45,7 @@ jobs:
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io; \
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
-    - name: Build Image | Coffer
+    - name: Build Image | Koffer
       run: |
         docker build . \
                  --force-rm \
@@ -56,23 +56,19 @@ jobs:
                  --build-arg varVerTerraform=${{ env.varverterraform }} \
                  --build-arg varVerOpenshift=${{ env.varveropenshift }} \
                  --build-arg varUrlGit=${{ env.gitremote }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | Coffer | docker.io
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:nightlies \
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
+                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }} \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:nightlies \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
+                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+    - name: Image Push | Koffer | docker.io
       run: |
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
-    - name: Image Push | Coffer | quay.io
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:nightlies;                                 \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
+        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+    - name: Image Push | Koffer | quay.io
       run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer;                    \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:latest;                                 \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }};             \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/coffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:nightlies;                                 \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
+        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
