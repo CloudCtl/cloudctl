@@ -1,7 +1,10 @@
 version: 0.1
 log:
-  fields:  
-    service: registry
+  level: info
+  accesslog:
+    disabled: true
+#  fields:  
+#    service: registry
 storage:
   cache:
     blobdescriptor: inmemory
