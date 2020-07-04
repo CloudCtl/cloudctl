@@ -9,18 +9,18 @@
   block:
 
   ######### Purge & Prepare
-    - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content'
-      file:
-        path: "{{ dir_one }}/mirror"
-        state: absent
+#   - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content'
+#     file:
+#       path: "{{ dir_one }}/mirror"
+#       state: absent
     - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories'
       file:
         path: "{{ item }}"
         state: directory
-        mode: 0755
+#       mode: 0755
       loop:
         - "{{ dir_one }}/mirror"
-        - "{{ local_home }}/.docker"
+#       - "{{ local_home }}/.docker"
 
 # ######### Mirror Images to directory
 #   - name: '{{ ansible_name_module }} | shell:registry.serve | Start Local Docker Registry Servie Port:5000'
@@ -45,7 +45,7 @@
   ######### Purge & Prepare
     - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content | RESCUE | Second Attempt!'
       file:
-        path: "{{ dir_one }}/mirror"
+        path: "{{ dir_one }}/mirror/v2"
         state: absent
     - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories | RESCUE | Second Attempt!'
       file:
@@ -56,10 +56,10 @@
     - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io | RESCUE | Second Attempt!'
       shell: |
         oc adm release mirror --insecure=true \
-          --to=localhost:5500/openshift-release-dev \
+          --to=localhost:5000/openshift-release-dev \
           --registry-config=/root/.docker/config.json \
           --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
-          --to-release-image=localhost:5500/openshift-release-dev:{{ version_openshift }}-x86_64
+          --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
 #       oc adm release mirror \
 #       --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
 #       --to-dir={{ dir_one }}/mirror
