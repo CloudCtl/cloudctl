@@ -20,8 +20,8 @@ sudo time podman run \
     --rm -it -h koffer --name koffer               \
     --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
-    --volume /tmp/mirror:/root/deploy/mirror       \
-    --volume /tmp/images:/root/deploy/images       \
+    --volume /tmp/mirror:/root/deploy/mirror:z     \
+    --volume /tmp/images:/root/deploy/images:z     \
   docker.io/containercraft/koffer:nightlies
 ```
 
@@ -32,8 +32,8 @@ sudo podman run \
     --rm -it -h koffer --name koffer           \
     --volume /tmp/docker:/root/.docker:z       \
     --volume /tmp/koffer:/root/deploy/koffer:z \
-    --volume /tmp/mirror:/root/deploy/mirror   \
-    --volume /tmp/images:/root/deploy/images   \
+    --volume /tmp/mirror:/root/deploy/mirror:z \
+    --volume /tmp/images:/root/deploy/images:z \
   docker.io/containercraft/koffer:nightlies
 ```
   - Then start the rake process
