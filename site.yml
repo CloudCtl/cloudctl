@@ -1,6 +1,8 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: 'Coffer | Artifact Rake Utility' 
+- name: 'koffer | Artifact Rake Utility' 
   hosts: local
+  vars_files:
+    - 'vars/global.yml'
 
 - import_playbook: dependencies.yml # Pull git repos from manifests
 - import_playbook: images.yml       # Download container images to directory

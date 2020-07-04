@@ -1,7 +1,7 @@
 FROM centos:latest as rpm
 FROM registry:2 as registry
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi8
-FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest as ubi
 FROM ubi
 #################################################################################
 # OCP Version set in src/ocp
@@ -25,7 +25,7 @@ ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/x86_64/client
 ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
 
 # Build Variables
-ARG listManifest="/var/lib/trno/release.list"
+ARG listManifest="/var/lib/koffer/release.list"
 
 #################################################################################
 # Package Lists
@@ -57,7 +57,8 @@ COPY conf/registries.conf /etc/containers/registries.conf
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
-     && mkdir -p /var/lib/trno/                                                 \
+     && microdnf install -y dnf                                                 \
+     && mkdir -p /var/lib/koffer/                                               \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | sed 's/quay.io\///g'                                                    \
@@ -67,8 +68,8 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
-     && yum update  -y --setopt=tsflags=nodocs                                  \
-     && yum install -y ${varListRpms}                                           \
+     && dnf update  -y --setopt=tsflags=nodocs                                  \
+     && dnf install -y ${varListRpms}                                           \
      && pip3 install ${varListPip}                                              \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
@@ -95,18 +96,19 @@ RUN set -ex                                                                     
         /var/cache/*                                                            \
         /var/log/dnf*                                                           \
         /var/log/yum*                                                           \
-     && git clone ${varUrlGit} /root/deploy                                     \
-     && mkdir -p /root/deploy/mirror                                            \
+     && git clone ${varUrlGit} /root/koffer                                     \
+     && mkdir -p /root/deploy/{mirror,images}                                   \
+     && mkdir -p /root/bundle                                                   \
    ; echo
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
 ENV varVerOpenshift="${varVerOpenshift}" varUrlGit="${varUrlGit}"
 LABEL VENDOR="containercraft.io"                                                \
-      NAME="CCIO_Coffer"                                                        \
+      NAME="Koffer"                                                             \
       BUILD_DATE="${varRunDate}"                                                \
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
 ENTRYPOINT ["/usr/bin/entrypoint"]
-WORKDIR /root/deploy
+ORKDIR /root/koffer

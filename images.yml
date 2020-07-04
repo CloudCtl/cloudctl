@@ -1,9 +1,7 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: 'RedHat | TRNO | bundle | artifacts' 
+- name: '{{ name_vendor }} | Koffer | images.yml' 
   hosts: local
   vars_files:
-#   - '../p1.yml'
-#   - 'vars/{{ target_environment }}.yml'
     - 'vars/global.yml'
   vars:
     module: "images"

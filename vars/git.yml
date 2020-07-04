@@ -1,6 +1,7 @@
 ---
-# (Repo1) Git Source & Destination
-# (RedHatOfficial) Git Source & Destination
+# (CCIO) Git Sources
+# (Repo1) Git Source
+# (RedHatOfficial) Git Sources
 keyfile: '/root/.ssh/id_rsa'
 
 # Ansible Git Repos

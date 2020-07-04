@@ -1,11 +1,4 @@
 ---
-# openshift-install binary to run
-openshift_install_binary: /usr/bin/openshift-install-mod
-
-# Instance Types
-cloud_instance_type_master: "m5.xlarge"
-cloud_instance_type_worker: "m5.xlarge"
-cloud_instance_type_storage: "m5.xlarge"
 #####################################################################################################
 # End of user configurable variables
 #####################################################################################################
@@ -13,7 +6,8 @@ cloud_instance_type_storage: "m5.xlarge"
 version_openshift: "{{ lookup('env', 'varVerOpenshift') }}"
 
 # Ansible Playbook Run Variables
-ansible_name: "RedHat | TRNO | Wharf Artifact Bundle Ubility | branch:{{ git_branch }}"
+name_vendor: "RedHat"
+ansible_name: "{{ name_vendor }} | Koffer | Artifact Bundle Ubility | branch:{{ git_branch }}"
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 
 # Terraform Variables

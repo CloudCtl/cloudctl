@@ -39,7 +39,7 @@
   ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
       shell: |
-          for i in $(cat /var/lib/trno/release.list); do \
+          for i in $(cat /var/lib/koffer/release.list); do \
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
@@ -71,7 +71,7 @@
   ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
       shell: |
-          for i in $(cat /var/lib/trno/release.list); do \
+          for i in $(cat /var/lib/koffer/release.list); do \
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
