@@ -7,7 +7,7 @@ mkdir -p ${HOME}/coffer
 ```
 sudo podman run \
     --entrypoint=/bin/bash                 \
-    -qit --rm --pull-always                \
+    -qit --rm --pull=always                \
     -h coffer --name coffer                \
     --volume ${HOME}/coffer:/root/deploy:z \
   quay.io/containercraft/coffer
