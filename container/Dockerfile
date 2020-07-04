@@ -25,7 +25,6 @@ ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/x86_64/client
 ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
 
 # Build Variables
-WORKDIR /root
 ARG listManifest="/var/lib/trno/release.list"
 
 #################################################################################
@@ -41,17 +40,15 @@ ARG varListRpms="\
              openssh-clients \
              "
 ARG varListPip="\
-             boto3 \
-             awscli \
              ansible \
              "
 
 #################################################################################
 # Load Artifacts from builders
-COPY --from=registry /bin/registry  /bin/registry
-COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
+COPY conf/registry-config.yml /etc/docker/registry/config.yml
 COPY --from=rpm /etc/pki /etc/pki
-
+COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
+COPY --from=registry /bin/registry  /bin/registry
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
@@ -80,7 +77,6 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-     && git clone ${varUrlGit} /root/deploy                                     \
      && mv                                                                      \
           /root/original-ks.cfg                                                 \
           /root/anaconda-ks.cfg                                                 \
@@ -89,20 +85,19 @@ RUN set -ex                                                                     
           /root/buildinfo                                                       \
         /root/.bak/                                                             \
     && rm -rf                                                                   \
-        /root/dependencies                                                      \
         /var/cache/*                                                            \
         /var/log/dnf*                                                           \
         /var/log/yum*                                                           \
+     && git clone ${varUrlGit} /root/deploy                                     \
    ; echo
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
-ENV varVerOpenshift="${varVerOpenshift}"
-ENV varUrlGit="${varUrlGit}"
-LABEL Vendor="containercraft.io"                                                \
+ENV varVerOpenshift="${varVerOpenshift}" varUrlGit="${varUrlGit}"
+WORKDIR /root/deploy
+LABEL VENDOR="containercraft.io"                                                \
       NAME="CCIO_Coffer"                                                        \
-      BuildDate="${varRunDate}"                                                 \
+      BUILD_DATE="${varRunDate}"                                                \
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-WORKDIR /root/deploy
