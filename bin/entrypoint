@@ -8,14 +8,13 @@ git_pull () {
 
 # Start Registry Server
 run_registry () {
-  registry serve /etc/docker/registry/config.yml &
+  registry serve /etc/docker/registry/config.yml 2>&1 1>/dev/null &
 }
 
 run_core () {
-git_pull
-clear
+git_pull 2>&1 1>/dev/null
 run_registry
 }
 
 run_core
-./site.yml
+clear && ./site.yml

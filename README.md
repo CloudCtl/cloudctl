@@ -10,6 +10,8 @@ sudo podman run \
     --pull=always --entrypoint=/bin/bash          \
     --volume ${HOME}/.docker:/root/.docker:z      \
     --volume ${HOME}/coffer:/root/deploy/coffer:z \
+    --volume /tmp/mirror:/root/deploy/mirror      \
+    --volume /tmp/images:/root/deploy/images      \
   docker.io/containercraft/coffer
 ```
 # Demo:
