@@ -54,7 +54,7 @@ COPY conf/registry-config.yml /etc/docker/registry/config.yml
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
-     && mkdir -p /var/lib/trno/ /root/.bak/ /root/deploy/mirror                 \
+     && mkdir -p /var/lib/trno/                                                 \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
       | tee -a ${listManifest}                                                  \
@@ -80,7 +80,7 @@ RUN set -ex                                                                     
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
      && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
-     && mv                                                                      \
+     && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
           /root/anaconda-ks.cfg                                                 \
           /root/anaconda-post-nochroot.log                                      \
@@ -92,6 +92,7 @@ RUN set -ex                                                                     
         /var/log/dnf*                                                           \
         /var/log/yum*                                                           \
      && git clone ${varUrlGit} /root/deploy                                     \
+     && mkdir -p /root/deploy/mirror                                            \
    ; echo
 
 #################################################################################
