@@ -16,6 +16,7 @@ git_pull
 run_registry
 }
 
+clear
 run_core
 ./site.yml
 #/usr/bin/tmux -s Coffer

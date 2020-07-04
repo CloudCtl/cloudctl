@@ -51,6 +51,7 @@ COPY --from=rpm /etc/pki /etc/pki
 COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
 COPY --from=registry /bin/registry  /bin/registry
 COPY conf/registry-config.yml /etc/docker/registry/config.yml
+COPY conf/registries.conf /etc/containers/registries.conf
 #################################################################################
 # Create Artifact Directories
 RUN set -ex                                                                     \
@@ -105,3 +106,4 @@ LABEL VENDOR="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
+ENTRYPOINT ['/bin/entrypoint']
