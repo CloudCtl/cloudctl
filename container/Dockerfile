@@ -79,6 +79,7 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
+     && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
      && mv                                                                      \
           /root/original-ks.cfg                                                 \
           /root/anaconda-ks.cfg                                                 \
