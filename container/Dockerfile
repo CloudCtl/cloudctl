@@ -33,6 +33,7 @@ ARG varListRpms="\
              git \
              tree \
              tmux \
+             pigz \
              rsync \
              skopeo \
              bsdtar \
