@@ -33,14 +33,6 @@ cp /root/deploy/secrets/registry/ssl/registry.crt \
   && sudo update-ca-trust
 }
 
-write_mirror_credentials () {
-mkdir -p /root/deploy/secrets/registry/auth
-podman run \
-    --rm --entrypoint htpasswd                               \
-  docker.io/library/registry:2.7.0                           \
-    -Bbn cloudctl cloudctl > /root/deploy/secrets/registry/auth/htpasswd
-}
-
 run_pod () {
   podman play kube ./cloudctl.yml
 }

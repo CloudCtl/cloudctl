@@ -17,3 +17,9 @@
     selfsigned_digest: "sha256"
     provider: selfsigned
 
+- name: '{{ ansible_name_module }} | htpasswd | Generate Default Registry Basic Auth'
+  htpasswd:
+    path: "{{ dir_deploy }}/secrets/registry/auth/htpasswd"
+    name: cloudctl
+    password: cloudctl
+    crypt_scheme: md5_crypt
