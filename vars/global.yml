@@ -17,6 +17,8 @@ tf_vars: "{{ lookup('env', 'HOME') }}/deploy/terraform/global.tfvars"
 
 # Directory Inventory
 dir_one: "{{ lookup('env', 'HOME') }}/deploy"
+dir_bundle: "{{ lookup('env', 'HOME') }}/bundle"
+dir_koffer: "{{ lookup('env', 'HOME') }}/koffer"
 dir_images: "{{ lookup('env', 'HOME') }}/deploy/images"
 dir_ansible: "{{ lookup('env', 'HOME') }}/deploy/ansible"
 dir_artifacts: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}"
