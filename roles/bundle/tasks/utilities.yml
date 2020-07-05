@@ -10,7 +10,7 @@
 
 - name: '{{ ansible_name_module }} | file | Create Directory Structure' 
   file:
-    path: '{{ item.dest }}'
+    path: '{{ item }}'
     state: directory
     with_items:
       - /root/deploy/secrets/registry/ssl
