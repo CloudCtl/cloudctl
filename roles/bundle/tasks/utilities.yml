@@ -4,7 +4,7 @@
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
-    - { src: '{{ dir_koffer }}/templates/bin/start-cloudctl.sh.j2', dest: '/tmp/cloudctly.sh' }
+    - { src: '{{ dir_koffer }}/templates/bin/start-cloudctl.sh.j2', dest: '/tmp/start-cloudctly.sh' }
     - { src: '{{ dir_koffer }}/templates/pod/cloudctl.yml.j2', dest: '/tmp/cloudctl.yml' }
     - { src: '{{ dir_koffer }}/templates/registry/etc-docker-registry-config.yml.j2', dest: '/root/deploy/mirror/config.yml' }
 
