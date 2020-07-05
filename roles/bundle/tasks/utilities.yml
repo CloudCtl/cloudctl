@@ -14,8 +14,8 @@
     state: directory
     recurse: yes
     loop:
-      - /root/deploy/secrets/registry/ssl
-      - /root/deploy/secrets/registry/auth
+        - {{ name: '/root/deploy/secrets/registry/ssl' }}
+        - {{ name: '/root/deploy/secrets/registry/auth' }}
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Generate Default Registry Certificates | 365 Day TTL Self Signed'
   openssl_certificate:
