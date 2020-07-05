@@ -8,24 +8,6 @@
     - { src: '{{ dir_koffer }}/templates/pod/cloudctl.yml.j2', dest: '/tmp/cloudctl.yml' }
     - { src: '{{ dir_koffer }}/templates/registry/etc-docker-registry-config.yml.j2', dest: '/root/deploy/mirror/config.yml' }
 
-- name: '{{ ansible_name_module }} | file | Create Directory Structure' 
-  file:
-    path: '{{ item }}'
-    state: directory
-    mode: '0644'
-  with_items:
-    - /root/deploy/secrets/registry/ssl
-    - /root/deploy/secrets/registry/auth
-
-- name: '{{ ansible_name_module }} | openssl_certificate | Generate Default Registry Certificates | 365 Day TTL Self Signed'
-  openssl_certificate:
-    path: "{{ dir_deploy }}/secrets/registry/ssl/registry.crt"
-    privatekey_path: "{{ dir_deploy }}/secrets/registry/ssl/registry.key"
-    csr_path: "{{ dir_deploy }}/secrets/registry/ssl/registry.csr"
-    selfsigned_not_after: "+365d"
-    selfsigned_digest: "sha256"
-    provider: selfsigned
-
 - name: '{{ ansible_name_module }} | htpasswd | Generate Default Registry Basic Auth'
   htpasswd:
     path: "{{ dir_deploy }}/secrets/registry/auth/htpasswd"
