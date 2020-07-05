@@ -22,7 +22,7 @@ sudo podman run \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --volume /tmp/mirror:/root/deploy/mirror:z     \
     --volume /tmp/images:/root/deploy/images:z     \
-  docker.io/containercraft/koffer:nightlies
+  docker.io/containercraft/koffer:latest
 ```
 
 #### Option B. To Exec into container
@@ -34,7 +34,7 @@ sudo podman run \
     --volume /tmp/koffer:/root/deploy/koffer:z \
     --volume /tmp/mirror:/root/deploy/mirror:z \
     --volume /tmp/images:/root/deploy/images:z \
-  docker.io/containercraft/koffer:nightlies
+  docker.io/containercraft/koffer:latest
 ```
   - Then start the rake process
 ```
@@ -44,7 +44,7 @@ sudo podman run \
 ```
  cd /root/koffer 
  git pull
- git checkout nightlies
+ git checkout latest
  ./dependencies.yml
  ./images.yml
  ./bundle.yml
@@ -52,6 +52,6 @@ sudo podman run \
 ## Remove / Purge / Cleanup
 ```
 sudo podman rm --force koffer
-sudo podman rmi --force koffer:nightlies
+sudo podman rmi --force koffer:latest
 sudo rm -rf /tmp/{koffer,mirror,images,docker}
 ```

@@ -9,7 +9,7 @@ sudo time podman run \
     --rm -qit -h koffer --name koffer              \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --pull=always --entrypoint=/usr/bin/entrypoint \
-  docker.io/containercraft/koffer:nightlies
+  docker.io/containercraft/koffer:latest
 ```
 # Demo:
   - Building the bundle    

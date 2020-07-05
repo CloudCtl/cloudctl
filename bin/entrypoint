@@ -3,7 +3,6 @@
 # Update repo with latest from master
 git_pull () {
     cd /root/koffer;
-    git checkout nightlies;
     git pull;
 }
 
