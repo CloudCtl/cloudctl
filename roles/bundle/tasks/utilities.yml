@@ -12,10 +12,9 @@
   file:
     path: '{{ item.dest }}'
     state: directory
-    recurse: yes
-    loop:
-      - { dest: '/root/deploy/secrets/registry/ssl' }
-      - { dest: '/root/deploy/secrets/registry/auth' }
+    with_items:
+      - /root/deploy/secrets/registry/ssl
+      - /root/deploy/secrets/registry/auth
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Generate Default Registry Certificates | 365 Day TTL Self Signed'
   openssl_certificate:
