@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [[ ! -d ./deploy ]]; then
- #sha256sum --check ArtifactsBundle.tar.gz.sha256
-  tar xvf ArtifactsBundle.tar.gz
+ #sha256sum --check ArtifactsBundle.tar.xz.sha256
+  tar xvf ArtifactsBundle.tar.xz
   runUser="$USER"
 fi
 

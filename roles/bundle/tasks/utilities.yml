@@ -4,5 +4,5 @@
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
-    - { src: '{{ dir_git_bundle }}/templates/bin/registry.sh', dest: '/tmp/registry.sh' }
-    - { src: '{{ dir_git_bundle }}/templates/pod/registry.yml.j2', dest: '/tmp/registry.yml' }
+    - { src: '{{ dir_koffer }}/templates/bin/cloudctl.sh.j1', dest: '/tmp/cloudctly.sh' }
+    - { src: '{{ dir_koffer }}/templates/pod/cloudctl.yml.j2', dest: '/tmp/cloudctl.yml' }

@@ -12,7 +12,7 @@
     ####### Purge preexisting bundles
     - name: '{{ ansible_name_module }} | file | Purge pre-existing bundles'
       file:
-        path: "{{ local_home }}/ArtifactsBundle.tar.xz"
+        path: "/tmp/ArtifactsBundle.tar.xz"
         state: absent
 
     ####### Build Unified Bundle
@@ -35,7 +35,7 @@
 ####### Build Unified Bundle
 - name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
   command:
-    "tar -cvf {{ local_home }}/deploy/koffer/koffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz registry.yml registry.sh"
+    "tar -cvf {{ local_home }}/deploy/koffer/koffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz cloudctl.yml cloudctl.sh"
   args:
     creates: "{{ local_home }}/deploy/koffer/koffer-bundle.openshift-{{ version_openshift }}.tar"
     warn: false
