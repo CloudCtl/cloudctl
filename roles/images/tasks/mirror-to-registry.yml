@@ -22,13 +22,14 @@
 #     shell: registry serve /etc/docker/registry/config.yml &
 
   ######### Mirror Images to directory
-#   - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io'
-#     shell: |
-#       oc adm release mirror --insecure=true \
-#         --to=localhost:5000/openshift-release-dev \
-#         --registry-config=/root/.docker/config.json \
-#         --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
-#         --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
+    - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io'
+      shell: |
+        oc adm release mirror --insecure=true \
+          --to=localhost:5000/openshift-release-dev \
+          --registry-config=/root/.docker/config.json \
+          --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+          --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
+      when: image_mirror_utility == "oc"
  
   ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
@@ -37,8 +38,7 @@
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
-    - debug:
-        msg: mirror
+      when: image_mirror_utility == "skopeo"
 
 ######### Rescue block if there are any failures in the above block
   rescue:
@@ -54,14 +54,15 @@
         state: directory
 
   ######### Mirror Images to directory
-#   - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io | RESCUE | Second Attempt!'
-#     shell: |
-#       oc adm release mirror --insecure=true \
-#         --to=localhost:5000/openshift-release-dev \
-#         --registry-config=/root/.docker/config.json \
-#         --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
-#         --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
-#
+    - name: '{{ ansible_name_module }} | shell:oc.adm.release.mirror | Sync content from quay.io | RESCUE | Second Attempt!'
+      shell: |
+        oc adm release mirror --insecure=true \
+          --to=localhost:5000/openshift-release-dev \
+          --registry-config=/root/.docker/config.json \
+          --from=quay.io/openshift-release-dev/ocp-release:{{ version_openshift }}-x86_64 \
+          --to-release-image=localhost:5000/openshift-release-dev:{{ version_openshift }}-x86_64
+      when: image_mirror_utility == "oc"
+
   ######### Skopeo Copy Images to Registry
     - name: '{{ ansible_name_module }} | shell:skopeo.copy | Sync content from quay.io'
       shell: |
@@ -69,8 +70,7 @@
             skopeo copy docker://quay.io/$i \
             docker://localhost:5000/$i ; \
           done
-    - debug:
-        msg: mirror
+      when: image_mirror_utility == "skopeo"
 
       register: mirror
   ####### Block Conditionals

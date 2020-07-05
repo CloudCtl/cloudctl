@@ -6,7 +6,8 @@
 version_openshift: "{{ lookup('env', 'varVerOpenshift') }}"
 
 # Ansible Playbook Run Variables
-name_vendor: "RedHat"
+name_vendor: "CCIO"
+image_mirror_utility: "oc"
 ansible_name: "{{ name_vendor }} | Koffer | Artifact Bundle Ubility | branch:{{ git_branch }}"
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 

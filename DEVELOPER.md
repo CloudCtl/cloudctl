@@ -13,7 +13,6 @@ mkdir /tmp/{koffer,mirror,images,docker}
 vim /tmp/docker/config.json
 ```
 ## Run Container
-#### Option A. To run with persistent image storage for faster run times
 ```
 sudo podman run \
     --pull=always --entrypoint=/usr/bin/entrypoint \
@@ -24,8 +23,9 @@ sudo podman run \
     --volume /tmp/images:/root/deploy/images:z     \
   docker.io/containercraft/koffer:latest
 ```
-
-#### Option B. To Exec into container
+## When complete, find your Koffer Bundle tar file at `/tmp/koffer/`
+------------    
+#### Alternate manual method & exec into container
 ```
 sudo podman run \
     --pull=always --entrypoint=/bin/bash       \
