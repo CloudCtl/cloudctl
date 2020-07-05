@@ -10,10 +10,10 @@
 
 - name: '{{ ansible_name_module }} | file | Create Directory Structure' 
   file:
-    path: '{{ item }}'
+    path: '{{ item.name }}'
     state: directory
     recurse: yes
-    loop:
+    with_items:
         - {{ name: '/root/deploy/secrets/registry/ssl' }}
         - {{ name: '/root/deploy/secrets/registry/auth' }}
 
