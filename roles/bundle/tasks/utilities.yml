@@ -13,7 +13,7 @@
     path: '{{ item }}'
     state: directory
     recurse: yes
-    with_items:
+    loop:
       - /root/deploy/secrets/registry/ssl
       - /root/deploy/secrets/registry/auth
 
