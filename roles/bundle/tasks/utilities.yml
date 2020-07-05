@@ -10,7 +10,7 @@
 
 - name: '{{ ansible_name_module }} | file | Create Directory Structure' 
   file:
-    path: {{ item }}
+    path: '{{ item }}'
     state: directory
     recurse: yes
     with_items:
