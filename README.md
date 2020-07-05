@@ -1,4 +1,4 @@
-# Koffer  |  Artifact Rake & Bundle Appliance
+# Koffer | Artifact Bundle Rake Utility
 ### About
 Koffer is an all in one Kubernetes deployment dependenciesi package, image, & artifact 
 capture utility designed to standardize the collection of all assets required to
