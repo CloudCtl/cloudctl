@@ -25,5 +25,4 @@ sudo time podman run \
  ls /tmp/koffer-bundle.*.tar.xz
 ```
 ### Demo:
-  - Building the bundle    
 ![bundle](./web/bundle.svg)
