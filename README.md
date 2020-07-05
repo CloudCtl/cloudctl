@@ -8,17 +8,21 @@ also eases the strain on low bandwidth connections where deployment may benefit
 from local caching of initial deployment and operation dependencies.
 
 ### Get Started:
-#### 1. Create base ArtifactBundle asset images & directories
+#### 1. Create Koffer bundle directory
 ```
 mkdir -p /tmp/koffer
 ```
-#### 2. Launch ContainerOne Point of Origin Container
+#### 2. Run Koffer bundle build container
 ```
 sudo time podman run \
     --rm -qit -h koffer --name koffer              \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --pull=always --entrypoint=/usr/bin/entrypoint \
   docker.io/containercraft/koffer:latest
+```
+#### 3. Move your Koffer bundle to your restricted deploy bastion
+```
+ ls /tmp/koffer-bundle.*.tar.xz
 ```
 ### Demo:
   - Building the bundle    
