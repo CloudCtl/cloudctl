@@ -17,5 +17,6 @@ git_pull 2>&1 1>/dev/null
 run_registry 2>&1 1>/dev/null
 }
 
+clear
 run_core
-clear && time ./site.yml
+time ./site.yml
