@@ -9,18 +9,12 @@
   block:
 
   ######### Purge & Prepare
-#   - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing content'
-#     file:
-#       path: "{{ dir_one }}/mirror"
-#       state: absent
     - name: '{{ ansible_name_module }} | file:directory | Create mirror artifact directories'
       file:
         path: "{{ item }}"
         state: directory
-#       mode: 0755
       loop:
         - "{{ dir_one }}/mirror"
-#       - "{{ local_home }}/.docker"
 
 # ######### Mirror Images to directory
 #   - name: '{{ ansible_name_module }} | shell:registry.serve | Start Local Docker Registry Servie Port:5000'

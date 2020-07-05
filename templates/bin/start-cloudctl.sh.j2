@@ -28,16 +28,15 @@ load_images () {
 }
 
 load_mirror_certificate () {
-cp ${p1DirArtifacts}/ssl/${p1ClusterDomain}.crt \
-    /etc/pki/ca-trust/source/anchors/${p1ClusterDomain}.crt \
+cp /root/deploy/secrets/registry/ssl/registry.crt \
+    /etc/pki/ca-trust/source/anchors/cloudctl-registry.crt \
   && sudo update-ca-trust
 }
 
 write_mirror_credentials () {
 mkdir -p /root/deploy/secrets/registry/auth
 podman run \
-    --rm                                                     \
-    --entrypoint htpasswd                                    \
+    --rm --entrypoint htpasswd                               \
   docker.io/library/registry:2.7.0                           \
     -Bbn cloudctl cloudctl > /root/deploy/secrets/registry/auth/htpasswd
 }

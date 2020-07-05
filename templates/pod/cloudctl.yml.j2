@@ -74,6 +74,8 @@ spec:
     volumeMounts:
     - mountPath: /var/lib/registry:z
       name: root-deploy-mirror
+    - mountPath: /etc/docker/registry/config.yml:z
+      name: root-deploy-registry-config
     - mountPath: /root/ssl:z
       name: root-deploy-secrets-registry-ssl
     - mountPath: /root/auth/htpasswd:z
@@ -119,6 +121,10 @@ spec:
     name: root-deploy-mirror
       path: /root/deploy/mirror
       type: Directory
+  - hostPath:
+    name: root-deploy-registry-config
+      path: /root/deploy/mirror/config.yml
+      type: File
   - hostPath:
     name: root-deploy-secrets-registry-ssl
       path: /root/deploy/registry/secrets/ssl
