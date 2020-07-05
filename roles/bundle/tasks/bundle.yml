@@ -35,7 +35,7 @@
 ####### Build Unified Bundle
 - name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
   command:
-    "tar -cvf {{ local_home }}/deploy/koffer/koffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz cloudctl.yml cloudctl.sh"
+    "tar -cvf {{ local_home }}/deploy/koffer/koffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz cloudctl.yml start-cloudctl.sh"
   args:
     creates: "{{ local_home }}/deploy/koffer/koffer-bundle.openshift-{{ version_openshift }}.tar"
     warn: false
