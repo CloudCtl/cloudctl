@@ -19,10 +19,10 @@ run_registry 2>&1 1>/dev/null
 
 clear
 run_core
-time ./site.yml -v
+time ./site.yml
 
 cat <<EOF
 
-  Koffer Bundle Complete: $(du -sh /tmp/koffer/koffer-bundle.*.tar)
+  Koffer Bundle Complete: $(du -h /tmp/koffer/koffer-bundle.*.tar)
 
 EOF
