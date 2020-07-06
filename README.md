@@ -8,9 +8,9 @@ git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
 ```
 sudo podman run \
     --rm -qit -h koffer --name koffer              \
-    --volume /tmp/koffer:/root/deploy/koffer:z     \
-    --pull=always --entrypoint=/usr/bin/entrypoint \
+    --pull=always --entrypoint bash                \
     --volume ~/.docker:/root/.docker               \
+    --volume /tmp/koffer:/root/deploy/koffer:z     \
   docker.io/containercraft/koffer:latest
 ```
   - optional: volume mount quay pull secret from host    
