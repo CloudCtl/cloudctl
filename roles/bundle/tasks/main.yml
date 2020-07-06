@@ -1,3 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role:include_tasks | bundle.yml' 
-  include_tasks: bundle.yml

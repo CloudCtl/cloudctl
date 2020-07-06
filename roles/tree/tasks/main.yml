@@ -1,3 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role:include_tasks | directories.yml' 
-  include_tasks: directories.yml

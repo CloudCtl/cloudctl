@@ -1,3 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role:include_tasks | upload-s3.yml' 
-  include_tasks: upload-s3.yml

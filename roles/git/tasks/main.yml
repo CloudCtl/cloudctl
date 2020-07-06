@@ -1,3 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role:include_task | git.yml' 
-  include_tasks: git.yml

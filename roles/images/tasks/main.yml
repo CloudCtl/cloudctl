@@ -1,5 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role:include_tasks | images.yml' 
-  include_tasks: images.yml
-- name: '{{ ansible_name_module }} | role:include_tasks | mirror.yml' 
-  include_tasks: mirror.yml
