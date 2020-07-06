@@ -31,22 +31,6 @@ sudo podman run \
 ```
   - optional: volume mount quay pull secret from host    
     `--volume ~/.docker:/root/.docker/`
-### 3. Move Koffer Bundle to target host /tmp directory
-### 4. Aquire root & unpack tarball
-```
-sudo -i
-```
-```
-tar -xv -C /root -f /tmp/koffer-bundle.*.tar
-```
-### 5. Run CloudCtl stand up script
-```
- ./start-cloudctl.sh
-```
-#### 6. Exec into CloudCtl
-```
- podman exec -it cloudctl-one connect
-```
 # [Developer Docs & Utils](./dev)
 # Demo
 ![bundle](./web/bundle.svg)
