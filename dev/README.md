@@ -80,7 +80,7 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 #### Cleanup Koffer Artifacts
 ```
 sudo rm -rf /tmp/koffer/koffer-bundle.*.tar
-sudo rm -rf /root/{deploy,cloudctl.yml,start-cloudctl.sh,ArtifactsBundle.tar.xz}
+sudo rm -rf /root/{deploy,cloudctl.yml,start-cloudctl.sh,ArtifactsBundle.tar.xz,ArtifactsBundle.tar.xz.sha256}
 ```
 ```
 sudo podman rmi --force koffer:latest
