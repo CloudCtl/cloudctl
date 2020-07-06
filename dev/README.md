@@ -1,7 +1,8 @@
 ## Developer Guide
 ------------
 #### 0. (OPTIONAL) Local Build
-  - DISCLAIMER this script may break intermitently
+  - DISCLAIMER [this script] may break intermitently
+    
 ```
 curl -L https://git.io/JJIBr | bash
 ```
@@ -92,3 +93,4 @@ sudo podman pod rm --force cloudctl
 for container in $(sudo podman ps -a | grep -v CONTAINER | awk '/busybox|one|registry|nginx/{print $1}'); do sudo podman rm --force ${container}; done
 for container in $(sudo podman images | grep -v CONTAINER | awk '/koffer|pause|busybox|one|registry|nginx/{print $3}'); do sudo podman rmi --force ${container}; done
 ```
+[this script]:https://github.com/containercraft/Koffer/blob/master/dev/bin/build-local.sh
