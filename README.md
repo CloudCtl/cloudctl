@@ -34,7 +34,7 @@ sudo podman run \
 ```
   - optional: volume mount quay pull secret from host    
     `--volume ~/.docker:/root/.docker/`
-### 2. Run Koffer
+### 3. Verify & Transport Bundle
 ```
  ls /tmp/koffer/bundle/
 ```
