@@ -70,7 +70,7 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 ```
  ./start-cloudctl.sh
 ```
-#### 5. Exec into CloudCtl
+#### 6. Exec into CloudCtl
 ```
  podman exec -it one connect
 ```
