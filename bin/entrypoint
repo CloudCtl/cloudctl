@@ -3,7 +3,7 @@
 # Update repo with latest from master
 git_pull () {
     cd /root/koffer;
-    git checkout nightlies;
+#   git checkout nightlies;
     git pull;
 }
 
@@ -19,7 +19,7 @@ run_registry 2>&1 1>/dev/null
 
 clear
 run_core
-time ./site.yml
+time ./site.yml -v
 
 cat <<EOF
 

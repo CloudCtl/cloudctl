@@ -2,7 +2,7 @@
 images_cloudctl:
   - uri: "quay.io/containercraft"
     name: one
-    tag: nightlies
+    tag: latest
     path: "{{ dir_deploy }}/images"
   - uri: "k8s.gcr.io"
     name: pause

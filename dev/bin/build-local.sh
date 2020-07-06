@@ -1,16 +1,18 @@
 #!/bin/bash -x
 originPwd=${OLDPWD}
-clear
-rm -rf /tmp/koffer
+BRANCH="master"
+TAG="latest"
+
+clear && rm -rf /tmp/koffer 2>/dev/null
 set -ex
 
 # Requires jq
 [[ $(which jq 2>&1 1>/dev/null ; echo $?) == 0 ]] || exit 1
 
 # Static Variables
-BRANCH="nightlies"
-git clone https://github.com/containercraft/Koffer.git /tmp/koffer && cd /tmp/koffer
-git checkout nightlies;
+git clone https://github.com/containercraft/Koffer.git /tmp/koffer;
+cd /tmp/koffer;
+git checkout ${BRANCH};
 
 # Dynamic Variables
 varUrlGit=$(git config --get remote.origin.url)
@@ -32,8 +34,9 @@ podman build \
     --build-arg varVerHelm=${varVerHelm} \
     --build-arg varVerTerraform=${varVerTerraform} \
     --build-arg varVerOpenshift=${varVerOpenshift} \
-    --tag docker.io/containercraft/koffer:nightlies
+    --tag docker.io/containercraft/koffer:${TAG}
 
-rm -rf /tmp/koffer
 cd ${originPwd}
-podman images | grep 'koffer:latest'
+rm -rf /tmp/koffer
+echo && podman images | grep 'koffer:latest'
+echo "Build Complete!"

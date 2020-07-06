@@ -1,4 +1,5 @@
 #!/bin/bash
+TAG="latest"
 #set -x
 
 ## Purge running cloudctl containers & pod
@@ -32,7 +33,7 @@ podman run \
     --entrypoint entrypoint \
     --name one --hostname one \
     --volume /root/deploy/:/root/deploy:z \
-  docker.io/containercraft/one:nightlies 1>/dev/null \
+  docker.io/containercraft/one:${TAG} 1>/dev/null \
   && sleep 2 \
   && printf '       ' &&  podman exec -it one /bin/bash -c 'env | grep varVerOpenshift'
 }
