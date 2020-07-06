@@ -1,5 +1,6 @@
 # Koffer | Artifact Rake & Bundle Appliance
 ### 1. Create Koffer Bundle Directory
+  - example with [koffer-openshift] ansible automation
 ```
 git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
 ```
@@ -33,3 +34,4 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 # [Developer Docs & Utils](./dev)
 # Demo
 ![bundle](./web/bundle.svg)
+[koffer-openshift]:https://github.com/containercraft/koffer-openshift
