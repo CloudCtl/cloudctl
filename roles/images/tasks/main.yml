@@ -1,6 +1,5 @@
 ---
-# Role: [Images] main.yml
-- name: '{{ ansible_name_module }} | include_tasks | pull-secret.yml' 
-  include_tasks: pull-secret.yml
-- name: '{{ ansible_name_module }} | include_tasks | mirror-to-file.yml' 
-  include_tasks: mirror-to-registry.yml
+- name: '{{ ansible_name_module }} | role:include_tasks | images.yml' 
+  include_tasks: images.yml
+- name: '{{ ansible_name_module }} | role:include_tasks | mirror.yml' 
+  include_tasks: mirror.yml

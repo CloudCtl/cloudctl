@@ -1,8 +1,8 @@
 FROM centos:latest as rpm
 FROM registry:2 as registry
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi8
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest as ubi
-FROM ubi
+FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
+FROM registry.access.redhat.com/ubi8/ubi:latest
 #################################################################################
 # OCP Version set in src/ocp
 ARG varVerOpenshift="${varVerOpenshift}"
@@ -38,6 +38,7 @@ ARG varListRpms="\
              skopeo \
              bsdtar \
              openssl \
+             httpd-tools \
              python3-pip \
              openssh-clients \
              "
@@ -47,18 +48,31 @@ ARG varListPip="\
              "
 
 #################################################################################
-# Load Artifacts from builders
+# Load Artifacts
+
+# From Repo
 COPY bin/entrypoint /usr/bin/entrypoint
-COPY --from=rpm /etc/pki /etc/pki
 COPY bin/run_registry.sh /usr/bin/run_registry.sh
-COPY --from=rpm /etc/yum.repos.d /etc/yum.repos.d
-COPY --from=registry /bin/registry  /bin/registry
 COPY conf/registry-config.yml /etc/docker/registry/config.yml
 COPY conf/registries.conf /etc/containers/registries.conf
+
+# From Registry:2
+COPY --from=registry /bin/registry  /bin/registry
+
+# From CentOS
+COPY --from=rpm /etc/pki/ /etc/pki
+COPY --from=rpm /etc/yum.repos.d/ /etc/yum.repos.d
+
+# From CentOS (aux testing)
+COPY --from=rpm /etc/os-release /etc/os-release
+COPY --from=rpm /etc/redhat-release /etc/redhat-release
+COPY --from=rpm /etc/system-release /etc/system-release
 #################################################################################
 # Create Artifact Directories
+#RUN set -ex                                                                     \
+#     && microdnf install -y dnf                                                 \
+#    && echo
 RUN set -ex                                                                     \
-     && microdnf install -y dnf                                                 \
      && mkdir -p /var/lib/koffer/                                               \
      && curl -sL ${urlRelease}                                                  \
       | awk -F'[ ]' '/Pull From:/{print $3}'                                    \
@@ -69,10 +83,10 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
-     && dnf update  -y --setopt=tsflags=nodocs                                  \
+     && dnf update -y --setopt=tsflags=nodocs                                   \
      && dnf install -y ${varListRpms}                                           \
      && pip3 install ${varListPip}                                              \
-     && microdnf install -y bsdtar tar                                          \
+     && dnf install -y bsdtar tar                                               \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
      && /bin/oc version                                                         \
@@ -112,5 +126,6 @@ LABEL VENDOR="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-ENTRYPOINT ["/usr/bin/entrypoint"]
+ENTRYPOINT ["/usr/bin/bash"]
+CMD /usr/bin/entrypoint
 WORKDIR /root/koffer

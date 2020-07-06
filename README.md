@@ -1,28 +1,34 @@
-# Koffer | Artifact Bundle Rake Utility
-### About
-Koffer is an all in one Kubernetes deployment dependenciesi package, image, & artifact 
-capture utility designed to standardize the collection of all assets required to
-successfully deploy a full Kubernetes environment, operators, pipeline, and 
-applications in restricted or fully air-gapped environments. This capability
-also eases the strain on low bandwidth connections where deployment may benefit
-from local caching of initial deployment and operation dependencies.
-
-### Get Started:
-#### 1. Create Koffer bundle directory
+# Koffer | Artifact Rake & Bundle Appliance
+### 1. Create Koffer Bundle Directory
 ```
 mkdir -p /tmp/koffer
 ```
-#### 2. Run Koffer bundle build container
+### 2. Run Koffer
 ```
-sudo time podman run \
+sudo podman run \
     --rm -qit -h koffer --name koffer              \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --pull=always --entrypoint=/usr/bin/entrypoint \
-  docker.io/containercraft/koffer:latest
+  docker.io/containercraft/koffer:nightlies
 ```
-#### 3. Move your Koffer bundle to your restricted deploy bastion
+  - optional: volume mount quay pull secret from host    
+    `--volume ~/.docker/config.json:/root/.docker/config.json`
+### 3. Check Bundle
 ```
- ls /tmp/koffer-bundle.*.tar.xz
+du -h /tmp/koffer/koffer-bundle.*.tar
 ```
-### Demo:
+### 4. Move Koffer Bundle to target host /tmp directory
+### 5. Aquire root & unpack tarball
+```
+sudo -i
+```
+```
+tar -xv -C /root -f /tmp/koffer-bundle.*.tar
+```
+### 6. Run CloudCtl stand up script
+```
+ . ./start-cloudctl.sh
+```
+# [Developer Docs & Utils](./dev)
+# Demo
 ![bundle](./web/bundle.svg)

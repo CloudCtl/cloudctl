@@ -1,12 +1,11 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: '{{ name_vendor }} | Koffer | dependencies.yml' 
+- name: '{{ name_vendor }} | Koffer | git.yml' 
   hosts: local
   vars_files:
     - 'vars/global.yml'
-    - 'vars/images.yml'
     - 'vars/git.yml'
   vars:
-    module: "dependencies"
+    module: "git"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - dependencies
+    - git

@@ -1,5 +1,4 @@
 ---
-git_branch: master
 #####################################################################################################
 # End of user configurable variables
 #####################################################################################################
@@ -9,43 +8,33 @@ version_openshift: "{{ lookup('env', 'varVerOpenshift') }}"
 # Ansible Playbook Run Variables
 name_vendor: "CCIO"
 image_mirror_utility: "oc"
-ansible_name: "{{ name_vendor }} | Koffer | Artifact Bundle Ubility | branch:{{ git_branch }}"
+ansible_name: "{{ name_vendor }} | Koffer | Artifact Bundle Ubility"
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 
-# Terraform Variables
-dir_terraform: "{{ lookup('env', 'HOME') }}/deploy/terraform"
-tf_vars: "{{ lookup('env', 'HOME') }}/deploy/terraform/global.tfvars"
-
 # Directory Inventory
-dir_one: "{{ lookup('env', 'HOME') }}/deploy"
-dir_deploy: "{{ lookup('env', 'HOME') }}/deploy"
-dir_bundle: "{{ lookup('env', 'HOME') }}/bundle"
-dir_koffer: "{{ lookup('env', 'HOME') }}/koffer"
-dir_images: "{{ lookup('env', 'HOME') }}/deploy/images"
-dir_ansible: "{{ lookup('env', 'HOME') }}/deploy/ansible"
-dir_artifacts: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}"
-dir_git_bundle: "{{ lookup('env', 'HOME') }}/deploy/ansible/bundle"
-dir_git_build: "{{ lookup('env', 'HOME') }}/deploy/ansible/build"
-dir_git_cloudctl: "{{ lookup('env', 'HOME') }}/deploy/ansible/cloudctl"
-dir_git_deploy: "{{ lookup('env', 'HOME') }}/deploy/ansible/deploy"
-dir_git_configure: "{{ lookup('env', 'HOME') }}/deploy/ansible/configure"
+local_home: "{{ lookup('env', 'HOME') }}"
+dir_koffer: "{{ local_home }}/koffer"
+dir_bundle: "{{ local_home }}/bundle"
+dir_deploy: "{{ local_home }}/deploy"
+dir_images: "{{ dir_deploy }}/images"
+dir_ansible: "{{ dir_deploy }}/ansible"
+dir_secrets: "{{ dir_deploy }}/secrets"
+dir_platform: "{{ dir_deploy }}/platform"
 
-dir_git_tfcore: "{{ lookup('env', 'HOME') }}/deploy/terraform/core"
-dir_git_tfmasters: "{{ lookup('env', 'HOME') }}/deploy/terraform/masters"
-dir_git_tfcloudctl: "{{ lookup('env', 'HOME') }}/deploy/terraform/cloudctl"
-dir_git_tfbootstrap: "{{ lookup('env', 'HOME') }}/deploy/terraform/bootstrap"
+# Terraform Variables
+dir_terraform: "{{ dir_deploy }}/terraform"
+tf_vars: "{{ dir_terraform }}/deploy/terraform/global.tfvars"
+
+# Hosts Environment 
+local_user: "{{ lookup('env', 'USER') }}"
+remote_home: "{{ ansible_env.HOME }}"
+
+# Docker Pull Secrets
+registry_quay_auth_file: "{{ dir_secrets }}/docker/quay.json }}"
+registry_mirror_auth_file: "{{ dir_secrets }}/docker/mirror.json }}"
 
 # SSH Keys
 sshkeys_pub_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}.pub"
 sshkeys_priv_file: "{{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}"
 sshkeys_pub_string: "{{ lookup('file', '{{ sshkeys_pub_file }}') }}"
 sshkeys_priv_string: "{{ lookup('file', '{{ sshkeys_priv_file }}') }}"
-
-# Docker Pull Secrets
-redhat_quay_pull_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.docker/master.json }}"
-offline_mirror_pull_file: "{{ lookup('env', 'HOME') }}/deploy/{{ cluster_domain }}/.docker/mirror.json }}"
-
-# Hosts Environment 
-local_home: "{{ lookup('env', 'HOME') }}"
-local_user: "{{ lookup('env', 'USER') }}"
-remote_home: "{{ ansible_env.HOME }}"

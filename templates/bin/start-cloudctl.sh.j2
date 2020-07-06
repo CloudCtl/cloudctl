@@ -7,6 +7,7 @@ if [[ ! -d ./deploy ]]; then
   runUser="$USER"
 fi
 
+mkdir /root/deploy/nginx
 sudo chown -R ${runUser}:${runUser} ${HOME}/deploy
 
 run_clean () {
@@ -29,7 +30,7 @@ load_images () {
 
 load_mirror_certificate () {
 cp /root/deploy/secrets/registry/ssl/registry.crt \
-    /etc/pki/ca-trust/source/anchors/cloudctl-registry.crt \
+    /etc/pki/ca-trust/source/anchors/registry.crt \
   && sudo update-ca-trust
 }
 
@@ -41,7 +42,6 @@ run_core () {
   run_clean
   load_images
   load_mirror_certificate
-  write_mirror_credentials
   run_pod
 }
 
@@ -50,14 +50,14 @@ test_core () {
   echo " >> Testing NGINX Ignition Service"
   ignTest=$(curl http://localhost:8080/bootstrap.ign 2>&1 1>/dev/null ; echo $?)
   [[ ${ignTest} == '0' ]] \
-      && echo '  >> NGINX Ignition Delivery Service Failed!' \
-      || echo '  >> NGINX Ignition Delivery Service Online.'
+      && echo "  >> NGINX Ignition Delivery Service Failed!" \
+      || echo "  >> NGINX Ignition Delivery Service Online."
 
   echo " >> Testing Docker Registry:2 Service"
   ignTest=$(curl -u cloudctl:cloudctl -k https://localhost:5000/v2/_catalog 2>&1 1>/dev/null ; echo $?)
   [[ ${ignTest} == '0' ]] \
-      && echo '  >> Registry Service Failed!' \
-      || echo '  >> Registry Service Online. Catalog: $(curl -u cloudctl:cloudctl -k https://localhost:5000/v2/_catalog)'
+      && echo "  >> Registry Service Failed!" \
+      || echo "  >> Registry Service Online. Catalog: $(curl -u cloudctl:cloudctl -k https://localhost:5000/v2/_catalog)"
 
   echo " >> List Pods & Containers"
   podman pod ps
@@ -66,14 +66,3 @@ test_core () {
 
 run_core
 test_core
-cat <<EOF
-
-    Pod Startup Complete!
-    Registry is ready for hydration:
-
-    Example:
-
-        mkdir /root/.docker 2>/dev/null ; cp $(ls /root/deploy/*/.docker/mirror.json) /root/.docker/config.json
-        oc image mirror -a /root/.docker/mirror.json --dir=mirror file://openshift/release:4.4.9* registry.ocp4.clusterfudge.net:5000/ocp-4.4.9
-
-EOF

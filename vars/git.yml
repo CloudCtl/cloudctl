@@ -3,6 +3,7 @@
 # (Repo1) Git Source
 # (RedHatOfficial) Git Sources
 keyfile: '/root/.ssh/id_rsa'
+git_branch: v2-govcloud-automation
 
 # Ansible Git Repos
 url_git_bundle: 'https://repo1.dsop.io/dsop/redhat/platformone/ocp4x/ansible/bundle.git'
@@ -16,6 +17,16 @@ url_git_tfcore: 'https://repo1.dsop.io/dsop/redhat/platformone/ocp4x/terraform/c
 url_git_tfmasters: 'https://repo1.dsop.io/dsop/redhat/platformone/ocp4x/terraform/masters.git'
 url_git_tfcloudctl: 'https://repo1.dsop.io/dsop/redhat/platformone/ocp4x/terraform/cloudctl.git'
 url_git_tfbootstrap: 'https://repo1.dsop.io/dsop/redhat/platformone/ocp4x/terraform/bootstrap.git'
+
+dir_git_build: "{{ dir_ansible }}/deploy/ansible/build"
+dir_git_bundle: "{{ dir_ansible }}/deploy/ansible/bundle"
+dir_git_deploy: "{{ dir_ansible }}/deploy/ansible/deploy"
+dir_git_tfcore: "{{ dir_ansible }}/deploy/terraform/core"
+dir_git_cloudctl: "{{ dir_ansible }}/deploy/ansible/cloudctl"
+dir_git_configure: "{{ dir_ansible }}/deploy/ansible/configure"
+dir_git_tfmasters: "{{ dir_ansible }}/deploy/terraform/masters"
+dir_git_tfcloudctl: "{{ dir_ansible }}/deploy/terraform/cloudctl"
+dir_git_tfbootstrap: "{{ dir_ansible }}/deploy/terraform/bootstrap"
 
 # Git Clone Items
 ansiblerepos:

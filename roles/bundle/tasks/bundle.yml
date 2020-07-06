@@ -1,46 +1,42 @@
 ---
-####### Create Unified ArtifactsBundle.tar.gz Tarball with all offline deploy requirements
-- name: '{{ ansible_name_module }} | stat | Check for pre-existing ArtifactsBundle.tar.gz.sha256'
-  stat:
-    path: '/tmp/ArtifactsBundle.tar.gz.sha256'
-  register: p1tar_sha_check
+####### Purge preexisting bundles
+- name: '{{ ansible_name_module }} | file | Purge pre-existing bundles'
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop:
+    - /tmp/ArtifactsBundle.tar.xz
+    - /tmp/ArtifactsBundle.tar.xz.sha256
 
-###### Download OpenShift Docker Images from Quay.io to File: /root/deploy/mirror/v2
-- name: '{{ ansible_name_module }} | block | Download OpenShift images'
-  block:
+####### Build Unified Bundle
+- name: '{{ ansible_name_module }} | command:tar | build tarball bundle of all artifacts'
+  command:
+    "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
+  args:
+    creates: /tmp/ArtifactsBundle.tar.xz
+    warn: false
 
-    ####### Purge preexisting bundles
-    - name: '{{ ansible_name_module }} | file | Purge pre-existing bundles'
-      file:
-        path: "/tmp/ArtifactsBundle.tar.xz"
-        state: absent
+####### SHA256sum ArtifactsBundle.tar.xz
+- name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.xz'
+  command: 'sha256sum ArtifactsBundle.tar.xz'
+  args:
+    warn: false
+    chdir: '/tmp/'
+  register: bundle_sha
 
-    ####### Build Unified Bundle
-    - name: '{{ ansible_name_module }} | command:tar | build tarball bundle of all artifacts'
-      command:
-        "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
-      args:
-        creates: "{{ local_home }}/ArtifactsBundle.tar.xz"
-        warn: false
-
-    ####### SHA256sum ArtifactsBundle.tar.xz
-#   - name: '{{ ansible_name_module }} | stat:sha256 | SHA ArtifactsBundle.tar.xz'
-#     command: 'sha256sum ArtifactsBundle.tar.xz | tee /tmp/ArtifactsBundle.tar.xz.sha256'
-#     args:
-#       chdir: '/tmp/'
-
-  ####### Block Conditionals
-  when: not p1tar_sha_check.stat.exists
+- name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Generate Default Registry Basic Auth'
+  copy:
+    content: '{{ bundle_sha.stdout }}'
+    dest: /tmp/ArtifactsBundle.tar.xz.sha256
 
 ####### Build Unified Bundle
 - name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
   command:
-    "tar -cvf {{ local_home }}/deploy/koffer/koffer-openshift-bundle.{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz cloudctl.yml start-cloudctl.sh"
+    "tar -cvf {{ local_home }}/deploy/koffer/koffer-bundle.openshift-{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz.sha256 ArtifactsBundle.tar.xz cloudctl.yml start-cloudctl.sh"
   args:
     creates: "{{ local_home }}/deploy/koffer/koffer-bundle.openshift-{{ version_openshift }}.tar"
     warn: false
 
-####### Bundle ArtifactsBundle.tar.xz with unpack + launch utilities
 # name: '{{ ansible_name_module }} | role | archive | Bundle ArtifactsBundle.tar.xz with auxilary files'
 # archive:
 #   path:

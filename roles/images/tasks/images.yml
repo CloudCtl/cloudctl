@@ -1,0 +1,17 @@
+---
+# name: '{{ ansible_name_module }} | command:skopeo.copy | Pull CloudCTL Pod Images' 
+# file: 
+#   path: "{{ dir_deploy }}/images"
+#   state: directory
+- name: '{{ ansible_name_module }} | command:skopeo.copy | Pull CloudCTL Pod Images' 
+  command:
+    argv:
+      - skopeo
+      - copy
+      - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+      - 'docker-archive://{{ item.path }}/image-{{ item.name }}-{{ item.tag }}.tar'
+      - --additional-tag
+      - '{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+    creates: "{{ dir_deploy }}/images/image-{{ item.name }}-{{ item.tag }}.tar"
+  with_items:
+    - "{{ images_cloudctl }}"

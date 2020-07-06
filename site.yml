@@ -1,11 +1,10 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
-- name: 'koffer | Artifact Rake Utility' 
+- name: ' Koffer | Artifact Rake Utility' 
   hosts: local
   vars_files:
     - 'vars/global.yml'
-
-- import_playbook: dependencies.yml # Pull git repos from manifests
-- import_playbook: images.yml       # Download container images to directory
+- import_playbook: tree.yml         # Create base deploy directory tree
+- import_playbook: secrets.yml      # Collect Secrets
+- import_playbook: git.yml          # Pull git repos
+- import_playbook: images.yml       # Pull cloudctl images & Download container images to directory
 - import_playbook: bundle.yml       # Bundle artifacts for airgap pivot
-# import_playbook: upload.yml       # Upload Bundle || {rsync,s3}
-# when: 'upload == "enabled"'       # Boolean || upload via plugin capable role if enabled

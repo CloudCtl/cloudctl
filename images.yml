@@ -3,6 +3,7 @@
   hosts: local
   vars_files:
     - 'vars/global.yml'
+    - 'vars/images.yml'
   vars:
     module: "images"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"

@@ -8,14 +8,14 @@ log:
 auth:
   htpasswd:
     realm: basic-realm
-    path: /root/deploy/secrets/registry/auth/htpasswd
+    path: /etc/docker/registry/auth/htpasswd
 http:
-  addr: :5500
+  addr: :5000
   headers:
     X-Content-Type-Options: [nosniff]
   tls:
-    certificate: /root/deploy/secrets/registry/ssl/registry.crt
-    key: /root/deploy/secrets/registry/ssl/registry.key
+    certificate: /etc/docker/registry/ssl/registry.crt
+    key: /etc/docker/registry/ssl/registry.key
   debug:
     addr: localhost:5001
     prometheus:
