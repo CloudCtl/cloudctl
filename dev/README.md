@@ -1,7 +1,6 @@
 ## Developer Guide
 ------------
 #### 0. (OPTIONAL) Locally Build the Koffer image
-  - DISCLAIMER [this script] may break intermitently
 ```
 curl -L https://git.io/JJIBr | bash
 ```
