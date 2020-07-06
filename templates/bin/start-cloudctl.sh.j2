@@ -2,7 +2,7 @@
 p1DirImages=${HOME}/deploy/images
 
 if [[ ! -d ./deploy ]]; then
- #sha256sum --check ArtifactsBundle.tar.xz.sha256
+  sha256sum --check ArtifactsBundle.tar.xz.sha256
   tar -xv -C /root -f ArtifactsBundle.tar.xz
   runUser="$USER"
 fi
@@ -17,7 +17,7 @@ run_clean () {
   for pod in $(podman pod ps | awk '/cloudctl/{print $1}' 2>/dev/null); do
     podman pod rm --force $pod
   done
-  for image in $(podman images | awk '/one|nginx|registry|pause|busybox/{print $3}' 2>/dev/null); do
+  for image in $(podman images | awk '/koffer|one|nginx|registry|pause|busybox/{print $3}' 2>/dev/null); do
     podman rmi --force $image
   done
 }
