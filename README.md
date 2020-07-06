@@ -1,7 +1,7 @@
 # Koffer | Artifact Rake & Bundle Appliance
 ### 1. Create Koffer Bundle Directory
 ```
-mkdir -p /tmp/koffer
+git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
 ```
 ### 2. Run Koffer
 ```
@@ -28,7 +28,7 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 ```
 #### 6. Exec into CloudCtl
 ```
- podman exec -it one connect
+ podman exec -it cloudctl-one connect
 ```
 # [Developer Docs & Utils](./dev)
 # Demo
