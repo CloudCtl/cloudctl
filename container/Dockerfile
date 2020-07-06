@@ -112,10 +112,10 @@ RUN set -ex                                                                     
         /var/cache/*                                                            \
         /var/log/dnf*                                                           \
         /var/log/yum*                                                           \
-     && git clone ${varUrlGit} /root/koffer                                     \
      && mkdir -p /root/deploy/{mirror,images}                                   \
      && mkdir -p /root/bundle                                                   \
    ; echo
+#    && git clone ${varUrlGit} /root/koffer                                     \
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
