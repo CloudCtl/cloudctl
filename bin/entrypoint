@@ -22,7 +22,7 @@ run_core
 time ./site.yml
 sleep 2
 bundleDu="$(du -h /root/koffer/bundle/koffer-bundle.*.tar | awk '{print $1}')"
-bundlePath="$(ls /root/deploy/koffer/bundle/koffer-bundle.*.tar | sed 's/root\/deploy/tmp/')"
+bundlePath="$(ls /root/koffer/bundle/koffer-bundle.*.tar | sed 's/root/tmp/')"
 cat <<EOF
 
   Koffer Bundle Complete: ${bundleDu} ${bundlePath}
