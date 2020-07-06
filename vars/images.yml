@@ -6,7 +6,7 @@ images_cloudctl:
     path: "{{ dir_deploy }}/images"
   - uri: "k8s.gcr.io"
     name: pause
-    tag: 3.1
+    tag: 3.2
     path: "{{ dir_deploy }}/images"
   - uri: "docker.io/library"
     name: busybox

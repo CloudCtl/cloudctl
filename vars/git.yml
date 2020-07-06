@@ -32,7 +32,7 @@ dir_git_tfbootstrap: "{{ dir_ansible }}/deploy/terraform/bootstrap"
 ansiblerepos:
   - repo: "{{ url_git_bundle }}"
     dest: "{{ dir_git_bundle }}"
-    branch: quanfu-zero-touch-artifact-bundle
+    branch: master
 #   branch: "{{ git_branch }}"
 #   key_file: "{{ keyfile }}"
   - repo: "{{ url_git_build }}"

@@ -9,25 +9,22 @@ sudo podman run \
     --rm -qit -h koffer --name koffer              \
     --volume /tmp/koffer:/root/deploy/koffer:z     \
     --pull=always --entrypoint=/usr/bin/entrypoint \
+    --volume ~/.docker:/root/.docker               \
   docker.io/containercraft/koffer:latest
 ```
   - optional: volume mount quay pull secret from host    
-    `--volume ~/.docker/config.json:/root/.docker/config.json`
-### 3. Check Bundle
-```
-du -h /tmp/koffer/koffer-bundle.*.tar
-```
-### 4. Move Koffer Bundle to target host /tmp directory
-### 5. Aquire root & unpack tarball
+    `--volume ~/.docker:/root/.docker/`
+### 3. Move Koffer Bundle to target host /tmp directory
+### 4. Aquire root & unpack tarball
 ```
 sudo -i
 ```
 ```
 tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 ```
-### 6. Run CloudCtl stand up script
+### 5. Run CloudCtl stand up script
 ```
- . ./start-cloudctl.sh
+ ./start-cloudctl.sh
 ```
 # [Developer Docs & Utils](./dev)
 # Demo

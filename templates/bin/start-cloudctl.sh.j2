@@ -2,12 +2,12 @@
 p1DirImages=${HOME}/deploy/images
 
 if [[ ! -d ./deploy ]]; then
-  sha256sum --check ArtifactsBundle.tar.xz.sha256
-  tar -xv -C /root -f ArtifactsBundle.tar.xz
-  runUser="$USER"
+  sha256sum --check ArtifactsBundle.tar.xz.sha256 \
+      && tar -xv -C /root -f ArtifactsBundle.tar.xz \
+      && rm -rf ArtifactsBundle.tar.xz ArtifactsBundle.tar.xz.sha256
 fi
 
-mkdir /root/deploy/nginx
+runUser="$USER"
 sudo chown -R ${runUser}:${runUser} ${HOME}/deploy
 
 run_clean () {

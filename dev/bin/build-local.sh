@@ -3,15 +3,15 @@ originPwd=${OLDPWD}
 BRANCH="master"
 TAG="latest"
 
-clear && rm -rf /tmp/koffer 2>/dev/null
+clear
+rm -rf /tmp/koffer
 set -ex
 
 # Requires jq
 [[ $(which jq 2>&1 1>/dev/null ; echo $?) == 0 ]] || exit 1
 
 # Static Variables
-git clone https://github.com/containercraft/Koffer.git /tmp/koffer;
-cd /tmp/koffer;
+git clone https://github.com/containercraft/Koffer.git /tmp/koffer && cd /tmp/koffer
 git checkout ${BRANCH};
 
 # Dynamic Variables
@@ -36,7 +36,6 @@ podman build \
     --build-arg varVerOpenshift=${varVerOpenshift} \
     --tag docker.io/containercraft/koffer:${TAG}
 
-cd ${originPwd}
 rm -rf /tmp/koffer
-echo && podman images | grep 'koffer:latest'
-echo "Build Complete!"
+cd ${originPwd}
+podman images | grep 'koffer:latest'

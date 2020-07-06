@@ -1,8 +1,7 @@
 ## Developer Guide
 ------------
-#### 0. (OPTIONAL) Local Build
+#### 0. (OPTIONAL) Locally Build the Koffer image
   - DISCLAIMER [this script] may break intermitently
-    
 ```
 curl -L https://git.io/JJIBr | bash
 ```
@@ -21,7 +20,7 @@ mkdir -p /tmp/{koffer,mirror,images,docker}
 vim /tmp/docker/config.json
 ```
 #### 2. Run Container
-  - Option A. To run with persistent image storage for faster run times
+  - Option A. Run with persistent image storage for faster run times
 ```
 sudo podman run \
     --entrypoint entrypoint                        \
@@ -32,8 +31,7 @@ sudo podman run \
     --volume /tmp/images:/root/deploy/images:z     \
   docker.io/containercraft/koffer:latest
 ```
-
-  - Option B. To Exec into container
+  - Option B. Exec into container for manual development
 ```
 sudo podman run \
     --entrypoint bash                          \
@@ -44,24 +42,19 @@ sudo podman run \
     --volume /tmp/images:/root/deploy/images:z \
   docker.io/containercraft/koffer:latest
 ```
-  - Then start the rake process
+  - Then manually exec the `/usr/bin/entrypoint` actions
 ```
- ./usr/bin/entrypoint
-```
-  - Or manually run & develop in the ansible directory
-```
- cd /root/koffer 
- git pull
- git checkout master
- ./dependencies.yml
+ git pull;
+ git checkout master;
+ ./usr/bin/run_registry.sh
+ ./tree.yml
+ ./secrets.yml
+ ./git.yml
  ./images.yml
  ./bundle.yml
+ du -sh /root/deploy/koffer/koffer-bundle.*.tar
 ```
 #### 3. Place bundle on CloudCtl Bastion host /tmp directory
-  - Example
-```
-du -h /tmp/koffer/koffer-bundle.*.tar
-```
 ```
 rsync --progress -avzh $(ls /tmp/koffer/koffer-bundle.*.tar) \
   -e "ssh -i ~/.ssh/id_rsa" core@${bastion_address}:/tmp/
@@ -75,19 +68,21 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 ```
 #### 5. Run CloudCtl stand up script
 ```
- . ./start-cloudctl.sh
+ ./start-cloudctl.sh
+```
+#### 5. Exec into CloudCtl
+```
+ podman exec -it one connect
 ```
 ## Remove / Purge
 #### Cleanup Koffer Artifacts
 ```
-sudo rm -rf /tmp/koffer/koffer-bundle.*.tar
-sudo rm -rf /root/{deploy,cloudctl.yml,start-cloudctl.sh,ArtifactsBundle.tar.xz,ArtifactsBundle.tar.xz.sha256}
-```
-```
 sudo podman rmi --force koffer:latest
+sudo rm -rf /tmp/koffer/koffer-bundle.*.tar
+sudo rm -rf /root/{deploy,cloudctl.yml,start-cloudctl.sh,ArtifactsBundle.tar.xz.sha256,ArtifactsBundle.tar.xz}
 sudo rm -rf /tmp/{koffer,mirror,images}
 ```
-#### CloudCtl Artifacts
+#### Cleanup CloudCtl Artifacts
 ```
 sudo podman pod rm --force cloudctl
 for container in $(sudo podman ps -a | grep -v CONTAINER | awk '/busybox|one|registry|nginx/{print $1}'); do sudo podman rm --force ${container}; done
