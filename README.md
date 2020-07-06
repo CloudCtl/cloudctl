@@ -30,7 +30,7 @@ sudo podman run \
     --pull=always --entrypoint entrypoint \
     --volume ~/.docker:/root/.docker:z    \
     --volume /tmp/koffer:/root/koffer:z   \
-  docker.io/containercraft/koffer:latest
+  docker.io/containercraft/koffer:nightlies
 ```
   - optional: volume mount quay pull secret from host    
     `--volume ~/.docker:/root/.docker/`
