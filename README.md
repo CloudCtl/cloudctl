@@ -28,7 +28,7 @@ git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
 sudo podman run \
     --rm -qit -h koffer --name koffer     \
     --pull=always --entrypoint entrypoint \
-    --volume ~/.docker:/root/.docker      \
+    --volume ~/.docker:/root/.docker:z    \
     --volume /tmp/koffer:/root/koffer:z   \
   docker.io/containercraft/koffer:latest
 ```
