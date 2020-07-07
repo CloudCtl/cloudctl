@@ -2,7 +2,7 @@
 ------------
 #### 1. Clone codebase under development & checkout your branch
 ```
- git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffe
+ git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
  git checkout nightlies
 ```
 #### 2. Prepare Developer Environment
