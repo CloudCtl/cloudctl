@@ -83,42 +83,22 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
-   ; echo
-RUN set -ex                                                                     \
      && dnf update -y --setopt=tsflags=nodocs                                   \
-   ; echo
-RUN set -ex                                                                     \
      && dnf install -y ${varListRpms}                                           \
-   ; echo
-RUN set -ex                                                                     \
      && pip3 install ${varListPip}                                              \
-   ; echo
-RUN set -ex                                                                     \
      && dnf install -y bsdtar tar                                               \
-   ; echo
-RUN set -ex                                                                     \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
-   ; echo
-RUN set -ex                                                                     \
      && /bin/oc version                                                         \
      && curl -L ${varUrlOsInst}                                                 \
           | tar xzvf - --directory /bin openshift-install                       \
-   ; echo
-RUN set -ex                                                                     \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
-   ; echo
-RUN set -ex                                                                     \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
      && curl -L ${varUrlTerraform}                                              \
           | bsdtar -xvf- -C /bin                                                \
-   ; echo
-RUN set -ex                                                                     \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-   ; echo
-RUN set -ex                                                                     \
      && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
@@ -135,7 +115,6 @@ RUN set -ex                                                                     
      && mkdir -p /root/deploy/{mirror,images}                                   \
      && mkdir -p /root/bundle                                                   \
    ; echo
-#    && git clone ${varUrlGit} /root/koffer                                     \
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin

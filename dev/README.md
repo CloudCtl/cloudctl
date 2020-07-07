@@ -2,6 +2,7 @@
 ------------
 #### 0. (OPTIONAL) Build Locally
 ```
+  sudo -i
   curl -L https://git.io/JJtZt | bash -x
 ```
 #### 1. Clone codebase under development & checkout your branch
