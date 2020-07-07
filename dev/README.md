@@ -1,8 +1,12 @@
 ## Developer Guide
 ------------
+#### 0. (OPTIONAL) Build Locally
+```
+  curl 
+```
 #### 1. Clone codebase under development & checkout your branch
 ```
- git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
+ git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffe
  git checkout nightlies
 ```
 #### 2. Prepare Developer Environment
@@ -73,7 +77,7 @@ tar -xv -C /root -f /tmp/koffer-bundle.*.tar
 ```
 #### 7. Exec into CloudCtl
 ```
- podman exec -it cloudctl-one connect
+ podman exec -it one connect
 ```
 ## Remove / Purge
 #### Cleanup Koffer Artifacts
