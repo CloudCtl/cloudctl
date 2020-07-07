@@ -72,6 +72,7 @@ COPY --from=rpm /etc/system-release /etc/system-release
 #RUN set -ex                                                                     \
 #     && microdnf install -y dnf                                                 \
 #    && echo
+   ; echo
 RUN set -ex                                                                     \
      && mkdir -p /var/lib/koffer/                                               \
      && curl -sL ${urlRelease}                                                  \
@@ -83,10 +84,20 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
+   ; echo
+RUN set -ex                                                                     \
      && dnf update -y --setopt=tsflags=nodocs                                   \
+   ; echo
+RUN set -ex                                                                     \
      && dnf install -y ${varListRpms}                                           \
+   ; echo
+RUN set -ex                                                                     \
      && pip3 install ${varListPip}                                              \
+   ; echo
+RUN set -ex                                                                     \
      && dnf install -y bsdtar tar                                               \
+   ; echo
+RUN set -ex                                                                     \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
      && /bin/oc version                                                         \
@@ -99,6 +110,8 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
+   ; echo
+RUN set -ex                                                                     \
      && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
