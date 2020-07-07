@@ -99,14 +99,22 @@ RUN set -ex                                                                     
 RUN set -ex                                                                     \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
+   ; echo
+RUN set -ex                                                                     \
      && /bin/oc version                                                         \
      && curl -L ${varUrlOsInst}                                                 \
           | tar xzvf - --directory /bin openshift-install                       \
+   ; echo
+RUN set -ex                                                                     \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
+   ; echo
+RUN set -ex                                                                     \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
      && curl -L ${varUrlTerraform}                                              \
           | bsdtar -xvf- -C /bin                                                \
+   ; echo
+RUN set -ex                                                                     \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
    ; echo
