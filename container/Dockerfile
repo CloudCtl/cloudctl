@@ -72,7 +72,6 @@ COPY --from=rpm /etc/system-release /etc/system-release
 #RUN set -ex                                                                     \
 #     && microdnf install -y dnf                                                 \
 #    && echo
-   ; echo
 RUN set -ex                                                                     \
      && mkdir -p /var/lib/koffer/                                               \
      && curl -sL ${urlRelease}                                                  \
