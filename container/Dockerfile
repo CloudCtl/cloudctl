@@ -90,8 +90,6 @@ RUN set -ex                                                                     
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin kubectl oc                              \
      && /bin/oc version                                                         \
-     && curl -L ${varUrlOsInst}                                                 \
-          | tar xzvf - --directory /bin openshift-install                       \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
@@ -99,7 +97,7 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-     && chmod +x /bin/{oc,kubectl,openshift-install,helm,terraform,jq}          \
+     && chmod +x /bin/{oc,kubectl,helm,terraform,jq}                            \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
