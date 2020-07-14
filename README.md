@@ -1,4 +1,6 @@
 # Koffer | Artifact Rake & Bundle Appliance
+### 1. Create Koffer Bundle Directory
+=======
 ## About
 Koffer is an ansible automation runtime for raking in various artifacts required 
 to deploy Kubernetes Infrastructure, Pipelines, and applications into airgaped 
@@ -26,14 +28,12 @@ git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer
 ### 2. Run Koffer
 ```
 sudo podman run \
-    --rm -qit -h koffer --name koffer     \
-    --pull=always --entrypoint entrypoint \
-    --volume ~/.docker:/root/.docker:z    \
-    --volume /tmp/koffer:/root/koffer:z   \
-  docker.io/containercraft/koffer:nightlies
+    --rm -qit -h koffer --name koffer              \
+    --pull=always --entrypoint=/usr/bin/entrypoint \
+    --volume /tmp/koffer:/root/deploy/koffer:z     \
+    --volume ${HOME}/.docker:/root/.docker:z       \
+  docker.io/containercraft/koffer:latest
 ```
-  - optional: volume mount quay pull secret from host    
-    `--volume ~/.docker:/root/.docker/`
 ### 3. Verify & Transport Bundle
 ```
  ls /tmp/koffer/bundle/

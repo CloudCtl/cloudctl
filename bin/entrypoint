@@ -1,18 +1,11 @@
 #!/bin/bash
 
-# Update repo with latest from master
-git_pull () {
-    cd /root/koffer;
-    git pull;
-}
-
 # Start Registry Server
 run_registry () {
   /usr/bin/run_registry.sh
 }
 
 run_core () {
-git_pull 2>&1 1>/dev/null
 run_registry 2>&1 1>/dev/null
 }
 
@@ -22,11 +15,28 @@ run_core
 time ./site.yml
 sleep 2
 bundleDu="$(du -h /root/deploy/bundle/koffer-bundle.openshift-*.tar | awk '{print $1}' | head -n 1)"
+<<<<<<< HEAD
+bundlePath="$(ls /root/deploy/bundle/koffer-bundle.openshift-*.tar | head -n 1 | sed 's/root\/deploy/tmp\/platform/')"
+=======
 bundlePath="$(ls /root/deploy/bundle/koffer-bundle.openshift-*.tar | head -n 1 | sed 's/root\/deploy/tmp/')"
+>>>>>>> master
 cat <<EOF
 
   Koffer Bundle Complete: ${bundleDu} ${bundlePath}
 
 EOF
 }
+
+run_git_clone () {
+# Update repo with latest from master
+  echo "Cloning $1"
+  echo "Checkout Branch $2"
+
+  git clone $1 /root/koffer ;
+  cd /root/koffer ;
+  git checkout $2 ;
+  git pull;
+}
+
+run_git_clone $@
 run

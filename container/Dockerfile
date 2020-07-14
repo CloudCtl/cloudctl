@@ -113,6 +113,7 @@ RUN set -ex                                                                     
      && mkdir -p /root/deploy/{mirror,images}                                   \
      && mkdir -p /root/bundle                                                   \
    ; echo
+#    && git clone ${varUrlGit} /root/koffer                                     \
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
@@ -123,6 +124,5 @@ LABEL VENDOR="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-ENTRYPOINT ["/usr/bin/bash"]
-CMD /usr/bin/entrypoint
+ENTRYPOINT ["/usr/bin/entrypoint", "$@"]
 WORKDIR /root/koffer
