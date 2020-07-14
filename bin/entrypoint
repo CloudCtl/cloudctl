@@ -15,11 +15,7 @@ run_core
 time ./site.yml
 sleep 2
 bundleDu="$(du -h /root/deploy/bundle/koffer-bundle.openshift-*.tar | awk '{print $1}' | head -n 1)"
-<<<<<<< HEAD
 bundlePath="$(ls /root/deploy/bundle/koffer-bundle.openshift-*.tar | head -n 1 | sed 's/root\/deploy/tmp\/platform/')"
-=======
-bundlePath="$(ls /root/deploy/bundle/koffer-bundle.openshift-*.tar | head -n 1 | sed 's/root\/deploy/tmp/')"
->>>>>>> master
 cat <<EOF
 
   Koffer Bundle Complete: ${bundleDu} ${bundlePath}
