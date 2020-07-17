@@ -7,9 +7,9 @@
 # Print Closing Info to Screen
 info () {
   sleep 2 ;
-  [[ ! -f info.sh ]] \
+  [[ ! -f bin/info.sh ]] \
       && echo "Bundle Complete! Exiting.." \
-      || ./info.sh ;
+      || ./bin/info.sh ;
 }
 
 ################################################################################
@@ -31,15 +31,16 @@ run_git_clone () {
 ################################################################################
 # Start Internal Registry Service
 run_registry () {
-  /usr/bin/run_registry.sh ;
+  /usr/bin/run_registry.sh 2>&1 1>/dev/null ;
 }
 
 ################################################################################
 # Core Function Running Point
 run () {
-  clear && run_registry ;
+  clear && run_registry 2>&1 1>/dev/null ;
   run_git_clone $@ ;
   run_core ;
+  info ;
 }
 
 run $@ ;
