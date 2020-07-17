@@ -1,0 +1,45 @@
+#!/bin/bash
+################################################################################
+# Kollector Engine Entrypoint ##### Pull Collector | Run Collector | Info Exit #
+################################################################################
+# Authors: Kat Morgan - usrbinkat@braincraft.io                                #
+################################################################################
+# Print Closing Info to Screen
+info () {
+  sleep 2 ;
+  [[ ! -f info.sh ]] \
+      && echo "Bundle Complete! Exiting.." \
+      || ./info.sh ;
+}
+
+################################################################################
+# Run Collector
+run_core () {
+  time ./site.yml
+}
+
+################################################################################
+# Clone Collector Repo & Checkout Running Branch
+run_git_clone () {
+  echo "    >> Clone $1" ;
+  echo "    >> Checkout Branch $2" ;
+  git clone $1 /root/koffer && cd /root/koffer ;
+  git checkout $2 ;
+  git pull ;
+}
+
+################################################################################
+# Start Internal Registry Service
+run_registry () {
+  /usr/bin/run_registry.sh ;
+}
+
+################################################################################
+# Core Function Running Point
+run () {
+  clear && run_registry ;
+  run_git_clone $@ ;
+  run_core ;
+}
+
+run $@ ;
