@@ -1,38 +1,45 @@
 #!/bin/bash
-
-# Start Registry Server
-run_registry () {
-  /usr/bin/run_registry.sh
+################################################################################
+# Kollector Engine Entrypoint ##### Pull Collector | Run Collector | Info Exit #
+################################################################################
+# Authors: Kat Morgan - usrbinkat@braincraft.io                                #
+################################################################################
+# Print Closing Info to Screen
+info () {
+  sleep 2 ;
+  [[ ! -f info.sh ]] \
+      && echo "Bundle Complete! Exiting.." \
+      || ./info.sh ;
 }
 
+################################################################################
+# Run Collector
 run_core () {
-run_registry 2>&1 1>/dev/null
+  time ./site.yml
 }
 
-run () {
-clear
-run_core
-time ./site.yml
-sleep 2
-bundleDu="$(du -h /root/deploy/bundle/koffer-bundle.openshift-*.tar | awk '{print $1}' | head -n 1)"
-bundlePath="$(ls /root/deploy/bundle/koffer-bundle.openshift-*.tar | head -n 1 | sed 's/root\/deploy/tmp\/platform/')"
-cat <<EOF
-
-  Koffer Bundle Complete: ${bundleDu} ${bundlePath}
-
-EOF
-}
-
+################################################################################
+# Clone Collector Repo & Checkout Running Branch
 run_git_clone () {
-# Update repo with latest from master
-  echo "Cloning $1"
-  echo "Checkout Branch $2"
-
-  git clone $1 /root/koffer ;
-  cd /root/koffer ;
+  echo "    >> Clone $1" ;
+  echo "    >> Checkout Branch $2" ;
+  git clone $1 /root/koffer && cd /root/koffer ;
   git checkout $2 ;
-  git pull;
+  git pull ;
 }
 
-run_git_clone $@
-run
+################################################################################
+# Start Internal Registry Service
+run_registry () {
+  /usr/bin/run_registry.sh ;
+}
+
+################################################################################
+# Core Function Running Point
+run () {
+  clear && run_registry ;
+  run_git_clone $@ ;
+  run_core ;
+}
+
+run $@ ;
