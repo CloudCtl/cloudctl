@@ -15,14 +15,19 @@ info () {
 ################################################################################
 # Run Collector
 run_core () {
+  echo ;
+  echo "    >> Collector Engine Starting..." ;
+  echo ;
   time ./site.yml
 }
 
 ################################################################################
 # Clone Collector Repo & Checkout Running Branch
 run_git_clone () {
+  echo ;
   echo "    >> Clone $1" ;
   echo "    >> Checkout Branch $2" ;
+  echo ;
   git clone $1 /root/koffer && cd /root/koffer ;
   git checkout $2 ;
   git pull ;
