@@ -7,7 +7,7 @@ become difficult & inconsistent to maintain and support.
 ## Solution
 CloudCtl provides a [Podman] container [Pod] based "Point of Origin" 
 Infrastructure as Code [(IaC)] toolkit for deployment operations tasks 
-with core features delivered via [UBI8] based [ContainerOne] as primary 
+with core features delivered via [UBI8] based [Konductor] as primary 
 orchestration base capable of dynamically allocating additional pod 
 contained services.
 ##### Core Features
@@ -40,7 +40,7 @@ sudo -i
 ```
 ####  2. Clone Repo
 ```
-git clone https://github.com/containercraft/CloudCTL.git ~/.ccio/cloudctl ; cd ~/.ccio/cloudctl/ansible
+git clone https://github.com/redshiftofficial/CloudCTL.git ~/.ccio/cloudctl ; cd ~/.ccio/cloudctl/ansible
 ```
 ####  3. Execute Ansible Playbook
 ```
@@ -52,7 +52,7 @@ sudo podman ps --all
 sudo podman pod ps --all
 sudo podman logs one
 ```
-####  5. Exec or SSH into CloudCtl pod ContainerOne
+####  5. Exec or SSH into CloudCtl pod Konductor
   > Exec from container host
 
 ```
@@ -64,7 +64,7 @@ podman exec -it one connect
 cat ~/.ssh/id_rsa.pub >> ~/.ccio/.secrets.d/ssh/user/authorized_keys
 ssh -p 2022 root@localhost
 ```
-####  6. Disconnect from ContainerOne console
+####  6. Disconnect from Konductor console
 ```
 quit
 ```
@@ -80,7 +80,7 @@ for i in $(sudo podman images | awk '/one|pause/{print $3}'); do podman rmi --fo
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
 [(IaC)]:https://www.ibm.com/cloud/learn/infrastructure-as-code
-[ContainerOne]:https://github.com/containercraft/ContainerOne
+[Konductor]:https://github.com/redshiftofficial/Konductor
 [Podman]:https://docs.podman.io/en/latest
 [Install Podman]:https://podman.io/getting-started/installation
 [Fedora]:https://getfedora.org
