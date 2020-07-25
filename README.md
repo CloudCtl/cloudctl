@@ -1,6 +1,5 @@
 # Koffer | Artifact Rake & Bundle Appliance
 ### 1. Create Koffer Bundle Directory
-=======
 ## About
 Koffer is an ansible automation runtime for raking in various artifacts required 
 to deploy Kubernetes Infrastructure, Pipelines, and applications into airgaped 
