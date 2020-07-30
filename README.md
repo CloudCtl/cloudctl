@@ -13,7 +13,7 @@ Compatibile Artifact Types:
   - docker images
     - Pulls & hydrates built in docker registry service to persistent local path
     - high side is served with generic docker registry:2 container
-  - capability to add more artifact types with custom external ansible
+  - capability to add more artifact types with custom collector ansible plugins
 
 ## Result
 Koffer produces a standardized tarball on the host at `/tmp/platform/bundle/koffer-bundle.*.tar.xz`
