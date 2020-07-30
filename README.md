@@ -32,7 +32,7 @@ mkdir /tmp/platform
   docker.io/ocpredshift/koffer:latest         \
     https://github.com/RedShiftOfficial/collector-infra.git latest
 ```
-### 3. Verify & Transport Bundle
+### 3. Verify Bundle
 ```
  du -sh /tmp/platform/bundle/*
 ```
