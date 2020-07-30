@@ -6,4 +6,4 @@ sudo podman run \
     --volume ~/.bashrc:/root/.bashrc \
     --volume ~/.gitconfig:/root/.gitconfig \
     --name entrypoint --hostname entrypoint \
-  docker.io/containercraft/ccio-golang:ubi8 -c /usr/bin/tmux
+  docker.io/ocpredshift/red-gotools -c /usr/bin/tmux
