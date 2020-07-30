@@ -11,15 +11,15 @@ import (
 // Basic example of how to clone a repository using clone options.
 func main() {
 
-    svcGit := flag.String("git", "https://github.com/", "git service")
+    svcGit := flag.String("git", "github.com", "git service")
     repoGit := flag.String("repo", "RedShiftOfficial/collector-infra", "koffer plugin repo")
     branchGit := flag.String("branch", "master", "git branch")
-    pathClone := flag.String("dir", "/root/deploy", "clone to directory path")
+    pathClone := flag.String("dir", "/root/koffer", "clone to directory path")
 
 
     flag.Parse()
 
-    gitslice := []string{*svcGit, "/", *repoGit}
+    gitslice := []string{ "https://", *svcGit, "/", *repoGit}
     url := strings.Join(gitslice, "")
 
     fmt.Println("     Repo: ", *repoGit)
