@@ -2,8 +2,12 @@ package main
 
 import (
     "os"
+    "io"
+    "log"
     "fmt"
     "flag"
+    "sync"
+    "os/exec"
     "strings"
     "github.com/go-git/go-git"
 )
@@ -45,7 +49,56 @@ func main() {
     CheckIfError(err)
 
     fmt.Println(commit)
+
+    registry := exec.Command("/usr/bin/run_registry.sh")
+    err = registry.Start()
+    if err != nil {
+        log.Fatal(err)
+    }
+    err = registry.Wait()
+
+    cmd := exec.Command("./site.yml")
+
+    var stdout, stderr []byte
+    var errStdout, errStderr error
+    stdoutIn, _ := cmd.StdoutPipe()
+    stderrIn, _ := cmd.StderrPipe()
+    err = cmd.Start()
+    if err != nil {
+        log.Fatalf("cmd.Start() failed with '%s'\n", err)
+    }
+
+    var wg sync.WaitGroup
+    wg.Add(1)
+    go func() {
+        stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
+        wg.Done()
+    }()
+
+    stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
+
+    wg.Wait()
+
+    err = cmd.Wait()
+    if err != nil {
+        log.Fatalf("cmd.Run() failed with %s\n", err)
+    }
+    if errStdout != nil || errStderr != nil {
+        log.Fatal("failed to capture stdout \n")
+    }
+
+    errStr := string(stderr)
+    //outStr, errStr := string(stdout), string(stderr)
+    //fmt.Printf("\nout:\n%s\n", outStr)
+    if stderr != nil {
+        fmt.Printf("\nerr:\n%s\n", errStr)
+    }
 }
+
+
+/*
+  Functions
+*/
 
 // CheckArgs should be used to ensure the right command line arguments are
 // passed before executing an example.
@@ -74,4 +127,27 @@ func Info(format string, args ...interface{}) {
 // Warning should be used to display a warning
 func Warning(format string, args ...interface{}) {
 	fmt.Printf("\x1b[36;1m%s\x1b[0m\n", fmt.Sprintf(format, args...))
+}
+
+func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
+	var out []byte
+	buf := make([]byte, 1024, 1024)
+	for {
+		n, err := r.Read(buf[:])
+		if n > 0 {
+			d := buf[:n]
+			out = append(out, d...)
+			_, err := w.Write(d)
+			if err != nil {
+				return out, err
+			}
+		}
+		if err != nil {
+			// Read returns io.EOF at the end of file, which is not an error for us
+			if err == io.EOF {
+				err = nil
+			}
+			return out, err
+		}
+	}
 }

@@ -1,0 +1,11 @@
+#!/bin/bash
+echo abc
+sleep 2
+echo abc
+sleep 2
+echo abc
+sleep 2
+echo abc
+sleep 2
+echo abc
+#echo 123 1>&2
