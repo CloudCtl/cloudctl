@@ -45,6 +45,10 @@ jobs:
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io; \
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
+    - name: Build Koffer Entrypoint
+      run: |
+        rm bin/koffer; \
+        ./koffer-build.sh
     - name: Build Image | Koffer
       run: |
         docker build . \

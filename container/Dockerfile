@@ -51,6 +51,7 @@ ARG varListPip="\
 # Load Artifacts
 
 # From Repo
+COPY bin/koffer /usr/bin/koffer
 COPY bin/entrypoint /usr/bin/entrypoint
 COPY bin/run_registry.sh /usr/bin/run_registry.sh
 COPY conf/registry-config.yml /etc/docker/registry/config.yml

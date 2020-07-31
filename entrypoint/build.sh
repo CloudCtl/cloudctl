@@ -1,8 +1,13 @@
-#!/bin/bash
+#!/bin/bash -x
+goCmd=$(which go)
+
 rm /bin/koffer 2>/dev/null
 rm -rf /root/koffer 2>/dev/null
-goCmd=$(which go)
-${goCmd} get github.com/go-git/go-git
+mkdir -p /tmp/bin
+
 set -x
+${goCmd} get github.com/go-git/go-git
 ${goCmd} build koffer.go
-mv -f koffer /bin/koffer
+
+cp -f koffer /bin/koffer 2>/dev/null
+mv -f koffer /tmp/bin/koffer
