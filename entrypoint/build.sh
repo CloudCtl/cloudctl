@@ -1,11 +1,11 @@
-#!/bin/bash -x
+#!/bin/bash
 goCmd=$(which go)
 
 rm /bin/koffer 2>/dev/null
 rm -rf /root/koffer 2>/dev/null
 mkdir -p /tmp/bin
 
-set -x
+#set -x
 ${goCmd} get github.com/go-git/go-git
 ${goCmd} build koffer.go
 

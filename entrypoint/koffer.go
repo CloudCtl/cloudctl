@@ -10,40 +10,54 @@ import (
     "os/exec"
     "strings"
     "github.com/go-git/go-git"
+    "github.com/go-git/go-git/plumbing"
+//    "github.com/go-git/go-git/config"
 )
 
 // Basic example of how to clone a repository using clone options.
 func main() {
 
-    svcGit := flag.String("git", "github.com", "git service")
-    repoGit := flag.String("repo", "RedShiftOfficial/collector-infra", "koffer plugin repo")
-    branchGit := flag.String("branch", "master", "git branch")
-    pathClone := flag.String("dir", "/root/koffer", "clone to directory path")
-
+    svcGit := flag.String("git", "github.com", "Git Server")
+    orgGit := flag.String("org", "CodeSparta", "Repo Owner/path")
+    repoGit := flag.String("repo", "collector-infra", "Plugin Repo Name")
+    branchGit := flag.String("branch", "master", "Git Branch")
+    pathClone := flag.String("dir", "/root/koffer", "Clone Path")
 
     flag.Parse()
 
-    gitslice := []string{ "https://", *svcGit, "/", *repoGit}
+    // build url from vars
+    gitslice := []string{ "https://", *svcGit, "/", *orgGit, "/", *repoGit }
     url := strings.Join(gitslice, "")
 
-    fmt.Println("     Repo: ", *repoGit)
-    fmt.Println("  Service: ", *svcGit)
-    fmt.Println("   Branch: ", *branchGit)
-    fmt.Println("     Path: ", *pathClone)
-    fmt.Println("      URL: ", url)
+    // set branch
+    branchslice := []string{ "refs/heads/", *branchGit }
+    branch := strings.Join(branchslice, "")
+
+    runvars := "\n" +
+               "   Service: " + *svcGit + "\n" +
+               "  Org/Path: " + *orgGit + "\n" +
+               "      Repo: " + *repoGit + "\n" +
+               "    Branch: " + *branchGit + "\n" +
+               "      Path: " + *pathClone + "\n" +
+               "       URL: " + url + "\n" +
+               "       CMD: git clone " + url + *pathClone + "\n"
+    Info(runvars)
 
     // Clone the given repository to the given directory
-    Info("git clone %s %s --recursive", url, *pathClone)
+    Info("git clone %s %s", url, *pathClone)
 
     r, err := git.PlainClone(*pathClone, false, &git.CloneOptions{
         URL:               url,
         RecurseSubmodules: git.DefaultSubmoduleRecursionDepth,
+	ReferenceName:     plumbing.ReferenceName(branch),
+	SingleBranch:      true,
+	Tags:              git.NoTags,
     })
-
     CheckIfError(err)
     // ... retrieving the branch being pointed by HEAD
     ref, err := r.Head()
     CheckIfError(err)
+
     // ... retrieving the commit object
     commit, err := r.CommitObject(ref.Hash())
     CheckIfError(err)
