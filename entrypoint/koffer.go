@@ -11,7 +11,7 @@ import (
     "strings"
     "github.com/go-git/go-git"
     "github.com/go-git/go-git/plumbing"
-//    "github.com/go-git/go-git/config"
+    "github.com/codesparta/koffer/entrypoint"
 )
 
 // Basic example of how to clone a repository using clone options.
