@@ -125,5 +125,5 @@ LABEL VENDOR="containercraft.io"                                                
       OpenShift="${varVerOpenshift}"                                            \
       maintainer="ContainerCraft.io"                                            \
       License=GPLv3 
-ENTRYPOINT ["/usr/bin/entrypoint", "$@"]
+ENTRYPOINT ["/usr/bin/koffer", "$@"]
 WORKDIR /root/koffer
