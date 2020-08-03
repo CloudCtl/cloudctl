@@ -47,8 +47,12 @@ jobs:
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
     - name: Build Koffer Entrypoint
       run: |
-        rm bin/koffer; \
-        ./koffer-build.sh
+        git clone https://github.com/CodeSparta/koffer-go.git; \
+        docker run -it --rm \
+            --volume $(pwd)/koffer-go:/root/dev:z \
+            --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
+            --entrypoint /root/dev/build.sh \
+          docker.io/ocpredshift/red-gotools
     - name: Build Image | Koffer
       run: |
         docker build . \
