@@ -1,5 +1,6 @@
 FROM centos:latest as rpm
 FROM registry:2 as registry
+FROM quay.io/openshift/origin-operator-registry:latest as olm
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi8
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
 FROM registry.access.redhat.com/ubi8/ubi:latest
@@ -37,6 +38,7 @@ ARG varListRpms="\
              rsync \
              skopeo \
              bsdtar \
+             buildah \
              openssl \
              httpd-tools \
              python3-pip \
@@ -56,6 +58,10 @@ COPY bin/entrypoint /usr/bin/entrypoint
 COPY bin/run_registry.sh /usr/bin/run_registry.sh
 COPY conf/registry-config.yml /etc/docker/registry/config.yml
 COPY conf/registries.conf /etc/containers/registries.conf
+
+# From origin-operator-registry:latest
+COPY --from=olm /usr/bin/registry-server  /usr/bin/registry-server
+COPY --from=olm /usr/bin/initializer  /usr/bin/initializer
 
 # From Registry:2
 COPY --from=registry /bin/registry  /bin/registry
@@ -113,6 +119,14 @@ RUN set -ex                                                                     
         /var/log/yum*                                                           \
      && mkdir -p /root/deploy/{mirror,images}                                   \
      && mkdir -p /root/bundle                                                   \
+     && mkdir -p /manifests                                                     \
+     && mkdir -p /db                                                            \
+     && touch /db/bundles.db                                                    \
+     && initializer                                                             \
+          --manifests /manifests/                                               \
+          --output /db/bundles.db                                               \
+    && sed -i -e 's|^#mount_program|mount_program|g'                            \
+       -e '/additionalimage.*/a "/var/lib/shared",' /etc/containers/storage.conf\
    ; echo
 #    && git clone ${varUrlGit} /root/koffer                                     \
 
