@@ -48,7 +48,7 @@ jobs:
     - name: Build Koffer Entrypoint
       run: |
         git clone https://github.com/CodeSparta/koffer-go.git; \
-        docker run -it --rm \
+        docker run --rm \
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
