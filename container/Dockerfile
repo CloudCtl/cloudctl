@@ -128,7 +128,6 @@ RUN set -ex                                                                     
     && sed -i -e 's|^#mount_program|mount_program|g'                            \
        -e '/additionalimage.*/a "/var/lib/shared",' /etc/containers/storage.conf\
    ; echo
-#    && git clone ${varUrlGit} /root/koffer                                     \
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
