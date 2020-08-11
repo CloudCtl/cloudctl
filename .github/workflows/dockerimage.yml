@@ -52,7 +52,7 @@ jobs:
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
-          docker.io/ocpredshift/red-gotools
+          docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/red-gotools
     - name: Build Image | Koffer
       run: |
         docker build . \
