@@ -45,10 +45,20 @@ jobs:
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io; \
         echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
+    - name: Write gitconfig
+      run: |
+        cat <<EOF > gitconfig
+        [user]
+                name = ${{ secrets.ROBOT_USER }}
+                email = ${{ secrets.ROBOT_USER }}@braincraft.io
+        [url "https://${{ secrets.ROBOT_USER }}:${{ secrets.DOCKERHUB_USER }}@github.com"]
+                insteadOf = https://github.com
+        EOF
     - name: Build Koffer Entrypoint
       run: |
         git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git; \
         docker run --rm \
+            --volume $(pwd)/gitconfig:/root/.gitconfig:z \
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
