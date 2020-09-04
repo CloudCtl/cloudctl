@@ -60,7 +60,7 @@ COPY conf/registry-config.yml /etc/docker/registry/config.yml
 COPY conf/registries.conf /etc/containers/registries.conf
 
 # From origin-operator-registry:latest
-COPY --from=olm /usr/bin/registry-server  /usr/bin/registry-server
+COPY --from=olm /bin/registry-server  /usr/bin/registry-server
 COPY --from=olm /usr/bin/initializer  /usr/bin/initializer
 
 # From Registry:2
