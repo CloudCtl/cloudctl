@@ -61,7 +61,7 @@ COPY conf/registries.conf /etc/containers/registries.conf
 
 # From origin-operator-registry:latest
 COPY --from=olm /bin/registry-server  /usr/bin/registry-server
-COPY --from=olm /usr/bin/initializer  /usr/bin/initializer
+COPY --from=olm /bin/initializer  /usr/bin/initializer
 
 # From Registry:2
 COPY --from=registry /bin/registry  /bin/registry
