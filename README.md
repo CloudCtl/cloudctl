@@ -34,5 +34,5 @@ sudo podman run -it --rm --pull always \
 ```
 ### 3. Verify Bundle
 ```
- du -sh /tmp/platform/bundle/*
+ sudo du -sh ~/bundle/*
 ```
