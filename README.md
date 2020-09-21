@@ -19,7 +19,7 @@ Compatibile Artifact Types:
   - capability to add more artifact types with custom collector plugins
 
 ## How To
-  - Example: [koffer-infra](https://github.com/codesparta/collector-infra) plugin
+  - Example: [collector-infra](https://github.com/codesparta/collector-infra) plugin
 
 ### 1. Create Koffer Bundle Directory
 ```
