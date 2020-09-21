@@ -36,6 +36,3 @@ sudo podman run -it --rm --pull always \
 ```
  du -sh /tmp/platform/bundle/*
 ```
-# [Developer Docs & Utils](./dev)
-# Demo
-![bundle](./web/bundle.svg)
