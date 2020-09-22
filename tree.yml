@@ -1,0 +1,10 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: '{{ ansible_name }} | tree.yml' 
+  hosts: cloudctl 
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "tree"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  roles:
+    - tree
