@@ -1,0 +1,29 @@
+---
+# Core variables
+ansible_name: " Sparta | CloudCtl | {{ ansible_distribution }}"
+
+# Ansible Playbook Run Variables
+ssh_enabled: true
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
+pod_force_remove: true
+container_uri_one: docker.io/codesparta/konductor
+ansible_python_interpreter: auto_silent
+
+# Localhost Environment 
+local_user: "{{ lookup('env','USER') }}"
+local_home: "{{ lookup('env','HOME') }}"
+local_path: "{{ lookup('env','PWD') }}"
+
+# CCIO Directory Vars
+cciotree:
+  - path: "{{ local_path }}"
+    state: directory
+  - path: "{{ local_path }}/bin"
+    state: directory
+  - path: "{{ local_path }}/pod"
+    state: directory
+  - path: "{{ local_path }}/secrets"
+    state: directory
+  - path: "{{ local_path }}/profile.d"
+    state: directory
