@@ -1,0 +1,31 @@
+---
+- name: '{{ ansible_name_module }} | file | Create Directory Structure' 
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0755'
+  with_items:
+    - '{{ dir_deploy }}/config/user-data'
+    - '{{ dir_deploy }}/cluster/manifests'
+    - '{{ dir_deploy }}/cluster/ignition'
+    - '{{ dir_deploy }}/cluster/aux'
+    - '{{ dir_deploy }}/cluster/aux/manifests'
+    - '{{ dir_deploy }}/cluster/aux/openshift'
+    - '{{ dir_deploy }}/cluster/config'
+    - '{{ dir_deploy }}/cluster/'
+    - '{{ dir_deploy }}/terraform'
+    - '{{ dir_deploy }}/ansible'
+    - '{{ dir_deploy }}/mirror'
+    - '{{ dir_deploy }}/images'
+    - '{{ dir_deploy }}/nginx'
+- file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0644'
+  with_items:
+    - '{{ dir_deploy }}/secrets/registry/ssl'
+    - '{{ dir_deploy }}/secrets/registry/auth'
+    - '{{ dir_deploy }}/secrets/cluster'
+    - '{{ dir_deploy }}/secrets/docker'
+    - '{{ dir_deploy }}/secrets/ssh'
+    - '{{ local_home }}/.kube'

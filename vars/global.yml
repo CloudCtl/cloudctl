@@ -6,26 +6,32 @@ ansible_name: " {{ name_vendor }} | CloudCtl | {{ ansible_distribution }}"
 # Ansible Playbook Run Variables
 ssh_enabled: true
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
-pod_force_remove: true
 ansible_python_interpreter: auto_silent
-image_tag_konductor: docker.io/codesparta/konductor
 
-# Localhost Environment 
-local_tmp: "/tmp/cloudctl"
-local_user: "{{ lookup('env','USER') }}"
-local_home: "{{ lookup('env','HOME') }}"
-local_path: "{{ lookup('env','PWD') }}"
+# CloudCtl Variables
+pod_force_remove: true
+image_tag_konductor: docker.io/codesparta/konductor
+sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
+
+# Local Environment 
+dir_local_tmp: "/tmp/cloudctl"
+dir_local_user: "{{ lookup('env','USER') }}"
+dir_local_home: "{{ lookup('env','HOME') }}"
+dir_local_path: "{{ lookup('env','PWD') }}"
+
+# Remote Environment 
+dir_remote_ctl: "/root/platform"
+dir_remote_tmp: "/tmp/cloudctl"
 
 # Dir Structure
 ctltree:
-  - path: "{{ local_tmp }}"
-    state: directory
-  - path: "{{ local_tmp }}/bin"
-    state: directory
-  - path: "{{ local_tmp }}/pod"
-    state: directory
-  - path: "{{ local_tmp }}/secrets"
-    state: directory
-  - path: "{{ local_tmp }}/profile.d"
-    state: directory
+  - path: "{{ dir_remote_ctl }}"
+    mode: directory
+  - path: "{{ dir_remote_ctl }}/bin"
+    mode: directory
+  - path: "{{ dir_remote_ctl }}/pod"
+    mode: directory
+  - path: "{{ dir_remote_ctl }}/secrets"
+    mode: directory
+  - path: "{{ dir_remote_ctl }}/profile.d"
+    mode: directory

@@ -6,5 +6,10 @@
   vars:
     module: "tree"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
-  roles:
-    - tree
+  tasks:
+    - name: '{{ ansible_name_module }} | file.directory | Build base CloudCtl directory framework' 
+      file:
+        mode: "{{ item.mode }}"
+        path: '{{ item.path }}'
+      loop: 
+        - '{{ ctltree }}'
