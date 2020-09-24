@@ -11,5 +11,6 @@
       file:
         mode: "{{ item.mode }}"
         path: '{{ item.path }}'
-      loop: 
+        state: "{{ item.state }}"
+      with_items: 
         - '{{ ctltree }}'

@@ -26,12 +26,17 @@ dir_remote_tmp: "/tmp/cloudctl"
 # Dir Structure
 ctltree:
   - path: "{{ dir_remote_ctl }}"
-    mode: directory
+    state: directory
+    mode: '0744'
   - path: "{{ dir_remote_ctl }}/bin"
-    mode: directory
+    state: directory
+    mode: '0744'
   - path: "{{ dir_remote_ctl }}/pod"
-    mode: directory
+    state: directory
+    mode: '0744'
   - path: "{{ dir_remote_ctl }}/secrets"
-    mode: directory
+    state: directory
+    mode: '0744'
   - path: "{{ dir_remote_ctl }}/profile.d"
-    mode: directory
+    state: directory
+    mode: '0744'
