@@ -1,0 +1,31 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge registry' 
+  command:
+    cmd: 'podman rm --force registry'
+  no_log: true
+  ignore_errors: true
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge registry' 
+  file:
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid'
+    state: absent
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+  command:
+    cmd:
+      podman run -dt --replace
+          --name registry --hostname registry
+          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
+          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
+          --mount {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
+          --mount {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
+          --mount {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
+          --mount {{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z
+        docker.io/library/registry
+  args:
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid"
+  register: registry_pid
+
+#     podman run -dt --pull never --replace

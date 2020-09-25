@@ -1,0 +1,10 @@
+---
+- name: '{{ ansible_name_module }} | file | Create Directories' 
+  file:
+    mode: '0644'
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ dir_platform }}/mirror'
+    - '{{ dir_platform }}/secrets/registry/ssl'
+    - '{{ dir_platform }}/secrets/registry/auth'

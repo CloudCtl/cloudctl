@@ -1,0 +1,7 @@
+---
+- name: '{{ ansible_name_module }} | openssh_keypair | gen ssh keys'
+  openssh_keypair:
+    path: "{{ dir_deploy }}/secrets/ssh/id_rsa_konductor"
+    comment: "konductor@cloudctl"
+    state: present
+    force: yes

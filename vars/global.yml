@@ -1,4 +1,8 @@
 ---
+# Custom Variables
+domain_base: codectl.io
+domain_cluster: 'ocp.{{ domain_base }}'
+
 # Core variables
 name_vendor: ' Sparta'
 ansible_name: " {{ name_vendor }} | CloudCtl | {{ ansible_distribution }}"
@@ -22,8 +26,9 @@ dir_local_home: "{{ lookup('env','HOME') }}"
 dir_local_path: "{{ lookup('env','PWD') }}"
 
 # Remote Environment 
-dir_remote_ctl: "/root/platform"
-dir_remote_tmp: "/tmp/cloudctl"
+dir_platform: "/root/platform"
+dir_secrets: "{{ dir_platform }}/secrets"
+dir_tmp: "/tmp/cloudctl"
 
 # Dir Structure
 ctltree:
