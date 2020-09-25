@@ -5,6 +5,7 @@
     path: '{{ item }}'
     state: directory
   with_items:
+    - '/root/.docker'
     - '{{ dir_platform }}/mirror'
     - '{{ dir_platform }}/secrets/registry/ssl'
     - '{{ dir_platform }}/secrets/registry/auth'

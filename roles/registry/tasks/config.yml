@@ -27,10 +27,12 @@
 
 - name: '{{ ansible_name_module }} | copy.content | Generate Registry Pull Secret ~/docker/config.json'
   copy:
-    dest: "{{ dir_secrets }}/docker/config.json"
-    content: '{"auths": {"registry.{{ cluster_domain }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ name_domain }}" }}}'
+    dest: "{{ dir_secrets }}/registry/auth/config.json"
+    content: '{"auths": {"registry.{{ domain_cluster }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
+    mode: 0600
 
 - name: '{{ ansible_name_module }} | copy.content | Generate Registry Pull Secret {{ dir_secrets }}/registry/auth/config.json'
   copy:
-    dest: "{{ local_home }}/.docker/config.json"
-    content: '{"auths": {"registry.{{ cluster_domain }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ name_domain }}" }}}'
+    dest: "/root/.docker/config.json"
+    content: '{"auths": {"registry.{{ domain_cluster }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
+    mode: 0600
