@@ -9,4 +9,4 @@
     module: "cloudctl"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - cloudctl
+    - pod
