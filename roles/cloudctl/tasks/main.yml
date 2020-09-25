@@ -1,5 +1,5 @@
 ---
-- name: '{{ ansible_name_module }} | role | Stage Kubernetes Pod Yaml' 
-  include_tasks: template.yml
+# name: '{{ ansible_name_module }} | role | Stage Kubernetes Pod Yaml' 
+# include_tasks: template.yml
 - name: '{{ ansible_name_module }} | role | Launch CloudCtl pod' 
   include_tasks: pod.yml

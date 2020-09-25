@@ -1,10 +1,31 @@
 ---
-- name: '{{ ansible_name_module }} | cmd:podman.pod.rm | Podman purge CloudCtl' 
+- name: '{{ ansible_name_module }} | cmd:podman.pod.rm | Podman purge {{ name_pod_cloudctl }}' 
   command:
-    cmd: podman pod rm --force cloudctl
+    cmd: 'podman pod rm --force {{ name_pod_cloudctl }}'
+# no_log: true
   ignore_errors: true
-  no_log: true
-  when:  pod_force_remove == true
-- name: '{{ ansible_name_module }} | cmd:podman.play.kube | Podman create CloudCtl' 
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge {{ name_pod_cloudctl }}' 
+  file:
+    path: '/tmp/cloudctl/{{ name_pod_cloudctl }}.pid'
+    state: absent
+  when: pod_force_rm == true
+
+# Need to develop play kube method & dynamic jinja2 template defined pod
+# name: '{{ ansible_name_module }} | cmd:podman.play.kube | Podman create CloudCtl' 
+# command:
+#   cmd: podman play kube /tmp/cloudctl/pod.yml
+
+- name: '{{ ansible_name_module }} | cmd:podman.pod.create | Podman create {{ name_pod_cloudctl }}' 
   command:
-    cmd: podman play kube /tmp/cloudctl.yml
+    cmd:
+      podman pod create --replace
+        --publish 5000:5000
+        --publish 8080:8080
+        --name {{ name_pod_cloudctl }}
+        --hostname {{ name_pod_cloudctl }}
+        --pod-id-file /tmp/cloudctl/{{ name_pod_cloudctl }}.pid
+  args:
+    creates: "/tmp/cloudctl/{{ name_pod_cloudctl }}.pid"
+  register: cloudctl_pid
