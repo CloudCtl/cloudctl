@@ -1,6 +1,6 @@
 ---
 # Core variables
-name_vendor: ' Sparta '
+name_vendor: ' Sparta'
 ansible_name: " {{ name_vendor }} | CloudCtl | {{ ansible_distribution }}"
 
 # Ansible Playbook Run Variables

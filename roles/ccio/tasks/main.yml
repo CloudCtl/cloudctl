@@ -1,3 +1,0 @@
----
-- name: '{{ ansible_name_module }} | role | Initialize CCIO Directory Tree' 
-  include_tasks: path.yml

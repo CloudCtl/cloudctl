@@ -21,6 +21,7 @@
   command:
     cmd:
       podman pod create --replace
+        --publish 2022:2022
         --publish 5000:5000
         --publish 8080:8080
         --name {{ name_pod_cloudctl }}
