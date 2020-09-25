@@ -3,3 +3,4 @@
   hosts: cloudctl 
 
 - import_playbook: tree.yml        # Create base deployment directory tree 
+- import_playbook: cloudctl.yml    # Create CloudCtl base pod
