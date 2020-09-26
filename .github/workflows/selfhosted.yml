@@ -39,10 +39,10 @@ jobs:
       run: |
         export varverjq="$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')"
         echo "::set-env name=varverjq::$varverjq"
-    - name: podman.io + Quay.io Login
-      run: |
-        echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin quay.io; \
-        echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin podman.io 
+#   - name: podman.io + Quay.io Login
+#     run: |
+#       echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin quay.io; \
+#       echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin podman.io 
     - name: Write gitconfig
       run: |
         cat <<EOF > gitconfig
