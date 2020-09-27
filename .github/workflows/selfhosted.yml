@@ -67,6 +67,8 @@ jobs:
           docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/red-gotools
     - name: Build Image | Koffer
       run: |
+        mkdir -p ./tmp ;\
+        cp -f /tmp/koffer-go/bin/koffer ./tmp ;\
         podman build . \
                  --force-rm \
                  --file ./container/Dockerfile.rh8 \
