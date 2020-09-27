@@ -6,11 +6,9 @@ on:
   pull_request:
     branches: 
       - master
-  schedule:
-    - cron: '0 1 * * *'
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: Variable | Export Build Date
@@ -41,10 +39,10 @@ jobs:
       run: |
         export varverjq="$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')"
         echo "::set-env name=varverjq::$varverjq"
-    - name: Docker.io + Quay.io Login
-      run: |
-        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin quay.io; \
-        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin docker.io 
+#   - name: podman.io + Quay.io Login
+#     run: |
+#       echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin quay.io; \
+#       echo "${{ secrets.podmanHUB_PASSWD }}" | podman login -u ${{ secrets.podmanHUB_USER }} --password-stdin podman.io 
     - name: Write gitconfig
       run: |
         cat <<EOF > gitconfig
@@ -57,44 +55,44 @@ jobs:
     - name: Build Koffer Entrypoint
       run: |
         cat gitconfig; \
-        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git; \
-        docker run --rm \
+        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.podmanHUB_ORGANIZATION }}/koffer-go.git; \
+        podman run --rm \
             --volume $(pwd)/gitconfig:/root/.gitconfig:z \
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
-          docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/red-gotools
+          podman.io/${{ secrets.podmanHUB_ORGANIZATION }}/red-gotools
     - name: Build Image | Koffer
       run: |
-        docker build . \
+        podman build . \
                  --force-rm \
-                 --file ./container/Dockerfile \
+                 --file ./container/podmanfile \
                  --build-arg varVerJq=${{ env.varverjq }} \
                  --build-arg varVerHelm=${{ env.varverhelm }} \
                  --build-arg varRunDate=${{ env.varrundate }} \
                  --build-arg varVerTerraform=${{ env.varverterraform }} \
                  --build-arg varVerOpenshift=${{ env.varveropenshift }} \
                  --build-arg varUrlGit=${{ env.gitremote }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | Koffer | docker.io
+                 --tag quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer \
+                 --tag quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:latest \
+                 --tag quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
+                 --tag quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }} \
+                 --tag podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer \
+                 --tag podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:latest \
+                 --tag podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
+                 --tag podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+    - name: Image Push | Koffer | podman.io
       run: |
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer;                    \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest;                                 \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+        podman push podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer;                    \
+        podman push podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:latest;                                 \
+        podman push podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
+        podman push podman.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
     - name: Image Push | Koffer | quay.io
       run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer;                    \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest;                                 \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+        podman push quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer;                    \
+        podman push quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:latest;                                 \
+        podman push quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
+        podman push quay.io/${{ secrets.podmanHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
 
 #       sed -i 's/ROBOT_USER/${{ secrets.ROBOT_USER }}/g' gitconfig
 #       sed -i 's/ROBOT_TOKEN/${{ secrets.ROBOT_TOKEN }}/g' gitconfig
