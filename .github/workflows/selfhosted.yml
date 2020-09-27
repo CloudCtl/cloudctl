@@ -62,7 +62,7 @@ jobs:
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
-          podman.io/${{ secrets.podmanHUB_ORGANIZATION }}/red-gotools
+          docker.io/${{ secrets.podmanHUB_ORGANIZATION }}/red-gotools
     - name: Build Image | Koffer
       run: |
         podman build . \
