@@ -54,6 +54,7 @@ jobs:
         EOF
     - name: Build Koffer Entrypoint
       run: |
+        set -x; \
         cat gitconfig; \
         git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.GITHUB_ORGANIZATION }}/koffer-go.git; \
         podman run --rm \
