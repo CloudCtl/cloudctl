@@ -69,7 +69,7 @@ jobs:
       run: |
         podman build . \
                  --force-rm \
-                 --file ./container/podmanfile \
+                 --file ./container/Dockerfile.rh8 \
                  --build-arg varVerJq=${{ env.varverjq }} \
                  --build-arg varVerHelm=${{ env.varverhelm }} \
                  --build-arg varRunDate=${{ env.varrundate }} \
