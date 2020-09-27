@@ -55,7 +55,7 @@ jobs:
     - name: Build Koffer Entrypoint
       run: |
         set -x; \
-        cat gitconfig; \
+        cat /tmp/gitconfig; \
         git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git ${HOME}/koffer-go; \
         podman run --rm \
             --volume /tmp/gitconfig:/root/.gitconfig:z \
