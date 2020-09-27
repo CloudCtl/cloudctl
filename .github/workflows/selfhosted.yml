@@ -56,11 +56,11 @@ jobs:
       run: |
         set -x; \
         cat /tmp/gitconfig; \
-        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git ${HOME}/koffer-go; \
+        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git /tmp/koffer-go; \
         podman run --rm \
             --volume /tmp/gitconfig:/root/.gitconfig:z \
-            --volume ${HOME}/koffer-go:/root/dev:z \
-            --volume ${HOME}/koffer-go/bin:/tmp/bin:z \
+            --volume /tmp/koffer-go:/root/dev:z \
+            --volume /tmp/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
           docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/red-gotools
     - name: Build Image | Koffer
