@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: 
       - master
+  schedule:
+    - cron: '0 1 * * *'
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -55,7 +57,7 @@ jobs:
     - name: Build Koffer Entrypoint
       run: |
         cat gitconfig; \
-        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git; \
+        git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}:x/koffer-go.git; \
         docker run --rm \
             --volume $(pwd)/gitconfig:/root/.gitconfig:z \
             --volume $(pwd)/koffer-go:/root/dev:z \
