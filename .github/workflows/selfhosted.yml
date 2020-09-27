@@ -71,7 +71,7 @@ jobs:
         rm -rf /tmp/koffer-go;
     - name: Build Image | Koffer
       run: |
-        cp -f /tmp/koffer/bin/ koffer ;\
+        cp -f /tmp/koffer/bin/koffer koffer ;\
         podman build . \
                  --force-rm \
                  --file ./container/Dockerfile.rh8 \
