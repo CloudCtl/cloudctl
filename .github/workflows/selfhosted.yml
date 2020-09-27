@@ -57,6 +57,7 @@ jobs:
         set -x; \
         cat /tmp/gitconfig; \
         git clone https://${{ secrets.ROBOT_USER }}:${{ secrets.ROBOT_TOKEN }}@github.com/${{ secrets.DOCKERHUB_ORGANIZATION }}/koffer-go.git /tmp/koffer-go; \
+        mkdir /tmp/koffer-go/bin; \
         ls /tmp/koffer-go; \
         podman run --rm \
             --volume /tmp/gitconfig:/root/.gitconfig:z \
@@ -82,7 +83,8 @@ jobs:
                  --tag podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer \
                  --tag podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest \
                  --tag podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
-                 --tag podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+                 --tag podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}; \
+        rm -rf /tmp/koffer-go;
     - name: Image Push | Koffer | podman.io
       run: |
         podman push podman.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer;                    \
