@@ -63,7 +63,7 @@ jobs:
             --volume $(pwd)/koffer-go:/root/dev:z \
             --volume $(pwd)/koffer-go/bin:/tmp/bin:z \
             --entrypoint /root/dev/build.sh \
-          docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/red-gotools
+          docker.io/${{ secrets.DOCKERHUB_ORGANIZATION }}/golang
     - name: Build Image | Koffer
       run: |
         docker build . \
@@ -95,6 +95,3 @@ jobs:
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest;                                 \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
         docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
-
-#       sed -i 's/ROBOT_USER/${{ secrets.ROBOT_USER }}/g' gitconfig
-#       sed -i 's/ROBOT_TOKEN/${{ secrets.ROBOT_TOKEN }}/g' gitconfig
