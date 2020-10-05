@@ -19,7 +19,7 @@ Compatibile Artifact Types:
   - capability to add more artifact types with custom collector plugins
 
 ## How To
-  - Example: [collector-infra](https://github.com/codesparta/collector-infra) plugin
+  - Example: [collector-infra](https://github.com/containercraft/collector-infra) plugin
 
 ### 1. Create Koffer Bundle Directory
 ```
@@ -29,7 +29,7 @@ mkdir -p ~/bundle
 ```
 sudo podman run -it --rm --pull always \
     --volume $(pwd)/bundle:/root/deploy/bundle:z \
-  docker.io/codesparta/koffer bundle \
+  docker.io/containercraft/koffer bundle \
         --config https://git.io/JUzf0
 ```
 ### 3. Verify Bundle
