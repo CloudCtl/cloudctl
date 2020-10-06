@@ -16,7 +16,7 @@
 
 - name: '{{ ansible_name_module }} | command:htpasswd.bcrypt | Generate Registry Basic Auth'
   command:
-    cmd: 'htpasswd -Bbn cloudctl cloudctl'
+    cmd: htpasswd -Bbn cloudctl cloudctl
   register: bcrypt_htpasswd
 
 - name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Write Registry htpasswd credential config'

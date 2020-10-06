@@ -50,3 +50,6 @@ ctltree:
   - path: "{{ dir_platform }}/profile.d"
     state: directory
     mode: '0744'
+  - path: "{{ dir_secrets }}/registry/auth"
+    state: directory
+    mode: '0744'
