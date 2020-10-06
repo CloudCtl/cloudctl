@@ -12,4 +12,4 @@ sudo podman run -it --rm --pull always \
     --volume /tmp/.gitconfig:/root/.gitconfig:z \
     --volume $(pwd):/root/koffer:z \
     --workdir /root/koffer/ \
-  docker.io/containercraft/konductor:latest
+  docker.io/containercraft/koffer:latest
