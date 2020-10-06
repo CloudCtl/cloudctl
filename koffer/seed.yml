@@ -1,0 +1,31 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: 'Sparta | Koffer | Collector CloudCtl | seed.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/seed.yml'
+  vars:
+    module: "seed"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+    tag: '{{ module }}'
+  tasks:
+
+#   - name: '{{ ansible_name_module }} | command:skopeo.copy | Purge Seed Images' 
+#     file:
+#       path: "{{ dir_seed_img }}/image-{{ item.name }}-{{ tag }}.tar"
+#       state: absent
+#     with_items:
+#       - "{{ cloudctl_seed }}"
+
+    - name: '{{ ansible_name_module }} | command:skopeo.copy | Pull CloudCTL Pod Seed Images' 
+      command:
+        argv:
+          - skopeo
+          - copy
+          - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+          - 'docker-archive://{{ item.path }}/image-{{ item.name }}-{{ item.tag }}.tar'
+          - --additional-tag
+          - '{{ item.uri }}/{{ item.name }}:{{ tag }}'
+        creates: "{{ dir_seed_img }}/image-{{ item.name }}-{{ item.tag }}.tar"
+      with_items:
+        - "{{ cloudctl_seed }}"

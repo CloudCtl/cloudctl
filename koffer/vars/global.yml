@@ -1,0 +1,38 @@
+---
+#####################################################################################################
+# End of user configurable variables
+#####################################################################################################
+name_vendor: " Sparta"
+ansible_name: " {{ name_vendor }} | Koffer | Collector CloudCtl | Lifecycle Services Pod"
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+# Directory Inventory
+remote_home: "{{ ansible_env.HOME }}"
+local_home: "{{ lookup('env', 'HOME') }}"
+dir_koffer: "{{ local_home }}/koffer"
+dir_bundle: "{{ local_home }}/bundle"
+dir_platform_name: "platform"
+dir_platform: "{{ local_home }}/{{ dir_platform_name }}"
+
+dir_tmp: "/tmp/staging"
+dir_seed_cfg: "{{ dir_tmp }}/config"
+dir_seed_img: "{{ dir_tmp }}/images"
+dir_iac: "{{ dir_platform }}/iac"
+dir_images: "{{ dir_platform }}/images"
+dir_mirror: "{{ dir_platform }}/mirror"
+dir_secrets: "{{ dir_platform }}/secrets"
+dir_cloudctl: "{{ dir_platform }}/cloudctl"
+
+bundle_sha: "{{ bundle_name }}.sha256"
+bundle_name: "koffer-bundle.cloudctl-pod.tar.xz"
+bootstrap_bundle_name: "koffer-bundle.cloudctl-bootstrap.tar.xz"
+
+# Sparta | Trusted Platform Delivery Kit Release or Dev Branch 
+tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
+
+# SSH Keys
+sshkeys_pub_file: "{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}.pub"
+sshkeys_priv_file: "{{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}"
+sshkeys_pub_string: "{{ lookup('file', '{{ sshkeys_pub_file }}') }}"
+sshkeys_priv_string: "{{ lookup('file', '{{ sshkeys_priv_file }}') }}"
+local_user: "{{ lookup('env', 'USER') }}"

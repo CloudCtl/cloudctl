@@ -1,0 +1,13 @@
+---
+git_branch: master
+
+# Ansible Git Repos
+url_git_cloudctl: 'https://github.com/CodeSparta/CloudCtl.git'
+dir_git_cloudctl: "{{ dir_iac }}/cloudctl"
+
+# Git Clone Items
+ansiblerepos:
+  - repo: "{{ url_git_cloudctl }}"
+    dest: "{{ dir_git_cloudctl }}"
+    branch: "master"
+#   branch: "{{ git_branch }}"

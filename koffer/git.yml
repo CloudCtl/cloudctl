@@ -1,0 +1,21 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: ' Sparta | Koffer | Collector CloudCtl | git.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/git.yml'
+  vars:
+    module: "git"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    - name: '{{ ansible_name_module }} | git:clone | Clone Git Dependencies' 
+      git:
+        clone: yes
+        force: yes
+        update: true
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        version: "master"
+#       version: "{{ tpdk_version }}"
+      with_items:
+        - "{{ ansiblerepos }}"

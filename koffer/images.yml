@@ -1,0 +1,23 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: 'Sparta | Koffer | Collector CloudCtl | images.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/images.yml'
+    - 'vars/seed.yml'
+  vars:
+    module: "images"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+    tag: '{{ module }}'
+  tasks:
+    - name: '{{ ansible_name_module }} | command:skopeo.copy | Pull Auxiliary CloudCTL Pod Images' 
+      command:
+        argv:
+          - skopeo
+#         - '--dest-no-creds'
+          - copy
+          - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+          - 'docker://localhost:5000/{{ item.name }}:{{ item.tag }}'
+      with_items:
+        - "{{ cloudctl_seed }}"
+        - "{{ cloudctl_images }}"

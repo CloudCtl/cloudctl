@@ -1,0 +1,15 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: ' Sparta | Koffer | Collector CloudCtl | clean.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "clean"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+  - name: '{{ ansible_name_module }} | file | Clean/Purge Platform Artifacts' 
+    file:
+      state: absent
+      path: '{{ item }}'
+    with_items:
+      - '{{ dir_platform }}'

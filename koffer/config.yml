@@ -1,0 +1,17 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: ' Sparta | Koffer | Collector CloudCtl | config.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "config"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    - name: '{{ ansible_name_module }} | template | Stage CloudCtl Startup Assets' 
+      template:
+        src: '{{ item.src }}'
+        dest: '{{ item.dest }}'
+        mode: '{{ item.mode }}'
+      with_items:
+        - { mode: '0775', src: '{{ dir_koffer }}/templates/pod/cloudctl.yml.j2', dest: '/tmp/cloudctl.yml' }
+        - { mode: '0644', src: 'registry/etc-docker-registry-config.yml.j2', dest: '/root/platform/mirror/config.yml' }

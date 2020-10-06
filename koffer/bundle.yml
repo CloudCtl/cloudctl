@@ -1,0 +1,37 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory
+- name: ' Sparta | Koffer | Collector CloudCtl | bundle.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "bundle"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    
+    - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing bundles'
+      file:
+        path: '{{ item }}'
+        state: absent
+      loop:
+        - "{{ dir_tmp }}/{{ bundle_sha }}"
+        - "{{ dir_tmp }}/{{ bundle_name }}"
+    
+    - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Pod Artifacts Bundle'
+      command:
+        "tar -cv --use-compress-program='pigz -9 ' -C {{ local_home }} -f {{ dir_tmp }}/{{ bundle_name }} {{ dir_platform_name }}"
+      args:
+        creates: '{{ dir_tmp }}/{{ bundle_name }}'
+        warn: false
+    
+    - name: '{{ ansible_name_module }} | stat:sha256 | SHA {{ bundle_name }}'
+      command: 'sha256sum {{ bundle_name }}'
+      args:
+        warn: false
+        chdir: '{{ dir_tmp }}'
+      register: bundle_sha_sum
+    
+    - name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Write Bundle SHA to file'
+      copy:
+        content: '{{ bundle_sha_sum.stdout }}'
+        dest: '{{ dir_tmp }}/{{ bundle_name }}.sha256'
+        mode: 0600

@@ -1,0 +1,140 @@
+# Generation of Kubernetes YAML is still under development!
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+# Created with podman-1.6.4
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-07-05T18:33:06Z"
+  labels:
+    app: cloudctl
+  name: cloudctl
+spec:
+  containers:
+  - command:
+    - nginx
+    - -g
+    - daemon off;
+    env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: nginx
+    - name: container
+      value: podman
+    - name: NGINX_VERSION
+      value: 1.19.0
+    - name: NJS_VERSION
+      value: 0.4.1
+    - name: PKG_RELEASE
+      value: 1~buster
+    image: docker.io/library/nginx:latest
+    name: nginx
+    ports:
+    - containerPort: 80
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 2022
+      hostPort: 2022
+      protocol: TCP
+    - containerPort: 5000
+      hostPort: 5000
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html:z
+      name: root-deploy-nginx
+      readOnly: true
+    workingDir: /
+  - command:
+    - /etc/docker/registry/config.yml
+    env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: registry
+    - name: container
+      value: podman
+    image: docker.io/library/registry:latest
+    name: registry
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /root/deploy/mirror:z
+      name: root-deploy-mirror
+    - mountPath: /etc/docker/registry/auth:z
+      name: root-deploy-secrets-registry-auth
+      readOnly: false
+    - mountPath: /etc/docker/registry/ssl:z
+      name: root-deploy-secrets-registry-ssl
+      readOnly: false
+    - mountPath: /etc/docker/registry/config.yml:z
+      name: root-deploy-mirror-config.yml
+      readOnly: false
+    workingDir: /
+  - env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: HOSTNAME
+      value: one
+    - name: container
+      value: oci
+    - name: BUILDAH_ISOLATION
+      value: chroot
+    - name: varVerOpenshift
+      value: {{ lookup('env', 'varVerOpenshift') }}
+    - name: versOCP
+      value: {{ lookup('env', 'varVerOpenshift') }}
+    image: docker.io/codesparta/konductor:{{ lookup('env', 'varVerOpenshift') }}
+    name: one
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: true
+      readOnlyRootFilesystem: false
+    volumeMounts:
+    - mountPath: /root/deploy:z
+      name: root-deploy
+    workingDir: /root/deploy
+  volumes:
+  - hostPath:
+      path: /root/deploy/nginx
+      type: Directory
+    name: root-deploy-nginx
+  - hostPath:
+      path: /root/deploy/secrets/registry/auth
+      type: Directory
+    name: root-deploy-secrets-registry-auth
+  - hostPath:
+      path: /root/deploy/mirror/config.yml
+      type: File
+    name: root-deploy-mirror-config.yml
+  - hostPath:
+      path: /root/deploy/mirror
+      type: Directory
+    name: root-deploy-mirror
+  - hostPath:
+      path: /root/deploy/secrets/registry/ssl
+      type: Directory
+    name: root-deploy-secrets-registry-ssl
+  - hostPath:
+      path: /root/deploy
+      type: Directory
+    name: root-deploy
+status: {}
