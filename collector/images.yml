@@ -1,6 +1,6 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory
 - name: 'Sparta | Koffer | Collector CloudCtl | images.yml' 
-  hosts: local
+  hosts: koffer
   vars_files:
     - 'vars/global.yml'
     - 'vars/images.yml'

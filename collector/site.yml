@@ -1,8 +1,8 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
 - name: ' Sparta | Koffer | Collector CloudCtl | Artifact Bundle Plugin' 
-  hosts: local
+  hosts: koffer
   vars_files:
-    - 'vars/global.yml'
+    - './vars/global.yml'
 
 # Stage Pod Artifacts
 - import_playbook: clean.yml          # Purge pre-existing artifacts for clean capture

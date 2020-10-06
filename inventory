@@ -1,12 +1,2 @@
-all:
-  hosts:
-    deploy:
-  children:
-    cloudctl:
-      hosts:
-        pod:
-          ansible_host: 10.88.0.1
-      vars:
-        ansible_port: 22
-        ansible_user: root
-        ansible_connection: ssh
+[local]
+localhost ansible_connection=local ansible_user=root
