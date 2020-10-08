@@ -10,16 +10,24 @@ Infrastructure as Code [(IaC)] toolkit for deployment operations tasks
 with core features delivered via [UBI8] based [Konductor] as primary 
 orchestration base capable of dynamically allocating additional pod 
 contained services.
-##### Core Features
+#### Core Features
   - stateful
   - dynamic
   - portable 
   - consistent
-##### Supported Distributions
+#### Supported Distributions
   - [Fedora] 32+
   - [CentOS] 8.0+
   - [RedHat] 8.0+
   - [Ubuntu] 20.04+
+#### Supported Services
+  - Docker Registry
+  - CoreDNS
+  - Haproxy
+  - Tftpd
+  - Nginx File
+  - ISC-DHCP Service
+  - Konductor IaC Engine
 ----------------------
 ## Getting Started
 ####  0. Install Dependencies
