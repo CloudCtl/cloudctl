@@ -1,4 +1,4 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
 - name: 'Sparta | Koffer | Collector CloudCtl | seed.yml' 
   hosts: koffer
   vars_files:

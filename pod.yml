@@ -1,4 +1,4 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
 - name: '{{ ansible_name }} | cloudctl.yml' 
   hosts: cloudctl
   become_user: root
@@ -6,7 +6,7 @@
   vars_files:
     - 'vars/global.yml'
   vars:
-    module: "cloudctl"
+    module: "pod"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
     - pod

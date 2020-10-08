@@ -1,4 +1,4 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
 - name: '{{ ansible_name }} | registry.yml' 
   hosts: cloudctl
   become_user: root
