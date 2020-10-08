@@ -21,8 +21,8 @@ contained services.
   - [RedHat] 8.0+
   - [Ubuntu] 20.04+
 ----------------------
-# Getting Started
-####  1. Install Dependencies
+## Getting Started
+####  0. Install Dependencies
 ```
 On Fedora 32+
   sudo dnf install -y git podman
@@ -33,30 +33,30 @@ On RHEL/CentOS 8+
 On Ubuntu 20.04+
   sudo apt install -y git podman
 ```
-####  2. Clone Repo
+####  1. Clone Repo
 ```
   git clone https://github.com/containercraft/CloudCTL.git ~/cloudctl ; cd ~/cloudctl
 ```
-####  3. Execute Ansible Playbook
+####  2. Execute Ansible Playbook
 ```
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ./konductor.sh
 ```
-####  4. Review pod status
+####  3. Review pod status
 ```
 sudo podman pod ps
 sudo podman ps --all
 sudo podman logs registry
 ```
-####  5. Exec CloudCtl Konductor
+####  4. Exec CloudCtl Konductor
 ```
 podman exec -it konductor connect
 ```
-####  6. Disconnect from Konductor console
+####  5. Disconnect from Konductor console
 ```
 quit
 ```
-####  7. Remove & Cleanup
+## Remove & Cleanup
 ```
 sudo podman pod rm --force cloudctl
 sudo podman container prune -f
