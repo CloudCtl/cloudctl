@@ -1,0 +1,13 @@
+# Origin /usr/lib/systemd/system/tftp.service
+[Unit]
+Description=Tftp Server
+Requires=tftp.socket
+Documentation=man:in.tftpd
+
+[Service]
+#ExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot
+ExecStart=/usr/sbin/in.tftpd -s /tftpboot
+StandardInput=socket
+
+[Install]
+Also=tftp.socket

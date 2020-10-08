@@ -1,0 +1,16 @@
+
+host master01 {
+  fixed-address  172.10.1.31;
+  option host-name "master01.ocp.ministack.dev";
+  hardware ethernet 02:c3:65:84:78:73;
+}
+host master02 {
+  fixed-address  172.10.1.32;
+  option host-name "master02.ocp.ministack.dev";
+  hardware ethernet 02:c6:aa:70:0e:83;
+}
+host master03 {
+  fixed-address  172.10.1.33;
+  option host-name "master03.ocp.ministack.dev";
+  hardware ethernet 02:72:4c:4f:09:a4;
+}
