@@ -1,0 +1,38 @@
+---
+- name: '{{ ansible_name_module }} | template | Build Registry config.yml' 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  loop: 
+    - { mode: '0644', src: "registry/config.yml.j2", dest: "{{ dir_platform }}/mirror/config.yml"}
+
+# Disabled due to no compatibile bcrypt algo for docker registry
+# name: '{{ ansible_name_module }} | htpasswd | Generate Default Registry Basic Auth'
+# htpasswd:
+#   path: "{{ dir_deploy }}/secrets/registry/auth/htpasswd"
+#   name: cloudctl
+#   password: cloudctl
+
+- name: '{{ ansible_name_module }} | command:htpasswd.bcrypt | Generate Registry Basic Auth'
+  command:
+    cmd: htpasswd -Bbn cloudctl cloudctl
+  register: bcrypt_htpasswd
+
+- name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Write Registry htpasswd credential config'
+  copy:
+    content: '{{ bcrypt_htpasswd.stdout }}'
+    dest: '{{ dir_secrets }}/registry/auth/htpasswd'
+    mode: 0600
+
+- name: '{{ ansible_name_module }} | copy.content | Generate Registry Pull Secret ~/docker/config.json'
+  copy:
+    dest: "{{ dir_secrets }}/registry/auth/config.json"
+    content: '{"auths": {"registry.{{ domain_cluster }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
+    mode: 0600
+
+- name: '{{ ansible_name_module }} | copy.content | Generate Registry Pull Secret {{ dir_secrets }}/registry/auth/config.json'
+  copy:
+    dest: "/root/.docker/config.json"
+    content: '{"auths": {"registry.{{ domain_cluster }}:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
+    mode: 0600

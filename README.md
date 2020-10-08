@@ -39,18 +39,18 @@ On Ubuntu 20.04+
 ```
 ####  3. Execute Ansible Playbook
 ```
-source tools/run.sh
-./site.yml
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+./konductor.sh
 ```
 ####  4. Review pod status
 ```
-sudo podman pod ps --all
+sudo podman pod ps
 sudo podman ps --all
 sudo podman logs registry
 ```
 ####  5. Exec CloudCtl Konductor
 ```
-podman exec -it Konductor connect
+podman exec -it konductor connect
 ```
 ####  6. Disconnect from Konductor console
 ```
