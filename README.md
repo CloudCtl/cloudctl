@@ -1,5 +1,5 @@
 # CloudCTL
-DevOps Deployment Services & Utilities Container [Pod] Infrastructure as Code [(IaC)] toolkit.
+DevOps Services & Utilities Container [Pod] Infrastructure as Code [(IaC)] toolkit.
 ## Problem
 Infrastructure deployment requires a wide set of user enablement & automation 
 utilities, network services, and Infrastructure as Code resources. These can 
@@ -25,26 +25,22 @@ contained services.
 ####  0. Install Dependencies
 ```
 On Fedora 32+
-  sudo dnf install -y curl ansible python3 python3-pip
+  sudo dnf install -y git podman
+
+On RHEL/CentOS 8+
+  sudo dnf install -y git podman
 
 On Ubuntu 20.04+
-  sudo apt install -y curl ansible python3 python3-pip
-
-On CentOS 8+
-  sudo dnf install -y curl python3 python3-pip
-  sudo pip3 install --global ansible
-```
-####  1. Install Dependencies
-```
-sudo -i
+  sudo apt install -y git podman
 ```
 ####  2. Clone Repo
 ```
-git clone https://github.com/redshiftofficial/CloudCTL.git ~/.ccio/cloudctl ; cd ~/.ccio/cloudctl/ansible
+  git clone https://github.com/containercraft/CloudCTL.git ~/cloudctl ; cd ~/cloudctl
 ```
 ####  3. Execute Ansible Playbook
 ```
-./run.yml
+source tools/run.sh
+./site.yml
 ```
 ####  4. Review pod status
 ```
@@ -70,12 +66,10 @@ quit
 ```
 ####  7. Remove & Cleanup
 ```
-sudo podman rm --force one
 sudo podman pod rm --force cloudctl
-sudo rm -rf ~/.ccio/cloudctl
-```
-```
-for i in $(sudo podman images | awk '/one|pause/{print $3}'); do podman rmi --force $i; done
+sudo podman container prune -f
+sudo podman image prune -f
+sudo rm -rf ~/cloudctl
 ```
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
