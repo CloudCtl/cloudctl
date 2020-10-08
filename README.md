@@ -48,17 +48,9 @@ sudo podman ps --all
 sudo podman pod ps --all
 sudo podman logs one
 ```
-####  5. Exec or SSH into CloudCtl pod Konductor
-  > Exec from container host
-
+####  5. Exec CloudCtl Konductor
 ```
-podman exec -it one connect
-```
- > SSH example from localhost 
-
-```
-cat ~/.ssh/id_rsa.pub >> ~/.ccio/.secrets.d/ssh/user/authorized_keys
-ssh -p 2022 root@localhost
+podman exec -it Konductor connect
 ```
 ####  6. Disconnect from Konductor console
 ```
