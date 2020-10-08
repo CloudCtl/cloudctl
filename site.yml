@@ -1,7 +1,12 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
-- name: ' Sparta | Konductor | site.yml' 
+- name: ' CloudCtl | Konductor:Bootstrap | site.yml' 
   hosts: cloudctl 
 
-- import_playbook: tree.yml        # Create base deployment directory tree 
-- import_playbook: pod.yml         # Create CloudCtl base pod
-- import_playbook: registry.yml    # Create Docker Registry
+- import_playbook: tree.yml        # CloudCtl host directory tree 
+- import_playbook: pod.yml         # CloudCtl Container Pod
+- import_playbook: registry.yml    # Docker Image Registry
+- import_playbook: nginx.yml       # Nginx Artifact File Service
+- import_playbook: dns.yml         # CoreDNS Service
+- import_playbook: haproxy.yml     # HaProxy LB Service
+- import_playbook: dhcp.yml        # ISC-DHCP Service
+- import_playbook: tftpd.yml       # Tftpd Service

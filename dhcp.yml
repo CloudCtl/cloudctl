@@ -1,0 +1,10 @@
+sudo podman run  \
+    --name ocp-isc-dhcp                                                                     \
+    --detach                                                                                \
+    --net=host                                                                              \
+    --cap-add=NET_ADMIN                                                                     \
+    --publish ${ocp_ministack_SUBNET}.3:67:67/udp                                           \
+    --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/dhcp:/etc/dhcp:z             \
+    --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/var/lib/dhcp:/var/lib/dhcp:z \
+    --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/defaults:/etc/defaults:z     \
+  docker.io/containercraft/ccio-isc-dhcp:alpine-latest
