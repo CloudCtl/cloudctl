@@ -22,7 +22,7 @@ contained services.
   - [Ubuntu] 20.04+
 ----------------------
 # Getting Started
-####  0. Install Dependencies
+####  1. Install Dependencies
 ```
 On Fedora 32+
   sudo dnf install -y git podman
@@ -44,9 +44,9 @@ source tools/run.sh
 ```
 ####  4. Review pod status
 ```
-sudo podman ps --all
 sudo podman pod ps --all
-sudo podman logs one
+sudo podman ps --all
+sudo podman logs registry
 ```
 ####  5. Exec CloudCtl Konductor
 ```
