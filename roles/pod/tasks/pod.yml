@@ -20,7 +20,8 @@
 - name: '{{ ansible_name_module }} | cmd:podman.pod.create | Podman create {{ name_pod_cloudctl }}' 
   command:
     cmd:
-      podman pod create --replace
+     #podman pod create --replace
+      podman pod create
         --publish 2022:2022
         --publish 5000:5000
         --publish 8080:8080
