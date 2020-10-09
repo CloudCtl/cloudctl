@@ -1,4 +1,4 @@
-udo podman run \
+sudo podman run \
     --detach                                                                                              \
     --name     ocp-nginx                                                                                  \
     --publish  ${ocp_ministack_SUBNET}.3:8080:8080                                                        \
