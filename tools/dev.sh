@@ -10,6 +10,6 @@ sudo podman run -it --rm --pull always \
     --volume /tmp/.ssh:/root/.ssh:z \
     --volume /tmp/.bashrc:/root/.bashrc:z \
     --volume /tmp/.gitconfig:/root/.gitconfig:z \
-    --volume $(pwd):/root/platform/iac/${project}:z \
-    --workdir /root/platform/iac/${project} \
+    --volume $(pwd):/root/platform/iac/cloudctl:z \
+    --workdir /root/platform/iac/cloudctl \
   docker.io/containercraft/konductor:latest

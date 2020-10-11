@@ -8,11 +8,11 @@ ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 
 # Directory Inventory
 remote_home: "{{ ansible_env.HOME }}"
-local_home: "{{ lookup('env', 'HOME') }}"
-dir_koffer: "{{ local_home }}/koffer"
-dir_bundle: "{{ local_home }}/bundle"
+dir_local_home: "{{ lookup('env', 'HOME') }}"
+dir_koffer: "{{ dir_local_home }}/koffer"
+dir_bundle: "{{ dir_local_home }}/bundle"
 dir_platform_name: "platform"
-dir_platform: "{{ local_home }}/{{ dir_platform_name }}"
+dir_platform: "{{ dir_local_home }}/{{ dir_platform_name }}"
 
 dir_tmp: "/tmp/staging"
 dir_seed_cfg: "{{ dir_tmp }}/config"

@@ -10,7 +10,7 @@
 # Disabled due to no compatibile bcrypt algo for docker registry
 # name: '{{ ansible_name_module }} | htpasswd | Generate Default Registry Basic Auth'
 # htpasswd:
-#   path: "{{ dir_deploy }}/secrets/registry/auth/htpasswd"
+#   path: "{{ dir_platform }}/secrets/registry/auth/htpasswd"
 #   name: cloudctl
 #   password: cloudctl
 

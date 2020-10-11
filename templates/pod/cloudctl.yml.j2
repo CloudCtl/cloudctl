@@ -49,11 +49,11 @@ spec:
 #     name: socket-io.podman
   volumes:
   - hostPath:
-      path: {{ local_home }}/.ccio
+      path: {{ dir_local_home }}/.ccio
       type: Directory
     name: ccio-home
   - hostPath:
-      path: {{ local_home }}/.ssh/authorized_keys
+      path: {{ dir_local_home }}/.ssh/authorized_keys
       type: File
     name: ccio-ssh-authorized-keys
 # - hostPath: # need to add play to configure host unix podman socket

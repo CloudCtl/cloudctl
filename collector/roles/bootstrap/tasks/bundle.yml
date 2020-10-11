@@ -24,7 +24,7 @@
 ####### Build Unified Bundle
 - name: '{{ ansible_name_module }} | command:tar | build tarball bundle of all artifacts'
   command:
-    "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ local_home }} deploy"
+    "tar -c --use-compress-program='pigz -9 ' -v -f /tmp/ArtifactsBundle.tar.xz -C {{ dir_local_home }} deploy"
   args:
     creates: /tmp/ArtifactsBundle.tar.xz
     warn: false
@@ -53,9 +53,9 @@
 
 - name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
   command:
-    "tar -cvf {{ local_home }}/deploy/bundle/koffer-bundle.openshift-{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz.sha256 ArtifactsBundle.tar.xz cloudctl.yml konductor.sh answer.sh"
+    "tar -cvf {{ dir_local_home }}/deploy/bundle/koffer-bundle.openshift-{{ version_openshift  }}.tar -C /tmp ArtifactsBundle.tar.xz.sha256 ArtifactsBundle.tar.xz cloudctl.yml konductor.sh answer.sh"
   args:
-    creates: "{{ local_home }}/deploy/bundle/koffer-bundle.openshift-{{ version_openshift }}.tar"
+    creates: "{{ dir_local_home }}/deploy/bundle/koffer-bundle.openshift-{{ version_openshift }}.tar"
     warn: false
 
 # name: '{{ ansible_name_module }} | role | archive | Bundle ArtifactsBundle.tar.xz with auxilary files'
@@ -65,5 +65,5 @@
 #   - '/tmp/ArtifactsBundle.tar.xz'
 #   - '/tmp/registry.yml'
 #   - '/tmp/registry.sh'
-#   dest: '{{ local_home }}/deploy/{{ cloud_provider }}-{{ target_environment }}-{{ name_cluster_vpc }}-p1bundle.tar'
+#   dest: '{{ dir_local_home }}/deploy/{{ cloud_provider }}-{{ target_environment }}-{{ name_cluster_vpc }}-p1bundle.tar'
 #   format: tar

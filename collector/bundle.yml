@@ -18,7 +18,7 @@
     
     - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Pod Artifacts Bundle'
       command:
-        "tar -cv --use-compress-program='pigz -9 ' -C {{ local_home }} -f {{ dir_tmp }}/{{ bundle_name }} {{ dir_platform_name }}"
+        "tar -cv --use-compress-program='pigz -9 ' -C {{ dir_local_home }} -f {{ dir_tmp }}/{{ bundle_name }} {{ dir_platform_name }}"
       args:
         creates: '{{ dir_tmp }}/{{ bundle_name }}'
         warn: false
