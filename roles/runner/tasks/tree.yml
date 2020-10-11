@@ -5,11 +5,10 @@
     path: '{{ item }}'
     state: directory
   with_items:
-    - '{{ dir_platform }}/runner'
-    - '{{ dir_platform }}/runner/usr/share/env'
-    - '{{ dir_platform }}/runner/usr/share/project'
-    - '{{ dir_platform }}/runner/usr/share/inventory'
-    - '{{ dir_platform }}/runner/usr/share/artifacts'
-    - '{{ dir_platform }}/runner/etc/ansible-runner-service'
     - '{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/client'
     - '{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/server'
+    - '{{ dir_platform }}/runner/etc/ansible-runner-service'
+    - '{{ dir_platform }}/runner/usr/share/ansible-runner-service/env'
+    - '{{ dir_platform }}/runner/usr/share/ansible-runner-service/project'
+    - '{{ dir_platform }}/runner/usr/share/ansible-runner-service/inventory'
+    - '{{ dir_platform }}/runner/usr/share/ansible-runner-service/artifacts'

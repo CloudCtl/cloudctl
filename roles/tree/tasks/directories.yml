@@ -23,10 +23,10 @@
     state: directory
     mode: '0644'
   with_items:
-    - '{{ dir_platform }}/secrets/registry/ssl'
-    - '{{ dir_platform }}/secrets/registry/auth'
-    - '{{ dir_platform }}/secrets/cluster'
-    - '{{ dir_platform }}/secrets/docker'
-    - '{{ dir_platform }}/secrets/ssh'
+    - '{{ dir_secrets }}/registry/ssl'
+    - '{{ dir_secrets }}/registry/auth'
+    - '{{ dir_secrets }}/cluster'
+    - '{{ dir_secrets }}/docker'
+    - '{{ dir_secrets }}/ssh'
     - '{{ dir_local_home }}/.kube'
     - '{{ dir_tmp }}'

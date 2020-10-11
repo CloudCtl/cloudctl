@@ -1,5 +1,69 @@
 ---
-- name: '{{ ansible_name_module }} | openssl_privatekey | SSL Private Key | CloudCtl Self Signed CA Key'
+- name: '{{ ansible_name_module }} | openssl_privatekey | SSL Private Key | CloudCtl Self Signed Certificate Key'
   openssl_privatekey:
-    path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
+    path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key"
     size: 4096
+
+- name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | CloudCtl CSR'
+  openssl_csr:
+    mode: 0600
+    path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.csr"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key"
+    common_name: "ctl"
+    subject_alt_name:
+      - "IP:10.88.0.1"
+      - "DNS:127.0.0.1"
+      - "DNS:127.0.1.1"
+      - "DNS:localhost"
+      - "DNS:lb"
+      - "DNS:api"
+      - "DNS:ign"
+      - "DNS:dns"
+      - "DNS:ftp"
+      - "DNS:nginx"
+      - "DNS:registry"
+      - "DNS:cloudctl"
+      - "DNS:lb.{{ domain_cluster }}"
+      - "DNS:api.{{ domain_cluster }}"
+      - "DNS:ign.{{ domain_cluster }}"
+      - "DNS:dns.{{ domain_cluster }}"
+      - "DNS:ftp.{{ domain_cluster }}"
+      - "DNS:ctl.{{ domain_cluster }}"
+      - "DNS:nginx.{{ domain_cluster }}"
+      - "DNS:registry.{{ domain_cluster }}"
+      - "DNS:cloudctl.{{ domain_cluster }}"
+      - "IP:{{ ansible_default_ipv4.address }}"
+
+- name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | CloudCtl Certificate'
+  openssl_certificate:
+    mode: 0600
+    path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt"
+    csr_path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.csr"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key"
+    selfsigned_not_after: "+365d"
+    selfsigned_digest: "sha256"
+    provider: selfsigned
+
+- name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | Ansible Runner Client'
+  openssl_csr:
+    mode: 0600
+    path: "{{ dir_secrets }}/runner/ssl/client/runner.csr"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key"
+    common_name: "runner"
+    subject_alt_name:
+      - "IP:10.88.0.1"
+      - "DNS:172.10.0.1"
+      - "DNS:localhost"
+      - "DNS:cloudctl"
+      - "DNS:cloudctl.{{ domain_cluster }}"
+      - "IP:{{ ansible_default_ipv4.address }}"
+
+- name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | Ansible Runner Client'
+  openssl_certificate:
+    mode: 0600
+    path: "{{ dir_secrets }}/runner/ssl/client/runner.crt"
+    csr_path: "{{ dir_secrets }}/runner/ssl/client/runner.csr"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key"
+    selfsigned_not_after: "+365d"
+    selfsigned_digest: "sha256"
+    provider: selfsigned

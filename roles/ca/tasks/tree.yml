@@ -5,4 +5,5 @@
     state: directory
     mode: '0644'
   with_items:
-    - '{{ dir_secrets }}/cloudctl/ca/ssl'
+    - '{{ dir_secrets }}/cloudctl/certs/ssl/server'
+    - '{{ dir_secrets }}/runner/ssl/client'

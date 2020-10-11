@@ -18,13 +18,14 @@
       podman run --rm -dt
           --name runner -h runner
           --pod {{ name_pod_cloudctl }}
-          --volume /root/platform/runner/usr/share:/usr/share/ansible-runner-service:z
           --volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
-          --volume /root/platform/secrets/runner/certs:/etc/ansible-runner-service/certs:z
+          --volume /root/platform/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.key:/etc/ansible-runner-service/certs/server/server.key:z
         docker.io/containercraft/ansible-runner-service:centos7
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid"
   register: runner_pid
-
 #         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
 #         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
