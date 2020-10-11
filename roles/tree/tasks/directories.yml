@@ -29,3 +29,4 @@
     - '{{ dir_platform }}/secrets/docker'
     - '{{ dir_platform }}/secrets/ssh'
     - '{{ dir_local_home }}/.kube'
+    - '{{ dir_tmp }}'
