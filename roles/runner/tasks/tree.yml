@@ -6,9 +6,10 @@
     state: directory
   with_items:
     - '{{ dir_platform }}/runner'
-    - '{{ dir_platform }}/runner/env'
-    - '{{ dir_platform }}/runner/project'
-    - '{{ dir_platform }}/runner/inventory'
-    - '{{ dir_platform }}/runner/artifacts'
-    - '{{ dir_secrets }}/runner/certs/client'
-    - '{{ dir_secrets }}/runner/certs/server'
+    - '{{ dir_platform }}/runner/usr/share/env'
+    - '{{ dir_platform }}/runner/usr/share/project'
+    - '{{ dir_platform }}/runner/usr/share/inventory'
+    - '{{ dir_platform }}/runner/usr/share/artifacts'
+    - '{{ dir_platform }}/runner/etc/ansible-runner-service'
+    - '{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/client'
+    - '{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/server'

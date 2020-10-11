@@ -2,7 +2,7 @@
 - name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | Ansible Runner Service'
   openssl_csr:
     mode: 0600
-    path: "{{ dir_secrets }}/runner/certs/server/server.csr"
+    path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/server/server.csr"
     privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     common_name: "runner"
     subject_alt_name:
@@ -16,8 +16,8 @@
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | Ansible Runner Service'
   openssl_certificate:
     mode: 0600
-    path: "{{ dir_secrets }}/runner/certs/server/server.crt"
-    csr_path: "{{ dir_secrets }}/runner/certs/server/server.csr"
+    path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/server/server.crt"
+    csr_path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/server/server.csr"
     privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     selfsigned_not_after: "+365d"
     selfsigned_digest: "sha256"
@@ -26,7 +26,7 @@
 - name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | Ansible Runner Client'
   openssl_csr:
     mode: 0600
-    path: "{{ dir_secrets }}/runner/certs/client/client.csr"
+    path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/client/client.csr"
     privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     common_name: "runner"
     subject_alt_name:
@@ -40,8 +40,8 @@
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | Ansible Runner Client'
   openssl_certificate:
     mode: 0600
-    path: "{{ dir_secrets }}/runner/certs/client/client.crt"
-    csr_path: "{{ dir_secrets }}/runner/certs/client/client.csr"
+    path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/client/client.crt"
+    csr_path: "{{ dir_secrets }}/runner/etc/ansible-runner-service/certs/client/client.csr"
     privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     selfsigned_not_after: "+365d"
     selfsigned_digest: "sha256"

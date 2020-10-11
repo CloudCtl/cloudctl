@@ -16,43 +16,15 @@
   command:
     cmd:
       podman run --rm -dt
-          --name ansible-runner
-          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid
+          --name runner -h runner
+          --pod {{ name_pod_cloudctl }}
           --volume /root/platform/runner/usr/share:/usr/share/ansible-runner-service:z
           --volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
-          --volume /root/platform/secrets/runner/certs/server:/etc/ansible-runner-service/certs/server:z
+          --volume /root/platform/secrets/runner/certs:/etc/ansible-runner-service/certs:z
         docker.io/containercraft/ansible-runner-service:centos7
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid"
   register: runner_pid
----
-- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge registry' 
-  command:
-    cmd: 'podman rm --force registry'
-  no_log: true
-  ignore_errors: true
-  when: pod_force_rm == true
 
-- name: '{{ ansible_name_module }} | file:absent | Podman purge registry' 
-  file:
-    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid'
-    state: absent
-  when: pod_force_rm == true
-
-- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
-  command:
-    cmd:
-      podman run -dt --replace --name registry --replace
-          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
-          --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
-          --volume {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
-          --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
-          --volume {{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z
-        docker.io/library/registry
-  args:
-    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid"
-  register: registry_pid
-
-#     podman run -dt --pull never --replace
+#         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
+#         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
