@@ -5,4 +5,4 @@
     state: directory
     mode: '0644'
   with_items:
-    - '{{ dir_secrets }}/pod/ca/ssl'
+    - '{{ dir_secrets }}/cloudctl/ca/ssl'

@@ -18,7 +18,7 @@ spec:
     - name: HOSTNAME
       value: cloudctl
     - name: WORKDIR
-      value: /root/deploy
+      value: /root/platform
     - name: container
       value: oci
     - name: BUILDAH_ISOLATION
@@ -40,11 +40,11 @@ spec:
       seLinuxOptions: {}
     tty: true
     volumeMounts:
-    - mountPath: /root/deploy:z
+    - mountPath: /root/platform:z
       name: ccio-home
     - mountPath: /root/.ssh/authorized_keys:z
       name: ccio-ssh-authorized-keys
-    workingDir: /root/deploy
+    workingDir: /root/platform
 #   - mountPath: /run/podman/io.podman
 #     name: socket-io.podman
   volumes:
