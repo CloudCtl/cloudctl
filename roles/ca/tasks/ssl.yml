@@ -1,5 +1,5 @@
 ---
 - name: '{{ ansible_name_module }} | openssl_privatekey | SSL Private Key | CloudCtl Self Signed CA Key'
   openssl_privatekey:
-    path: "{{ dir_secrets }}/cloudctl/ca/cloudctl.ca.key"
+    path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     size: 4096

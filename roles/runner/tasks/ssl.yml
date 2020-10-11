@@ -3,7 +3,7 @@
   openssl_csr:
     mode: 0600
     path: "{{ dir_secrets }}/runner/certs/server/server.csr"
-    privatekey_path: "{{ dir_secrets }}/pod/ca/cloudctl.ca.key"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     common_name: "runner"
     subject_alt_name:
       - "IP:10.88.0.1"
@@ -18,7 +18,7 @@
     mode: 0600
     path: "{{ dir_secrets }}/runner/certs/server/server.crt"
     csr_path: "{{ dir_secrets }}/runner/certs/server/server.csr"
-    privatekey_path: "{{ dir_secrets }}/pod/ca/cloudctl.ca.key"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     selfsigned_not_after: "+365d"
     selfsigned_digest: "sha256"
     provider: selfsigned
@@ -27,7 +27,7 @@
   openssl_csr:
     mode: 0600
     path: "{{ dir_secrets }}/runner/certs/client/client.csr"
-    privatekey_path: "{{ dir_secrets }}/pod/ca/cloudctl.ca.key"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     common_name: "runner"
     subject_alt_name:
       - "IP:10.88.0.1"
@@ -41,8 +41,8 @@
   openssl_certificate:
     mode: 0600
     path: "{{ dir_secrets }}/runner/certs/client/client.crt"
-    csr_path: "{{ dir_secrets }}/runner/certs/server.csr"
-    privatekey_path: "{{ dir_secrets }}/pod/ca/cloudctl.ca.key"
+    csr_path: "{{ dir_secrets }}/runner/certs/client/client.csr"
+    privatekey_path: "{{ dir_secrets }}/cloudctl/ca/ssl/cloudctl.ca.key"
     selfsigned_not_after: "+365d"
     selfsigned_digest: "sha256"
     provider: selfsigned
