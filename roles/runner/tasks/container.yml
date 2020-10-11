@@ -1,0 +1,28 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge runner' 
+  command:
+    cmd: 'podman rm --force runner'
+  no_log: true
+  ignore_errors: true
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge runner' 
+  file:
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid'
+    state: absent
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+  command:
+    cmd:
+      podman run --rm -dt
+          --name ansible-runner
+          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
+          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid
+          --volume /root/platform/runner/usr/share:/usr/share/ansible-runner-service:z
+          --volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
+          --volume /root/platform/secrets/runner/certs/server:/etc/ansible-runner-service/certs/server:z
+        docker.io/containercraft/ansible-runner-service:centos7
+  args:
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid"
+  register: runner_pid

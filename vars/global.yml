@@ -28,11 +28,15 @@ dir_local_path: "{{ lookup('env','PWD') }}"
 # Remote Environment 
 dir_platform: "/root/platform"
 dir_secrets: "{{ dir_platform }}/secrets"
+dir_iac: "{{ dir_platform }}/iac"
 dir_tmp: "/tmp/cloudctl"
 
 # Dir Structure
 ctltree:
   - path: "{{ dir_tmp }}"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_iac }}"
     state: directory
     mode: '0744'
   - path: "{{ dir_platform }}"

@@ -1,0 +1,14 @@
+---
+- name: '{{ ansible_name_module }} | file | Create Directories' 
+  file:
+    mode: '0644'
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ dir_platform }}/runner'
+    - '{{ dir_platform }}/runner/env'
+    - '{{ dir_platform }}/runner/project'
+    - '{{ dir_platform }}/runner/inventory'
+    - '{{ dir_platform }}/runner/artifacts'
+    - '{{ dir_secrets }}/runner/certs/client'
+    - '{{ dir_secrets }}/runner/certs/server'
