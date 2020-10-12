@@ -18,6 +18,7 @@
       podman run --rm -dt
           --name runner -h runner
           --pod {{ name_pod_cloudctl }}
+          --volume /root/platform/iac:/usr/share/ansible-runner-service/projects:z
           --volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
           --volume /root/platform/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z
           --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z

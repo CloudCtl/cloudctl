@@ -13,11 +13,10 @@
     - '{{ dir_platform }}/cluster/aux/openshift'
     - '{{ dir_platform }}/cluster/config'
     - '{{ dir_platform }}/cluster/'
-    - '{{ dir_platform }}/terraform'
-    - '{{ dir_platform }}/ansible'
     - '{{ dir_platform }}/mirror'
     - '{{ dir_platform }}/images'
     - '{{ dir_platform }}/nginx'
+    - '{{ dir_platform }}/iac'
 - file:
     path: '{{ item }}'
     state: directory
