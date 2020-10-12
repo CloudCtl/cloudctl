@@ -1,12 +1,12 @@
-#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
-- name: '{{ ansible_name }} | ca.yml' 
+#!/usr/lossll/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ ansible_name }} | ssl.yml' 
   hosts: cloudctl
   become_user: root
   become: true
   vars_files:
     - 'vars/global.yml'
   vars:
-    module: "ca"
+    module: "ssl"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - ca
+    - ssl
