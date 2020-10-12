@@ -16,7 +16,7 @@
   command:
     cmd:
       podman run -dt --name registry
-          --pod-id-file {{ name_pod_cloudctl }}
+          --pod {{ name_pod_cloudctl }}
           --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
           --volume {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
           --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
