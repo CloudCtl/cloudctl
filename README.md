@@ -46,38 +46,34 @@ On Ubuntu 20.04+
 ```
   git clone https://github.com/containercraft/CloudCTL.git ~/cloudctl ; cd ~/cloudctl
 ```
-####  2. Execute Ansible Playbook
+####  2. Validate ability to ssh to self as root
 ```
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-./konductor.sh
+ssh root@localhost whoami
 ```
 ####  3. Execute Ansible Playbook
+```
+./konductor.sh
+```
+####  4. Execute Ansible Playbook
 ```
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
   https://localhost:5001/api/v1/playbooks -X GET
 ```
-####  4. Review pod status
+####  5. Review pod status
 ```
 sudo podman pod ps
 sudo podman ps --all
 sudo podman logs registry
-```
-####  5. Exec CloudCtl Konductor
-```
-podman exec -it konductor connect
-```
-####  6. Disconnect from Konductor console
-```
-quit
 ```
 ## Remove & Cleanup
 ```
 sudo podman pod rm --force cloudctl
 sudo podman container prune -f
 sudo podman image prune -f
-sudo rm -rf ~/cloudctl
+cd ~ && sudo rm -rf ~/cloudctl
 ```
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
