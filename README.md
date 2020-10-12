@@ -76,9 +76,10 @@ curl -ks \
 ```
 ####  5. Review pod status
 ```
-sudo podman pod ps
-sudo podman ps --all
 sudo podman logs registry
+sudo podman logs runner
+sudo podman ps --all
+sudo podman pod ps
 ```
 ## Remove & Cleanup
 ```
