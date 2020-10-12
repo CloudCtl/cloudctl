@@ -34,10 +34,10 @@ contained services.
 ####  0. Install Dependencies
 ```
 On Fedora 32+
-  sudo dnf install -y git podman httpd-tools
+  sudo dnf install -y git podman httpd-tools jq
 
 On RHEL/CentOS 8+
-  sudo dnf install -y git podman httpd-tools
+  sudo dnf install -y git podman httpd-tools jq
 
 On Ubuntu 20.04+
   sudo apt install -y git podman
@@ -55,12 +55,19 @@ ssh root@localhost whoami
 ```
 ./konductor.sh
 ```
-####  4. Execute Ansible Playbook
+####  4. Verify API Access
 ```
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
-  https://localhost:5001/api/v1/playbooks -X GET
+  https://localhost:5001/api/v1/playbooks -X GET | jq .
+{
+  "status": "OK",
+  "msg": "0 playbook found",
+  "data": {
+    "playbooks": []
+  }
+}
 ```
 ####  5. Review pod status
 ```
