@@ -61,6 +61,9 @@ curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
   https://localhost:5001/api/v1/playbooks -X GET | jq .
+```
+  - sample output:
+```
 {
   "status": "OK",
   "msg": "0 playbook found",
