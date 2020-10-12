@@ -62,7 +62,9 @@ curl -ks \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
   https://localhost:5001/api/v1/playbooks -X GET | jq .
 ```
-  - sample output:
+>
+>  sample output:
+>
 ```
 {
   "status": "OK",
