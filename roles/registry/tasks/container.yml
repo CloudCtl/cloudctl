@@ -16,8 +16,7 @@
   command:
     cmd:
       podman run -dt --replace --name registry --replace
-          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
+          --pod-id-file {{ name_pod_cloudctl }}
           --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
           --volume {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
           --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
@@ -28,3 +27,5 @@
   register: registry_pid
 
 #     podman run -dt --pull never --replace
+#         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
+#         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
