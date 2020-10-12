@@ -51,24 +51,24 @@ On Ubuntu 20.04+
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ./konductor.sh
 ```
-####  2. Execute Ansible Playbook
+####  3. Execute Ansible Playbook
 ```
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
   https://localhost:5001/api/v1/playbooks -X GET
 ```
-####  3. Review pod status
+####  4. Review pod status
 ```
 sudo podman pod ps
 sudo podman ps --all
 sudo podman logs registry
 ```
-####  4. Exec CloudCtl Konductor
+####  5. Exec CloudCtl Konductor
 ```
 podman exec -it konductor connect
 ```
-####  5. Disconnect from Konductor console
+####  6. Disconnect from Konductor console
 ```
 quit
 ```
