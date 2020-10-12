@@ -34,10 +34,10 @@ contained services.
 ####  0. Install Dependencies
 ```
 On Fedora 32+
-  sudo dnf install -y git podman
+  sudo dnf install -y git podman httpd-tools
 
 On RHEL/CentOS 8+
-  sudo dnf install -y git podman
+  sudo dnf install -y git podman httpd-tools
 
 On Ubuntu 20.04+
   sudo apt install -y git podman
