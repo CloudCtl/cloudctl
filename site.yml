@@ -9,7 +9,7 @@
 - import_playbook: runner.yml         # Nginx Artifact File Service
 
 #### These playbooks should be built for delivery via ansible-runner-service container delivery
-# import_playbook: registry.yml       # Docker Image Registry
+- import_playbook: registry.yml       # Docker Image Registry
 # import_playbook: nginx.yml          # Nginx Artifact File Service
 # import_playbook: dns.yml            # CoreDNS Service
 # import_playbook: haproxy.yml        # HaProxy LB Service
