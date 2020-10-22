@@ -1,23 +1,4 @@
 #---------------------------------------------------------------------
-# CCIO OCP MiniStack Application Router
-#
-# TEST:
-# sudo podman run \
-#   -it --rm --name haproxy-test \
-#   -v ~/.ccio/Git/ocp-mini-stack/module/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro \
-#   haproxy \
-#     -c -f /usr/local/etc/haproxy/haproxy.cfg
-#
-# RUN:
-# sudo podman run                                                                     \
-#     --detach                                                                        \
-#     --name ocp-haproxy                                                              \
-#     -p 80:80                                                                        \
-#     -p 443:443                                                                      \
-#     -p 2022:22                                                                      \
-#     -v ~/.ccio/ocp-mini-stack/module/haproxy/aux/config/:/usr/local/etc/haproxy/:ro \
-#   haproxy:latest
-#---------------------------------------------------------------------
 # Global settings
 #---------------------------------------------------------------------
 global
