@@ -18,14 +18,11 @@
       podman run -dt --name registry
           --pod {{ name_pod_cloudctl }}
           --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
-          --volume {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
           --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
           --volume {{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/registry.crt
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/registry.key
         docker.io/library/registry
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid"
   register: registry_pid
-
-#     podman run -dt --pull never --replace
-#         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-#         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid

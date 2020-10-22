@@ -3,7 +3,5 @@
   include_tasks: tree.yml
 - name: '{{ ansible_name_module }} | include_tasks | config.yml' 
   include_tasks: config.yml
-- name: '{{ ansible_name_module }} | include_tasks | ssl.yml' 
-  include_tasks: ssl.yml
 - name: '{{ ansible_name_module }} | include_tasks | container.yml' 
   include_tasks: container.yml

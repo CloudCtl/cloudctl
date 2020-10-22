@@ -14,8 +14,8 @@ http:
   headers:
     X-Content-Type-Options: [nosniff]
   tls:
-    certificate: /etc/docker/registry/ssl/registry.crt
-    key: /etc/docker/registry/ssl/registry.key
+    certificate: /registry.crt
+    key: /registry.key
   debug:
     addr: localhost:4999
     prometheus:
