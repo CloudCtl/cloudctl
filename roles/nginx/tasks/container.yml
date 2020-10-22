@@ -1,0 +1,27 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge nginx' 
+  command:
+    cmd: 'podman rm --force nginx'
+  no_log: true
+  ignore_errors: true
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge nginx' 
+  file:
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-nginx.pid'
+    state: absent
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+  command:
+    cmd:
+      podman run -d --rm --name nginx
+          --pod {{ name_pod_cloudctl }}
+          --volume {{ dir_platform }}/nginx/html:/var/www/html:z
+          --volume {{ dir_platform }}/nginx/nginx.conf:/etc/nginx/nginx.conf:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/nginx.crt
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/nginx.key
+        docker.io/containercraft/nginx
+  args:
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-nginx.pid"
+  register: nginx_pid

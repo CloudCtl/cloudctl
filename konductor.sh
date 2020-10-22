@@ -10,4 +10,4 @@ sudo podman run -it --rm \
     --volume /tmp/.ssh:/root/.ssh:z               \
     --workdir /root/platform/iac/cloudctl         \
     --volume $(pwd):/root/platform/iac/cloudctl:z \
-  docker.io/containercraft/konductor:latest
+  docker.io/containercraft/konductor
