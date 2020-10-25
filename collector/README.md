@@ -16,15 +16,15 @@ Features:
 ## Instructions:
 ### 1. Run Infrastructure Collector with Koffer Engine
 ```
-mkdir -p ${HOME}/platform ; \
-sudo podman run -it --rm \
+mkdir -p ${HOME}/platform;\
+sudo podman run -it --rm --pull always \
     --volume ${HOME}/bundle:/root/bundle:z \
-  codesparta/koffer bundle --silent \
-    --plugin collector-cloudctl
+  containercraft/koffer:latest bundle --silent \
+    --config https://git.io/JToYG
 
 ```
 ### 2. View artifact bundle
 ```
-du -sh ~/bundle/koffer-bundle.cloudctl-bootstrap.tar.xz
+du -sh ~/bundle/koffer-bundle.tpdk.tar.xz
 ``` 
 # [Developer Docs & Utils](./dev)
