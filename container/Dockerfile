@@ -95,8 +95,10 @@ RUN set -ex                                                                     
      && pip3 install ${varListPip}                                              \
      && dnf install -y bsdtar tar                                               \
      && curl -L ${varUrlOpenshift}                                              \
-          | tar xzvf - --directory /bin kubectl oc                              \
-     && /bin/oc version                                                         \
+          | tar xzvf - --directory /bin kubectl                                 \
+#         | tar xzvf - --directory /bin kubectl oc                              \
+     && /bin/kubectl version                                                    \
+#    && /bin/oc version                                                         \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
