@@ -14,7 +14,6 @@
         state: directory
         path: '{{ item }}'
       with_items:
-        - '{{ dir_tmp }}'
         - '{{ dir_iac }}'
         - '{{ dir_mirror }}'
         - '{{ dir_images }}'
