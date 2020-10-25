@@ -12,4 +12,5 @@
       state: absent
       path: '{{ item }}'
     with_items:
+      - '{{ dir_tmp }}'
       - '{{ dir_platform }}'
