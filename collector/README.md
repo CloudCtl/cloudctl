@@ -16,7 +16,7 @@ Features:
 ## Instructions:
 ### 1. Run Infrastructure Collector with Koffer Engine
 ```
-mkdir -p ${HOME}/platform;\
+mkdir -p ${HOME}/bundle;\
 sudo podman run -it --rm --pull always \
     --volume ${HOME}/bundle:/root/bundle:z \
   containercraft/koffer:latest bundle --silent \
