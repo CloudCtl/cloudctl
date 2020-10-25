@@ -15,7 +15,6 @@
         update: true
         repo: "{{ item.repo }}"
         dest: "{{ item.dest }}"
-        version: "master"
-#       version: "{{ tpdk_version }}"
+        version: "{{ item.branch }}"
       with_items:
         - "{{ ansiblerepos }}"

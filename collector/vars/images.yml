@@ -1,14 +1,8 @@
-# CloudCTL Pod Docker Image Pull List
-seed_images:
+cloudctl_seed:
   - name: konductor
+    tag: latest
     uri: "docker.io/containercraft"
-    tag: "latest"
-  - name: pause
-    uri: "k8s.gcr.io"
-    tag: latest
-  - name: registry
-    uri: "docker.io/library"
-    tag: latest
+    path: "{{ dir_seed_img }}"
 
 cloudctl_images:
   - name: pause

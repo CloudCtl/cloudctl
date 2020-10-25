@@ -1,5 +1,1 @@
 ---
-- hosts: localhost
-  remote_user: root
-  roles:
-    - task03-deploy

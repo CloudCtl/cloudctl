@@ -9,14 +9,6 @@
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
     tag: '{{ module }}'
   tasks:
-
-#   - name: '{{ ansible_name_module }} | command:skopeo.copy | Purge Seed Images' 
-#     file:
-#       path: "{{ dir_seed_img }}/image-{{ item.name }}-{{ tag }}.tar"
-#       state: absent
-#     with_items:
-#       - "{{ cloudctl_seed }}"
-
     - name: '{{ ansible_name_module }} | command:skopeo.copy | Pull CloudCTL Pod Seed Images' 
       command:
         argv:

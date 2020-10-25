@@ -14,7 +14,7 @@ dir_bundle: "{{ dir_local_home }}/bundle"
 dir_platform_name: "platform"
 dir_platform: "{{ dir_local_home }}/{{ dir_platform_name }}"
 
-dir_tmp: "/tmp/staging"
+dir_tmp: "/tmp/cloudctl"
 dir_seed_cfg: "{{ dir_tmp }}/config"
 dir_seed_img: "{{ dir_tmp }}/images"
 dir_iac: "{{ dir_platform }}/iac"
@@ -23,9 +23,9 @@ dir_mirror: "{{ dir_platform }}/mirror"
 dir_secrets: "{{ dir_platform }}/secrets"
 dir_cloudctl: "{{ dir_platform }}/cloudctl"
 
+bundle_name: "cloudctl.tar.xz"
 bundle_sha: "{{ bundle_name }}.sha256"
-bundle_name: "koffer-bundle.cloudctl-pod.tar.xz"
-bootstrap_bundle_name: "koffer-bundle.cloudctl-bootstrap.tar.xz"
+tpdk_bundle_name: "koffer-bundle.tpdk-cloudctl.tar.xz"
 
 # Sparta | Trusted Platform Delivery Kit Release or Dev Branch 
 tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"

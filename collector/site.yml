@@ -9,11 +9,6 @@
 - import_playbook: tree.yml           # Create base platform directory tree
 - import_playbook: git.yml            # Collect git based artifacts
 - import_playbook: images.yml         # Hydrate base catalog of cloudctl artifacts
-
-# Build Pod Artifact Bundle
-- import_playbook: bundle.yml         # Bundle artifacts for airgap transport
-
-# Build CloudCtl Bootstrap Bundle
 - import_playbook: seed.yml           # Save base CloudCtl seed images to local directory
-# import_playbook: config.yml         # Place pod startup artifacts
-- import_playbook: bootstrap.yml      # Bundle artifacts for airgap transport
+- import_playbook: config.yml         # Place pod startup artifacts
+- import_playbook: bundle.yml         # Bundle artifacts for airgap transport
