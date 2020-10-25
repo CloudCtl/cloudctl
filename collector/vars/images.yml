@@ -1,21 +1,40 @@
 # CloudCTL Pod Docker Image Pull List
-cloudctl_images:
+seed_images:
   - name: konductor
-    tag: "4.5.11"
-#   tag: "{{ lookup('env', 'varVerOpenshift') }}"
-    uri: "docker.io/codesparta"
+    uri: "docker.io/containercraft"
+    tag: "latest"
   - name: pause
+    uri: "k8s.gcr.io"
     tag: latest
-    uri: "k8s.gcr.io"
-  - name: pause
-    tag: 3.1
-    uri: "k8s.gcr.io"
-  - name: pause
-    tag: 3.2
-    uri: "k8s.gcr.io"
-  - name: nginx
-    tag: latest
-    uri: "docker.io/library"
   - name: registry
-    tag: latest
     uri: "docker.io/library"
+    tag: latest
+
+cloudctl_images:
+  - name: pause
+    uri: "k8s.gcr.io"
+    tag: latest
+  - name: pause
+    uri: "k8s.gcr.io"
+    tag: 3.2
+  - name: koffer
+    uri: "docker.io/containercraft"
+    tag: "latest"
+  - name: konductor
+    uri: "docker.io/containercraft"
+    tag: "latest"
+  - name: registry
+    uri: "docker.io/library"
+    tag: latest
+  - name: ansible-runner-service
+    uri: "docker.io/containercraft"
+    tag: "latest"
+  - name: nginx
+    uri: "docker.io/containercraft"
+    tag: "latest"
+  - name: haproxy
+    uri: "docker.io/containercraft"
+    tag: "latest"
+  - name: iperf3
+    uri: "docker.io/containercraft"
+    tag: "latest"

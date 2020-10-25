@@ -1,0 +1,7 @@
+koffer:
+  silent: false
+  plugins:
+    cloudctl:
+      version: master
+      service: github.com
+      organization: containercraft
