@@ -34,13 +34,13 @@ contained services.
 ####  0. Install Dependencies
 ```
 On Fedora 32+
-  sudo dnf install -y git podman httpd-tools jq
+  sudo dnf install -y git podman jq
 
 On RHEL/CentOS 8+
-  sudo dnf install -y git podman httpd-tools jq
+  sudo dnf install -y git podman jq
 
 On Ubuntu 20.04+
-  sudo apt install -y git podman
+  sudo apt install -y git podman jq
 ```
 ####  1. Clone Repo
 ```

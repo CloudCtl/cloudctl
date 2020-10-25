@@ -18,6 +18,7 @@
   command:
     cmd: htpasswd -Bbn cloudctl cloudctl
   register: bcrypt_htpasswd
+  delegate_to: 127.0.0.1
 
 - name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Write Registry htpasswd credential config'
   copy:
