@@ -1,23 +1,23 @@
 #!/bin/bash
 project="init"
 dir_bundle="$(pwd)/bundle"
-import_list="$(ls ${dir_bundle}/*.tar)"
+IMPORT_LIST="$(ls ${dir_bundle})"
 
 # Stage SSH Credentials
 sudo rm -rf /tmp/.ssh
 sudo cp -rf ~/.ssh /tmp/
 
-# Load konductor image
-if [[ -f ${OFFLINE_KONDUCTOR} ]]; then
+# Load cloudctl seed images
+if [[ ! -z "${IMPORT_LIST}" ]]; then
 
   # Clean/Prep
-  podman pod rm --force cloudctl
+  podman pod rm --force cloudctl 2>/dev/null
   podman image prune --all --force
 
   # Pull images from local tar files
-  for IMG in ${import_list}; do
+  for IMG in ${IMPORT_LIST}; do
       echo ">> Loading Konductor Image from ${IMG}"
-      podman load --input ${IMG}
+      podman load --input ${dir_bundle}/${IMG}
   done
 else
 

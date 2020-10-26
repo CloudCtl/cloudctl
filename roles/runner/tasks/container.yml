@@ -16,7 +16,6 @@
   command:
     cmd:
       podman run --rm -dt --name runner \
-          --pull missing \
           --pod {{ name_pod_cloudctl }}
           --volume /root/platform/iac:/usr/share/ansible-runner-service/project:z
           --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z
@@ -30,3 +29,4 @@
          #--volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
 #         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
 #         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
+#         --pull missing \
