@@ -15,7 +15,7 @@
 - name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
   command:
     cmd:
-      podman run --rm -dt --name runner \
+      podman run --rm -dt --name runner
           --pod {{ name_pod_cloudctl }}
           --volume /root/platform/iac:/usr/share/ansible-runner-service/project:z
           --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z
