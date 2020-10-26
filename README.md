@@ -55,7 +55,7 @@ On Ubuntu 20.04+
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ssh root@localhost whoami
 ```
-####  3. Execute Ansible Playbook
+####  3. Initialize CloudCtl Pod
 ```
 ./init.sh
 ```
