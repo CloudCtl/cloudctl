@@ -32,6 +32,9 @@ contained services.
   - Tftpd
 ----------------------
 ## Getting Started
+>  Run as User: `root`
+>    
+    
 ####  0. Install Dependencies
 ```
 On Fedora 32+
