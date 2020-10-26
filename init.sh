@@ -1,6 +1,7 @@
 #!/bin/bash
 project="init"
-import_list="$(ls $(pwd)/bundle/*.tar)"
+dir_bundle="$(pwd)/bundle"
+import_list="$(ls ${dir_bundle}/*.tar)"
 
 # Stage SSH Credentials
 sudo rm -rf /tmp/.ssh
