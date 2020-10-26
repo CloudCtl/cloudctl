@@ -22,13 +22,14 @@ contained services.
   - [RedHat] 8.0+
   - [Ubuntu] 20.04+
 #### Supported Services
-  - Docker Registry
+  - Konductor User Space Container
+  - Ansible Runner Service API
+  - Docker Image Registry
+  - Nginx File Server
+  - Haproxy TCP Load Balancer
   - CoreDNS
-  - Haproxy
+  - ISC-DHCP
   - Tftpd
-  - Nginx File
-  - ISC-DHCP Service
-  - Konductor IaC Engine
 ----------------------
 ## Getting Started
 ####  0. Install Dependencies
