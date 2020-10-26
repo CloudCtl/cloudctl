@@ -3,7 +3,7 @@
   hosts: koffer
   vars_files:
     - 'vars/global.yml'
-    - 'vars/seed.yml'
+    - 'vars/images.yml'
   vars:
     module: "seed"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
