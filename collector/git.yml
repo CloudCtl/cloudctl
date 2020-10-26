@@ -27,3 +27,5 @@
         path: '{{ item }}'
       with_items:
         - '{{ dir_tmp }}/bundle'
+        - '{{ dir_seed_cfg }}'
+        - '{{ dir_seed_img }}'

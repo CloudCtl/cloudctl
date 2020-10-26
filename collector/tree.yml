@@ -21,5 +21,3 @@
         - '{{ dir_secrets }}'
         - '{{ dir_platform }}'
         - '{{ dir_cloudctl }}'
-        - '{{ dir_seed_cfg }}'
-        - '{{ dir_seed_img }}'
