@@ -1,4 +1,12 @@
 #!/bin/bash -ex
+
+cloudctl_pod=$(podman pod ps --no-trunc | awk '/cloudctl/{print $1}')
+if [[ ! -z ${cloudctl_pod} ]]; then
+  podman pod rm --force ${cloudctl_pod}
+fi
+
+podman image prune --all --force
+
 declare -A img_table=(\
   ['konductor']="docker.io/containercraft/konductor" \
   ['runner']="docker.io/containercraft/ansible-runner-service" \
