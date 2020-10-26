@@ -7,6 +7,9 @@ declare -A img_table=(\
   ['registry']="docker.io/library/registry" \
   ['pause']="k8s.gcr.io/pause" \
 )
+dir_bundle="$(pwd)/bundle"
+mkdir -p {dir_bundle}
+rm -rf ${dir_bundle}/*.tar
 
 # Check for & remove pre-existing cloudctl pod and images
 cloudctl_pod=$(podman pod ps --no-trunc | awk '/cloudctl/{print $1}')
@@ -27,11 +30,11 @@ for img in "${!img_table[@]}"; do
   # Save IMG
   echo ">> Saving ${img} Image" 
   podman save \
-   --output bundle/image-${img}-latest.tar \
+   --output ${dir_bundle}/image-${img}-latest.tar \
    --format oci-archive "${img_table[$img]}":latest
 
   # Report Img size on Console
-  echo ">> File Saved: $(du -sh ./bundle/image-${img}-latest.tar)" 
+  echo ">> File Saved: $(du -sh ${dir_bundle}/image-${img}-latest.tar)" 
 
 done
 

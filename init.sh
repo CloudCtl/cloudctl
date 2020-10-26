@@ -1,9 +1,6 @@
 #!/bin/bash
 project="init"
-OFFLINE_KONDUCTOR="$(pwd)/bundle/image-konductor-latest.tar"
-OFFLINE_REGISTRY="$(pwd)/bundle/image-registry-latest.tar"
-OFFLINE_RUNNER="$(pwd)/bundle/image-runner-latest.tar"
-OFFLINE_PAUSE="$(pwd)/bundle/image-pause-latest.tar"
+import_list="$(ls $(pwd)/bundle/*.tar)"
 
 # Stage SSH Credentials
 sudo rm -rf /tmp/.ssh
@@ -17,12 +14,7 @@ if [[ -f ${OFFLINE_KONDUCTOR} ]]; then
   podman image prune --all --force
 
   # Pull images from local tar files
-  for IMG in \
-    ${OFFLINE_PAUSE} \
-    ${OFFLINE_RUNNER} \
-    ${OFFLINE_REGISTRY} \
-    ${OFFLINE_KONDUCTOR} \
-  ; do
+  for IMG in ${import_list}; do
       echo ">> Loading Konductor Image from ${IMG}"
       podman load --input ${IMG}
   done
