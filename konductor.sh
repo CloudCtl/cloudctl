@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 project="konductor-init"
 OFFLINE_IMG="$(pwd)/bundle/image-konductor-latest.tar"
 
@@ -9,7 +9,7 @@ sudo cp -rf ~/.ssh /tmp/
 # Load konductor image
 if [[ -f ${OFFLINE_IMG} ]]; then
     # Pull image from local tar file
-    echo ">> Loading Konductor Image from ${OFFLINE_IMAGE}"
+    echo ">> Loading Konductor Image from ${OFFLINE_IMG}"
     podman load --input $(pwd)/bundle/image-konductor-latest.tar
 else
     # Pull from public internet if tar not found 
