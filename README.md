@@ -57,7 +57,7 @@ ssh root@localhost whoami
 ```
 ####  3. Execute Ansible Playbook
 ```
-./konductor.sh
+./init.sh
 ```
 ####  4. Verify API Access
 ```
