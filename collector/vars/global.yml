@@ -35,6 +35,7 @@ dir_seed_img: "{{ dir_local_tmp }}/images"
 dir_platform: "{{ dir_local_home }}/{{ dir_platform_name }}"
 dir_cloudctl: "{{ dir_platform }}/cloudctl"
 dir_mirror: "{{ dir_platform }}/mirror"
+dir_images: "{{ dir_platform }}/images"
 
 bundle_name: "cloudctl.tar.xz"
 bundle_sha: "{{ bundle_name }}.sha256"
