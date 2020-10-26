@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 # Offline Image Table
 declare -A img_table=(\
@@ -25,7 +25,7 @@ for img in "${!img_table[@]}"; do
 
   # Pull IMG
   echo ">> Pulling ${img} Image" 
-  podman pull "${img_table[$img]}":latest
+  podman pull -s "${img_table[$img]}":latest
 
   # Save IMG
   echo ">> Saving ${img} Image" 
