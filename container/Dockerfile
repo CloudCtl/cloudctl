@@ -95,10 +95,8 @@ RUN set -ex                                                                     
      && pip3 install ${varListPip}                                              \
      && dnf install -y bsdtar tar                                               \
      && curl -L ${varUrlOpenshift}                                              \
-          | tar xzvf - --directory /bin kubectl                                 \
-#         | tar xzvf - --directory /bin kubectl oc                              \
-     && /bin/kubectl version                                                    \
-#    && /bin/oc version                                                         \
+          | tar xzvf - --directory /bin oc                                      \
+     && /bin/oc version                                                         \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
@@ -106,7 +104,7 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-     && chmod +x /bin/{oc,kubectl,helm,terraform,jq}                            \
+     && chmod +x /bin/{oc,helm,terraform,jq}                                    \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
