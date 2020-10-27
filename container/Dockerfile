@@ -36,6 +36,7 @@ ARG varListRpms="\
              tmux \
              pigz \
              rsync \
+             unzip \
              skopeo \
              bsdtar \
              buildah \
