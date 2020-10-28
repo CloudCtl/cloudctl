@@ -43,7 +43,7 @@ bundle_sha: "{{ bundle_name }}.sha256"
 tpdk_bundle_name: "koffer-bundle.tpdk-cloudctl.tar.xz"
 
 # Remote Environment 
-dir_platform: "/root/platform"
+dir_platform: "{{ dir_local_home }}/platform"
 dir_secrets: "{{ dir_platform }}/secrets"
 dir_iac: "{{ dir_platform }}/iac"
 dir_tmp: "/tmp/cloudctl"

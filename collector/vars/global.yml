@@ -4,7 +4,8 @@ domain_base: codectl.io
 domain_cluster: 'ocp.{{ domain_base }}'
 
 # Sparta | Trusted Platform Delivery Kit Release or Dev Branch 
-tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
+#tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
+tpdk_version: "master"
 
 # Core variables
 name_vendor: ' Sparta'
@@ -18,7 +19,6 @@ ansible_python_interpreter: auto_silent
 # CloudCtl Variables
 pod_force_rm: true
 name_pod_cloudctl: cloudctl
-image_tag_konductor: docker.io/library/docker
 image_tag_konductor: docker.io/codesparta/konductor
 sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
 
@@ -31,7 +31,6 @@ dir_local_path: "{{ lookup('env','PWD') }}"
 dir_koffer: "{{ dir_local_home }}/koffer"
 dir_bundle: "{{ dir_local_home }}/bundle"
 dir_seed_cfg: "{{ dir_local_tmp }}/config"
-dir_seed_cfg: "{{ dir_local_tmp }}/config"
 dir_seed_img: "{{ dir_local_tmp }}/images"
 dir_platform: "{{ dir_local_home }}/{{ dir_platform_name }}"
 dir_cloudctl: "{{ dir_platform }}/cloudctl"
@@ -43,7 +42,6 @@ bundle_sha: "{{ bundle_name }}.sha256"
 tpdk_bundle_name: "koffer-bundle.tpdk-cloudctl.tar.xz"
 
 # Remote Environment 
-dir_platform: "/root/platform"
 dir_secrets: "{{ dir_platform }}/secrets"
 dir_iac: "{{ dir_platform }}/iac"
 dir_tmp: "/tmp/cloudctl"

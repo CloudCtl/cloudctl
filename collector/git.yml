@@ -18,14 +18,3 @@
         version: "{{ item.branch }}"
       with_items:
         - "{{ ansiblerepos }}"
-
-    - name: '{{ ansible_name_module }} | file | Add bundle directory' 
-      file:
-        mode: '0644'
-        recurse: false
-        state: directory
-        path: '{{ item }}'
-      with_items:
-        - '{{ dir_tmp }}/bundle'
-        - '{{ dir_seed_cfg }}'
-        - '{{ dir_seed_img }}'
