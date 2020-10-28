@@ -15,10 +15,11 @@
       loop:
         - "{{ dir_tmp }}/{{ bundle_sha }}"
         - "{{ dir_tmp }}/{{ bundle_name }}"
+        - "{{ dir_bundle }}/{{ tpdk_bundle_name }}"
     
     - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Pod Artifacts Bundle'
       command:
-        "tar -cv --use-compress-program='pigz -9 ' -C {{ dir_local_home }} -f {{ dir_tmp }}/{{ bundle_name }} {{ dir_platform_name }} {{ dir_cloudctl }}"
+        "tar -cv --use-compress-program='pigz -9 ' -C {{ dir_local_home }} -f {{ dir_tmp }}/{{ bundle_name }} {{ dir_platform_name }}"
       args:
         creates: '{{ dir_tmp }}/{{ bundle_name }}'
         warn: false
@@ -35,3 +36,20 @@
         content: '{{ bundle_sha_sum.stdout }}'
         dest: '{{ dir_tmp }}/{{ bundle_name }}.sha256'
         mode: 0600
+
+    - name: '{{ ansible_name_module }} | copy | Copy CloudCtl Directory into top layer bundle dir'
+      copy:
+        src: '{{ dir_cloudctl }}'
+        dest: '{{ dir_tmp }}'
+        remote_src: true
+        mode: 0600
+
+    - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Cradle'
+      command:
+        cmd:
+          tar -C {{ dir_tmp }} -f {{ dir_bundle }}/{{ tpdk_bundle_name }} -cv cloudctl {{ bundle_name }} {{ bundle_name }}.sha256
+      args:
+        chdir: '{{ dir_tmp }}'
+        creates: '{{ dir_bundle }}/{{ tpdk_bundle_name }}'
+        warn: false
+

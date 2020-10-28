@@ -1,6 +1,6 @@
 ---
 url_git_cloudctl: 'https://github.com/containercraft/CloudCtl.git'
-dir_git_cloudctl: "{{ dir_tmp }}"
+dir_git_cloudctl: "{{ dir_cloudctl }}"
 
 ansiblerepos:
   - repo: "{{ url_git_cloudctl }}"

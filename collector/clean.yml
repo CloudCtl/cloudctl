@@ -13,4 +13,5 @@
       path: '{{ item }}'
     with_items:
       - '{{ dir_tmp }}'
+      - '{{ dir_cloudctl }}'
       - '{{ dir_platform }}'
