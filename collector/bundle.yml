@@ -47,7 +47,11 @@
     - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Cradle'
       command:
         cmd:
-          tar -C {{ dir_tmp }} -f {{ dir_bundle }}/{{ tpdk_bundle_name }} -cv cloudctl {{ bundle_name }} {{ bundle_name }}.sha256
+          tar -cv --use-compress-program='pigz -9' -C {{ dir_tmp }} 
+               -f {{ dir_bundle }}/{{ tpdk_bundle_name }} 
+             cloudctl
+             {{ bundle_name }} 
+             {{ bundle_name }}.sha256
       args:
         chdir: '{{ dir_tmp }}'
         creates: '{{ dir_bundle }}/{{ tpdk_bundle_name }}'
