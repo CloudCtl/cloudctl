@@ -1,0 +1,26 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge haproxy' 
+  command:
+    cmd: 'podman rm --force haproxy'
+  no_log: true
+  ignore_errors: true
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge haproxy' 
+  file:
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-haproxy.pid'
+    state: absent
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+  command:
+    cmd:
+      podman run --detach --name haproxy
+          --pod {{ name_pod_cloudctl }}
+          --volume {{ dir_platform }}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:z
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/haproxy.crt
+          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/haproxy.key
+        docker.io/containercraft/haproxy
+  args:
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-haproxy.pid"
+  register: haproxy_pid

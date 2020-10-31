@@ -1,30 +1,25 @@
 ---
-- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge registry' 
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge konductor' 
   command:
-    cmd: 'podman rm --force registry'
+    cmd: 'podman rm --force konductor'
   no_log: true
   ignore_errors: true
   when: pod_force_rm == true
 
-- name: '{{ ansible_name_module }} | file:absent | Podman purge registry' 
+- name: '{{ ansible_name_module }} | file:absent | Podman purge konductor' 
   file:
-    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid'
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid'
     state: absent
   when: pod_force_rm == true
 
 - name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
   command:
     cmd:
-      podman run -dt --replace --name registry --replace
+      podman run -dt --name konductor
+          --volume {{ dir_platform }}:{{ dir_platform }}:z
           --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
-          --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
-          --volume {{ dir_platform }}/secrets/registry/ssl:/etc/docker/registry/ssl:z
-          --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
-          --volume {{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z
-        docker.io/library/registry
+          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid
+        docker.io/containercraft/konductor
   args:
-    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid"
-  register: registry_pid
-
-#     podman run -dt --pull never --replace
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid"
+  register: konductor_pid

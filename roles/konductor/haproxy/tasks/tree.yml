@@ -1,8 +1,9 @@
 ---
 - name: '{{ ansible_name_module }} | file | Create Directories' 
   file:
-    mode: '0644'
+    mode: '0775'
     path: '{{ item }}'
     state: directory
+    recurse: true
   with_items:
-    - '/root/.docker'
+    - '{{ dir_platform }}/haproxy'
