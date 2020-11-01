@@ -10,6 +10,8 @@
 
 #### These playbooks should be built for delivery via ansible-runner-service container delivery
 - import_playbook: registry.yml       # Docker Image Registry
+- import_playbook: ssh.yml            # CloudCtl SSH Key Pair & pubkey Exchange
+- import_playbook: konductor.yml      # Konductor Userspace Container
 - import_playbook: nginx.yml          # Nginx Artifact File Service
 - import_playbook: haproxy.yml        # HaProxy LB Service
 # import_playbook: dns.yml            # CoreDNS Service
