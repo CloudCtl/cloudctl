@@ -24,7 +24,7 @@
       podman pod create
         --publish 80:80
         --publish 443:443
-        --publish 2022:2022
+        --publish 2222:2222
         --publish 6443:6443
         --publish 8080:8082
         --publish 8443:8843
