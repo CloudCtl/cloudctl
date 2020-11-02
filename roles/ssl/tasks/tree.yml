@@ -1,5 +1,15 @@
 ---
-- name: '{{ ansible_name_module }} | file | Create Directory Structure' 
+- name: '{{ ansible_name_module }} | file | Create Staging Directory Structure' 
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0644'
+  with_items:
+    - '{{ dir_tmp }}/cloudctl/certs/ssl/server'
+    - '{{ dir_tmp }}/runner/ssl/client'
+  delegate_to: localhost
+
+- name: '{{ ansible_name_module }} | file | Create Remote Directory Structure' 
   file:
     path: '{{ item }}'
     state: directory

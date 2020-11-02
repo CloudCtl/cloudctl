@@ -1,4 +1,4 @@
-#!/usr/lossll/bin/ansible-playbook --inventory=inventory.yaml
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
 - name: '{{ ansible_name }} | ssl.yml' 
   hosts: cloudctl
   become_user: root
