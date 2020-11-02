@@ -76,11 +76,11 @@
 - name: '{{ ansible_name_module }} | copy | Push Registry SSL Certificates to CloudCtl Host'
   copy:
     src: "{{ dir_tmp }}/cloudctl"
-    dest: "{{ dir_secrets }}/cloudctl"
+    dest: "{{ dir_secrets }}/"
     mode: 0644
 
 - name: '{{ ansible_name_module }} | copy | Push Runner SSL Certificates to CloudCtl Host'
   copy:
     src: "{{ dir_tmp }}/runner"
-    dest: "{{ dir_secrets }}/runner"
+    dest: "{{ dir_secrets }}/"
     mode: 0644
