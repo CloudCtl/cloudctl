@@ -30,6 +30,7 @@
         --publish 8443:8843
         --publish 5000:5000
         --publish 5001:5001
+#       --publish 5353:5353
         --publish 22623:22623
         --name {{ name_pod_cloudctl }}
         --hostname {{ name_pod_cloudctl }}
@@ -37,5 +38,4 @@
   args:
     creates: "/tmp/cloudctl/{{ name_pod_cloudctl }}.pid"
   register: cloudctl_pid
-#       --publish 53:5353
 #       --pod-id-file /tmp/cloudctl/{{ name_pod_cloudctl }}.pid
