@@ -20,10 +20,10 @@
           --volume {{ dir_platform }}:{{ dir_platform }}:z
           --volume {{ dir_secrets }}/ssh/id_rsa_cloudctl:/root/.ssh/id_rsa:z
           --volume {{ dir_secrets }}/ssh/id_rsa_cloudctl.pub:/root/.ssh/id_rsa.pub:z
-          --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-          --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid
           --volume {{ dir_platform }}/secrets/ssh/authorized_keys:/root/.ssh/authorized_keys:z
         docker.io/containercraft/konductor
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid"
   register: konductor_pid
+#         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
+#         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid

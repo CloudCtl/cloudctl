@@ -35,7 +35,7 @@
         --name {{ name_pod_cloudctl }}
         --hostname {{ name_pod_cloudctl }}
         --infra-image "k8s.gcr.io/pause:latest"
-        --pod-id-file /tmp/cloudctl/{{ name_pod_cloudctl }}.pid
   args:
     creates: "/tmp/cloudctl/{{ name_pod_cloudctl }}.pid"
   register: cloudctl_pid
+#       --pod-id-file /tmp/cloudctl/{{ name_pod_cloudctl }}.pid
