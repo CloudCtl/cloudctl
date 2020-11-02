@@ -38,17 +38,25 @@ contained services.
 ####  0. Install Dependencies
 ```
 On Fedora 32+
-  sudo dnf install -y git podman jq
+  sudo dnf install -y podman jq
 
 On RHEL/CentOS 8+
-  sudo dnf install -y git podman jq
+  sudo dnf install -y podman jq
 
 On Ubuntu 20.04+
-  sudo apt install -y git podman jq
+  sudo apt install -y podman jq
 ```
 ####  1. Clone Repo
 ```
-  git clone https://github.com/containercraft/CloudCTL.git ~/cloudctl ; cd ~/cloudctl
+ sudo -i
+ mkdir /root/cloudctl
+```
+```
+ podman run -it --rm --pull=always \
+     --volume /root/cloudctl:/clone:z \
+   docker.io/containercraft/git \
+     https://github.com/ContainerCraft/CloudCtl.git \
+  && cd ~/cloudctl
 ```
 ####  2. Validate ability to ssh to self as root
 ```
