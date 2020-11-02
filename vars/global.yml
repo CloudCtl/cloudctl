@@ -3,11 +3,11 @@
 domain_base: codectl.io
 domain_cluster: 'ocp.{{ domain_base }}'
 
-# Sparta | Trusted Platform Delivery Kit Release or Dev Branch 
+# TPDK | Trusted Platform Delivery Kit Release or Dev Branch 
 tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
 
 # Core variables
-name_vendor: ' Sparta'
+name_vendor: ' TPDK'
 ansible_name: " {{ name_vendor }} | CloudCtl | {{ ansible_distribution }}"
 
 # Ansible Playbook Run Variables

@@ -1,5 +1,5 @@
 #!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
-- name: ' Sparta | Koffer | Collector CloudCtl | bundle.yml' 
+- name: ' TPDK | CloudCtl Collector Plugin | bundle.yml' 
   hosts: koffer
   vars_files:
     - 'vars/global.yml'
