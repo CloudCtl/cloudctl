@@ -29,6 +29,9 @@ cloudctl_images:
   - name: konductor
     tag: "latest"
     uri: "docker.io/containercraft"
+  - name: coredns
+    tag: latest
+    uri: "docker.io/coredns"
   - name: registry
     tag: latest
     uri: "docker.io/library"

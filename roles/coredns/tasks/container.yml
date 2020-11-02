@@ -1,0 +1,25 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge coredns' 
+  command:
+    cmd: 'podman rm --force coredns'
+  no_log: true
+  ignore_errors: true
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | file:absent | Podman purge coredns' 
+  file:
+    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-coredns.pid'
+    state: absent
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+  command:
+    cmd:
+      podman run --detach --name coredns
+          --pod {{ name_pod_cloudctl }}
+          --volume {{ dir_platform }}/coredns/config.json:/CoreFile:z
+          --volume {{ dir_platform }}/coredns/core.db:/root/core.db:z
+        docker.io/coredns/coredns -conf /CoreFile
+  args:
+    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-coredns.pid"
+  register: coredns_pid

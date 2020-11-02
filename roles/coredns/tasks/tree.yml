@@ -1,0 +1,8 @@
+---
+- name: '{{ ansible_name_module }} | file:state.directory | Create Directory Structure' 
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0655'
+  with_items:
+    - '{{ dir_platform }}/coredns'

@@ -23,6 +23,7 @@
      #podman pod create --replace
       podman pod create
         --publish 80:80
+        --publish 53:5353
         --publish 443:443
         --publish 2222:2222
         --publish 6443:6443
