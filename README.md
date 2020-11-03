@@ -37,26 +37,27 @@ contained services.
     
 ####  0. Install Dependencies
 ```
-On Fedora 32+
-  sudo dnf install -y podman jq
-
-On RHEL/CentOS 8+
-  sudo dnf install -y podman jq
+On RHEL 8+ / CentOS 8+ / Fedora 32+
+  dnf install -y podman
 
 On Ubuntu 20.04+
-  sudo apt install -y podman jq
+  apt install -y podman
 ```
 ####  1. Clone Repo
 ```
- sudo -i
- mkdir /root/cloudctl
 ```
 ```
- podman run -it --rm --volume /root/cloudctl:/clone:z docker.io/containercraft/git https://github.com/ContainerCraft/CloudCtl.git && cd ~/cloudctl
+ mkdir -p /root/cloudctl && \
+ podman run -it --rm --volume /root/cloudctl:/clone:z \
+   docker.io/containercraft/git \
+ https://github.com/ContainerCraft/CloudCtl.git && \
+ cd ~/cloudctl
 ```
 ####  2. Validate ability to ssh to self as root
 ```
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+[[ -f /root/.ssh/id_rsa ]] || ssh-keygen -f id_rsa -t rsa -N ''
+cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+chmod 0644 /root/.ssh/authorized_keys
 ssh root@localhost whoami
 ```
 ####  3. Initialize CloudCtl Pod
@@ -68,33 +69,18 @@ ssh root@localhost whoami
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
     --cert /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.crt \
-  https://localhost:5001/api/v1/playbooks -X GET | jq .
+  https://localhost:5001/api/v1/playbooks -X GET
 ```
 >
 >  sample output:
 >
 ```
-{
-  "status": "OK",
-  "msg": "0 playbook found",
-  "data": {
-    "playbooks": []
-  }
-}
+{"status": "OK", "msg": "0 playbook found", "data": {"playbooks": []}}
 ```
 ####  5. Review pod status
 ```
-sudo podman logs registry
-sudo podman logs runner
-sudo podman ps --all
 sudo podman pod ps
-```
-## Remove & Cleanup
-```
-sudo podman pod rm --force cloudctl
-sudo podman container prune -f
-sudo podman image prune -f
-cd ~ && sudo rm -rf ~/cloudctl
+sudo podman ps --all
 ```
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
