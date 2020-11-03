@@ -45,8 +45,6 @@ On Ubuntu 20.04+
 ```
 ####  1. Clone Repo
 ```
-```
-```
  mkdir -p /root/cloudctl && \
  podman run -it --rm --volume /root/cloudctl:/clone:z \
    docker.io/containercraft/git \
