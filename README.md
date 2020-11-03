@@ -80,6 +80,18 @@ curl -ks \
 sudo podman pod ps
 sudo podman ps --all
 ```
+>
+>  sample output:
+>
+```
+36668681f233  Up 18 hours ago    coredns
+596dbaa4520b  Up 18 hours ago    haproxy
+44d434359e33  Up 18 hours ago    nginx
+1efcd0fafb40  Up 18 hours ago    registry
+3598bab7c7ed  Up 18 hours ago    runner
+11305c527abe  Up 18 hours ago    konductor
+fbf274723577  Up 18 hours ago    c7fc137831c8-infra
+```
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
 [(IaC)]:https://www.ibm.com/cloud/learn/infrastructure-as-code
