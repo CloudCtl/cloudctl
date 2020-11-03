@@ -19,7 +19,8 @@
           --pod {{ name_pod_cloudctl }}
           --volume {{ dir_platform }}/coredns/config.json:/CoreFile:z
           --volume {{ dir_platform }}/coredns/core.db:/root/core.db:z
-        docker.io/coredns/coredns -conf /CoreFile
+        docker.io/containercraft/coredns -conf /CoreFile
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-coredns.pid"
   register: coredns_pid
+#       docker.io/coredns/coredns -conf /CoreFile
