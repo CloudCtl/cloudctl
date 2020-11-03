@@ -53,7 +53,7 @@ On Ubuntu 20.04+
 ```
 ####  2. Validate ability to ssh to self as root
 ```
-[[ -f /root/.ssh/id_rsa ]] || ssh-keygen -f id_rsa -t rsa -N ''
+[[ -f /root/.ssh/id_rsa ]] || ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
 cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 chmod 0644 /root/.ssh/authorized_keys
 ssh root@localhost whoami
