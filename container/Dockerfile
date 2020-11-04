@@ -91,10 +91,10 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
-     && dnf update -y --setopt=tsflags=nodocs                                   \
-     && dnf install -y ${varListRpms}                                           \
+     && dnf update -y --allowerasing --nobest --setopt=tsflags=nodocs           \
+     && dnf install -y --allowerasing --nobest ${varListRpms}                   \
      && pip3 install ${varListPip}                                              \
-     && dnf install -y bsdtar tar                                               \
+     && dnf install -y --allowerasing --nobest bsdtar tar                       \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin oc                                      \
      && /bin/oc version                                                         \
