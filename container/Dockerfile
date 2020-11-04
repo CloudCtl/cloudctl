@@ -49,7 +49,13 @@ ARG varListPip="\
              ansible \
              passlib \
              "
-
+ARG YUM_FLAGS="\
+    -y \
+    --setopt=tsflags=nodocs \
+    --disablerepo "ubi-8-appstream" \
+    --disablerepo="ubi-8-codeready-builder" \
+    --disablerepo="ubi-8-baseos" \
+"
 #################################################################################
 # Load Artifacts
 
@@ -77,9 +83,6 @@ COPY --from=rpm /etc/redhat-release /etc/redhat-release
 COPY --from=rpm /etc/system-release /etc/system-release
 #################################################################################
 # Create Artifact Directories
-#RUN set -ex                                                                     \
-#     && microdnf install -y dnf                                                 \
-#    && echo
 RUN set -ex                                                                     \
      && mkdir -p /var/lib/koffer/                                               \
      && curl -sL ${urlRelease}                                                  \
@@ -91,10 +94,10 @@ RUN set -ex                                                                     
       | awk '/quay.io\/openshift-release/{print $2}'                            \
       | sed 's/quay.io\///g'                                                    \
       | tee -a ${listManifest}                                                  \
-     && dnf update -y --allowerasing --nobest --setopt=tsflags=nodocs           \
-     && dnf install -y --allowerasing --nobest ${varListRpms}                   \
+     && dnf update ${YUM_FLAGS}                                                 \
+     && dnf install ${YUM_FLAGS} ${varListRpms}                                 \
      && pip3 install ${varListPip}                                              \
-     && dnf install -y --allowerasing --nobest bsdtar tar                       \
+     && dnf install ${YUM_FLAGS} bsdtar tar                                     \
      && curl -L ${varUrlOpenshift}                                              \
           | tar xzvf - --directory /bin oc                                      \
      && /bin/oc version                                                         \
