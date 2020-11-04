@@ -51,6 +51,8 @@ ARG varListPip="\
              "
 ARG YUM_FLAGS="\
     -y \
+    --nobest \
+    --allowerasing \
     --setopt=tsflags=nodocs \
     --disablerepo "ubi-8-appstream" \
     --disablerepo="ubi-8-codeready-builder" \
