@@ -1,5 +1,6 @@
 FROM centos:latest as rpm
 FROM registry:2 as registry
+FROM docker.io/cloudctl/koffer-go:latest as koffer-go
 FROM quay.io/openshift/origin-operator-registry:latest as olm
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi8
 FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
@@ -63,11 +64,13 @@ ARG YUM_FLAGS="\
 # Load Artifacts
 
 # From Repo
-COPY koffer-go/bin/koffer /usr/bin/koffer
 COPY bin/entrypoint /usr/bin/entrypoint
 COPY bin/run_registry.sh /usr/bin/run_registry.sh
 COPY conf/registry-config.yml /etc/docker/registry/config.yml
 COPY conf/registries.conf /etc/containers/registries.conf
+
+# From entrypoint cradle
+COPY --from=koffer-go /root/koffer /usr/bin/koffer
 
 # From origin-operator-registry:latest
 COPY --from=olm /bin/registry-server  /usr/bin/registry-server
