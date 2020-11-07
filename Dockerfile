@@ -107,8 +107,6 @@ RUN set -ex                                                                     
      && dnf install ${YUM_FLAGS} ${varListRpms}                                 \
      && pip3 install ${varListPip}                                              \
      && dnf install ${YUM_FLAGS} bsdtar tar                                     \
-     && curl -L ${varUrlOpenshift}                                              \
-          | tar xzvf - --directory /bin oc                                      \
      && /bin/oc version                                                         \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
@@ -117,7 +115,7 @@ RUN set -ex                                                                     
           | bsdtar -xvf- -C /bin                                                \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-     && chmod +x /bin/{oc,helm,terraform,jq}                                    \
+     && chmod +x /bin/{helm,terraform,jq}                                       \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
