@@ -1,8 +1,0 @@
-koffer:
-  silent: true
-  plugins:
-    collector-infra:
-      service: github.com
-      organization: containercraft
-      branch: master
-      version: 4.5.11

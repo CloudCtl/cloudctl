@@ -2,10 +2,10 @@ name: KofferBuild
 on:
   push:
     branches: 
-      - master
+      - main
   pull_request:
     branches: 
-      - master
+      - main
   schedule:
     - cron: '0 1 * * *'
 jobs:
@@ -68,7 +68,7 @@ jobs:
       run: |
         docker build . \
                  --force-rm \
-                 --file ./container/Dockerfile \
+                 --file ./Dockerfile \
                  --build-arg varVerJq=${{ env.varverjq }} \
                  --build-arg varVerHelm=${{ env.varverhelm }} \
                  --build-arg varRunDate=${{ env.varrundate }} \
