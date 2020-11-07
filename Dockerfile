@@ -39,6 +39,7 @@ ARG varListRpms="\
              unzip \
              skopeo \
              bsdtar \
+             podman \
              buildah \
              openssl \
              httpd-tools \
