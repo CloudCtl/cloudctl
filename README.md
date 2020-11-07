@@ -1,3 +1,5 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/cloudctl/koffer/KofferBuild/main?style=plastic) ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/cloudctl/koffer?style=plastic) ![Docker Pulls](https://img.shields.io/docker/pulls/cloudctl/koffer?style=plastic)
+    
 # Koffer | Artifact Rake & Bundle Appliance
 ## About
 Koffer is an automation runtime for raking in various artifacts required to
