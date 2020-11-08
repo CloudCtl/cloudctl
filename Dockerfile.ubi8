@@ -47,7 +47,6 @@ ARG varListRpms="\
              python3-pip \
              openssh-clients \
              fuse-overlayfs \
-   --exclude container-selinux \
              "
 ARG varListPip="\
              ansible \
