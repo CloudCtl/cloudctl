@@ -49,7 +49,7 @@ jobs:
       run: |
         docker build . \
                  --force-rm \
-                 --file ./Dockerfile \
+                 --file ./Dockerfile.ubi8 \
                  --build-arg varVerJq=${{ env.varverjq }} \
                  --build-arg varVerHelm=${{ env.varverhelm }} \
                  --build-arg varRunDate=${{ env.varrundate }} \
