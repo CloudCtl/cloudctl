@@ -1,46 +1,25 @@
-name: KofferBuild
+name: koffer
 on:
+  schedule:
+    - cron: '0 1 * * *'
   push:
+    paths-ignore:
+    - 'docs/**'
+    - '**.md'
     branches: 
       - main
   pull_request:
+    paths-ignore:
+    - 'docs/**'
+    - '**.md'
     branches: 
       - main
-  schedule:
-    - cron: '0 1 * * *'
+
 jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Variable | Export Build Date
-      run: |
-        export varrundate="$(date +%y%m%d%I%M%S)"
-        echo "::set-env name=varrundate::$varrundate"
-    - name: Variable | Git Commit Hash
-      run: |
-        export githash="$(git log -1 --pretty=%h)"
-        echo "::set-env name=githash::$githash"
-    - name: Variable | Git Commit Hash
-      run: |
-        export gitremote="$(git config --get remote.origin.url)"
-        echo "::set-env name=gitremote::$gitremote"
-    - name: Variable | Webscrape OpenShift Release File for latest OC version 
-      run: |
-        export varveropenshift="$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')"
-        echo "::set-env name=varveropenshift::$varveropenshift"
-    - name: Variable | Webscrape for Latest Terraform Version
-      run: |
-        export varverterraform="$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')"
-        echo "::set-env name=varverterraform::$varverterraform"
-    - name: Variable | Webscrape for Latest Helm Version
-      run: |
-        export varverhelm="$(curl -sL https://api.github.com/repos/helm/helm/releases/latest | jq -r '.tag_name' | sed 's/v//g')"
-        echo "::set-env name=varverhelm::$varverhelm"
-    - name: Variable | Webscrape Latest JQ Version
-      run: |
-        export varverjq="$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')"
-        echo "::set-env name=varverjq::$varverjq"
+
     - name: Login Docker.io
       uses: docker/login-action@v1
       with:
@@ -56,34 +35,42 @@ jobs:
         registry: quay.io
         username: ${{ secrets.ROBOT_USER_QUAY }}
         password: ${{ secrets.ROBOT_TOKEN_QUAY }}
-    - name: Build Image | Koffer
+
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Rake Variables
       run: |
-        docker build . \
-                 --force-rm \
-                 --file ./Dockerfile.ubi8 \
-                 --build-arg varVerJq=${{ env.varverjq }} \
-                 --build-arg varVerHelm=${{ env.varverhelm }} \
-                 --build-arg varRunDate=${{ env.varrundate }} \
-                 --build-arg varVerTerraform=${{ env.varverterraform }} \
-                 --build-arg varVerOpenshift=${{ env.varveropenshift }} \
-                 --build-arg varUrlGit=${{ env.gitremote }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
-                 --tag quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }} \
-                 --tag docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
-    - name: Image Push | Koffer | docker.io
-      run: |
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer;                    \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest;                                 \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
-        docker push docker.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
-    - name: Image Push | Koffer | quay.io
-      run: |
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer;                    \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:latest;                                 \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }};             \
-        docker push quay.io/${{ secrets.DOCKERHUB_ORGANIZATION  }}/koffer:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }};
+        set -x ; \
+        echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${varrundate};\
+        echo "varverhelm=$(curl -sL https://api.github.com/repos/helm/helm/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${varverhelm};\
+        echo "varverjq=$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')" >> ${varverjq};\
+        echo "varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${varverterraform};\
+        echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${varveropenshift};\
+        echo;  
+
+    - name: Build Image 
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: Dockerfile
+        platforms: linux/amd64
+        push: true
+        tags: |
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+        build-args: |
+          varVerOpenshift=${{ env.varveropenshift }}
+          varVerTerraform=${{ env.varverterraform }}
+          varVerHelm=${{ env.varverhelm }}
+          varVerJq=${{ env.jq }}
+          varRunDate=${{ env.varrundate }}
