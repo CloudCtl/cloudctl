@@ -111,7 +111,7 @@ RUN set -ex                                                                     
      && dnf install ${YUM_FLAGS} ${varListRpms}                                 \
      && pip3 install ${varListPip}                                              \
      && dnf install ${YUM_FLAGS} bsdtar tar                                     \
-     && /bin/oc version                                                         \
+     && terraform version                                                       \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
@@ -142,7 +142,7 @@ RUN set -ex                                                                     
           --output /db/bundles.db                                               \
     && sed -i -e 's|^#mount_program|mount_program|g'                            \
        -e '/additionalimage.*/a "/var/lib/shared",' /etc/containers/storage.conf\
-   ; echo
+   && echo
 
 RUN set -ex                                                                     \
      && mkdir -p \
