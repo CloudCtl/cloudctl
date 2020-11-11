@@ -40,7 +40,6 @@ ARG varListRpms="\
              unzip \
              skopeo \
              bsdtar \
-             podman \
              buildah \
              openssl \
              httpd-tools \
@@ -111,7 +110,6 @@ RUN set -ex                                                                     
      && dnf install ${YUM_FLAGS} ${varListRpms}                                 \
      && pip3 install ${varListPip}                                              \
      && dnf install ${YUM_FLAGS} bsdtar tar                                     \
-     && terraform version                                                       \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
@@ -120,6 +118,7 @@ RUN set -ex                                                                     
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
      && chmod +x /bin/{helm,terraform,jq}                                       \
+     && terraform version                                                       \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
           /root/original-ks.cfg                                                 \
