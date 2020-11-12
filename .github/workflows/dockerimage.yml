@@ -69,8 +69,8 @@ jobs:
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
         build-args: |
+          varVerJq=${{ env.jq }}
+          varVerHelm=${{ env.varverhelm }}
+          varRunDate=${{ env.varrundate }}
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}
-          varVerHelm=${{ env.varverhelm }}
-          varVerJq=${{ env.jq }}
-          varRunDate=${{ env.varrundate }}
