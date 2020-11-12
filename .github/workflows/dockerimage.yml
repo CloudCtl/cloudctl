@@ -63,11 +63,11 @@ jobs:
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ env.githash }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
         build-args: |
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}
