@@ -15,10 +15,14 @@ mkdir /run/systemd/resolve
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 ```
 ```
+systemctl stop dnsmasq
+systemctl disable dnsmasq
+pkill -KILL dnsmasq
 systemctl restart systemd-resolved.service
 ```
 ```
 cat /etc/resolve.conf
+netstat -tulpn | grep ':53 '
 ```
 ```
 reboot
