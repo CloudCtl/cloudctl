@@ -1,15 +1,8 @@
 ---
-- name: '{{ ansible_name_module }} | cmd:podman.rm | Podman purge nginx' 
-  command:
-    cmd: 'podman rm --force nginx'
-  no_log: true
-  ignore_errors: true
-  when: pod_force_rm == true
-
-- name: '{{ ansible_name_module }} | file:absent | Podman purge nginx' 
-  file:
-    path: '{{ dir_tmp }}/{{ name_pod_cloudctl }}-nginx.pid'
-    state: absent
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
+  containers.podman.podman_container:
+    name: "nginx"
+    state: "absent"
   when: pod_force_rm == true
 
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
