@@ -12,4 +12,4 @@ sudo podman run -it --rm --pull always \
     --volume /tmp/.gitconfig:/root/.gitconfig:z \
     --volume $(pwd):/root/platform/iac/cloudctl:z \
     --workdir /root/platform/iac/cloudctl \
-  docker.io/containercraft/konductor:latest
+  docker.io/cloudctl/konductor:latest
