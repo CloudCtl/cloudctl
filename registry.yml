@@ -5,8 +5,10 @@
   become: true
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "registry"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - registry
+    - role: registry
+      when: start_registry == true

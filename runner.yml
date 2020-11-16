@@ -5,8 +5,10 @@
   become: true
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "runner"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - runner
+    - role: runner
+      when: start_runner == true

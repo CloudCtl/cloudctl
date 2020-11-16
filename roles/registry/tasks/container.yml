@@ -12,17 +12,17 @@
     state: absent
   when: pod_force_rm == true
 
-- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
-  command:
-    cmd:
-      podman run -dt --name registry
-          --pod {{ name_pod_cloudctl }}
-          --volume {{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z
-          --volume {{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z
-          --volume {{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z
-          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/registry.crt
-          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/registry.key
-        docker.io/library/registry
-  args:
-    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid"
-  register: registry_pid
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
+  containers.podman.podman_container:
+    name: registry
+    image: docker.io/cloudctl/registry
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z"
+      - "{{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z"
+      - "{{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/registry.crt"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/registry.key"

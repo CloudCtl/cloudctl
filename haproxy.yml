@@ -5,8 +5,10 @@
   become_user: root
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "haproxy"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - haproxy
+    - role: haproxy
+      when: start_haproxy == true

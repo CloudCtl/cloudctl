@@ -5,8 +5,10 @@
   become_user: root
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "konductor"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - konductor
+    - role: konductor
+      when: start_konductor == true

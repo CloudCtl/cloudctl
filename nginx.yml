@@ -5,8 +5,10 @@
   become_user: root
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "nginx"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
   roles:
-    - nginx
+    - role: nginx
+      when: start_nginx == true

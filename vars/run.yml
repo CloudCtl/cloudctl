@@ -1,0 +1,9 @@
+---
+start_runner: true
+start_konductor: true
+start_registry: true
+start_nginx: true
+start_haproxy: true
+start_dns: true
+start_dhcp: false
+start_tftp: false

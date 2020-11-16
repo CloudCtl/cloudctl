@@ -13,17 +13,15 @@
   when: pod_force_rm == true
 
 - name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
-  command:
-    cmd:
-      podman run -d --name konductor
-          --entrypoint /bin/entrypoint
-          --volume {{ dir_platform }}:{{ dir_platform }}:z
-          --volume {{ dir_secrets }}/ssh/id_rsa_cloudctl:/root/.ssh/id_rsa:z
-          --volume {{ dir_secrets }}/ssh/id_rsa_cloudctl.pub:/root/.ssh/id_rsa.pub:z
-          --volume {{ dir_platform }}/secrets/ssh/authorized_keys:/root/.ssh/authorized_keys:z
-        docker.io/containercraft/konductor
-  args:
-    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid"
-  register: konductor_pid
-#         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
-#         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-konductor.pid
+  containers.podman.podman_container:
+    name: konductor
+    image: docker.io/cloudctl/konductor
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_platform }}:{{ dir_platform }}:z"
+      - "{{ dir_secrets }}/ssh/id_rsa_cloudctl:/root/.ssh/id_rsa:z"
+      - "{{ dir_secrets }}/ssh/id_rsa_cloudctl.pub:/root/.ssh/id_rsa.pub:z"
+      - "{{ dir_platform }}/secrets/ssh/authorized_keys:/root/.ssh/authorized_keys:z"

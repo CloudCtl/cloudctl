@@ -12,21 +12,36 @@
     state: absent
   when: pod_force_rm == true
 
-- name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
-  command:
-    cmd:
-      podman run --rm -dt --name runner
-          --pod {{ name_pod_cloudctl }}
-          --volume /root/platform/iac:/usr/share/ansible-runner-service/project:z
-          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z
-          --volume /root/platform/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z
-          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z
-          --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/etc/ansible-runner-service/certs/server/server.key:z
-        docker.io/containercraft/ansible-runner-service:latest
-  args:
-    creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid"
-  register: runner_pid
-         #--volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ name_pod_cloudctl }}' 
+  containers.podman.podman_container:
+    name: runner
+    image: docker.io/cloudctl/runner
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_iac }}:/usr/share/ansible-runner-service/project:z"
+      - "{{ dir_platform }}/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/etc/ansible-runner-service/certs/server/server.key:z"
+
+# name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
+# command:
+#   cmd:
+#     podman run --rm -dt --name runner
+#         --pod {{ name_pod_cloudctl }}
+#         --volume /root/platform/iac:/usr/share/ansible-runner-service/project:z
+#         --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z
+#         --volume /root/platform/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z
+#         --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z
+#         --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/etc/ansible-runner-service/certs/server/server.key:z
+#       docker.io/containercraft/ansible-runner-service:latest
+# args:
+#   creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-runner.pid"
+# register: runner_pid
+#        #--volume /root/platform/runner/etc/ansible-runner-service:/etc/ansible-runner-service:z
 #         --pod-id-file {{ dir_tmp }}/{{ name_pod_cloudctl }}.pid
 #         --cidfile {{ dir_tmp }}/{{ name_pod_cloudctl }}-registry.pid
 #         --pull missing \

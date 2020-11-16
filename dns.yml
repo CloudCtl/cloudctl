@@ -5,6 +5,7 @@
   become_user: root
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
     # 'vars/coredns.yml'
   vars:
     module: "coredns"
@@ -13,4 +14,5 @@
     db_time: "{{ coredns_date_YmdH }}"
     dns_zone: "{{ {{ domain_cluster }} | default(cloud.codectl.io) }}"
   roles:
-    - coredns
+    - role: coredns
+      when: start_dns == true
