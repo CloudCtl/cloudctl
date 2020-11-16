@@ -42,9 +42,7 @@ ARG varListRpms="\
              bsdtar \
              buildah \
              openssl \
-             httpd-tools \
              python3-pip \
-             openssh-clients \
              fuse-overlayfs \
              "
 ARG varListPip="\
