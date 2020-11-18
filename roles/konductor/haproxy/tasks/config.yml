@@ -1,8 +1,0 @@
----
-- name: '{{ ansible_name_module }} | template | Build Registry config.yml' 
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-    mode: '{{ item.mode }}'
-  loop: 
-    - { mode: '0644', src: "haproxy/haproxy.cfg.j2", dest: "{{ dir_platform }}/haproxy/haproxy.cfg"}

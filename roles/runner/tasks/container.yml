@@ -8,7 +8,7 @@
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ name_pod_cloudctl }}' 
   containers.podman.podman_container:
     name: runner
-    image: docker.io/cloudctl/runner
+    image: quay.io/cloudctl/runner
     state: "started"
     recreate: "true"
     pod: "cloudctl"

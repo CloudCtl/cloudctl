@@ -12,7 +12,7 @@
     pod: "cloudctl"
     state: "started"
     recreate: "true"
-    image: docker.io/cloudctl/coredns
+    image: quay.io/cloudctl/coredns
     volume:
       - "{{ dir_platform }}/coredns/config.json:/CoreFile:z"
       - "{{ dir_platform }}/coredns/core.db:/root/core.db:z"

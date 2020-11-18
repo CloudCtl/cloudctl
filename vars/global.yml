@@ -18,7 +18,7 @@ ansible_python_interpreter: auto_silent
 # CloudCtl Variables
 pod_force_rm: true
 name_pod_cloudctl: cloudctl
-image_tag_konductor: docker.io/codesparta/konductor
+image_tag_konductor: quay.io/codesparta/konductor
 sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
 
 # Local Environment 

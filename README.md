@@ -47,7 +47,7 @@ On Ubuntu 20.04+
 ```
  mkdir -p /root/cloudctl && \
  podman run -it --rm --volume /root/cloudctl:/clone:z \
-   docker.io/cloudctl/git \
+   quay.io/cloudctl/git \
  https://github.com/ContainerCraft/CloudCtl.git && \
  cd ~/cloudctl
 ```

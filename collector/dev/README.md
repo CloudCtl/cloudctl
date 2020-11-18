@@ -34,7 +34,7 @@ sudo podman run \
     --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/mirror:/root/platform/mirror:z     \
     --volume /tmp/images:/root/platform/images:z     \
-  docker.io/cloudctl/koffer:latest
+  quay.io/cloudctl/koffer:latest
 ```
 
   - Option B. Exec into container for manual development
@@ -46,7 +46,7 @@ sudo podman run \
     --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/mirror:/root/platform/mirror:z     \
     --volume /tmp/images:/root/platform/images:z     \
-  docker.io/cloudctl/koffer:latest
+  quay.io/cloudctl/koffer:latest
 ```
   - Then manually exec the `/usr/bin/entrypoint` actions
 ```

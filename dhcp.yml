@@ -7,4 +7,4 @@ sudo podman run  \
     --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/dhcp:/etc/dhcp:z             \
     --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/var/lib/dhcp:/var/lib/dhcp:z \
     --volume ~/.ccio/ocp-mini-stack/module/isc-dhcp/aux/config/defaults:/etc/defaults:z     \
-  docker.io/cloudctl/ccio-isc-dhcp:alpine-latest
+  quay.io/cloudctl/ccio-isc-dhcp:alpine-latest

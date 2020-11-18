@@ -2,10 +2,10 @@
 
 # Offline Image Table
 declare -A img_table=(\
-  ['konductor']="docker.io/cloudctl/konductor" \
-  ['runner']="docker.io/cloudctl/ansible-runner-service" \
-  ['registry']="docker.io/library/registry" \
   ['pause']="k8s.gcr.io/pause" \
+  ['runner']="quay.io/cloudctl/runner" \
+  ['registry']="quay.io/cloudctl/registry" \
+  ['konductor']="quay.io/cloudctl/konductor" \
 )
 dir_bundle="$(pwd)/bundle"
 mkdir -p {dir_bundle}
