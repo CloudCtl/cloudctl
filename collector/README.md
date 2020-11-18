@@ -26,6 +26,6 @@ sudo podman run -it --rm --pull always \
 ```
 ### 2. View artifact bundle
 ```
-du -sh ~/bundle/koffer-bundle.tpdk.tar.xz
+du -sh ~/bundle/koffer-bundle.tpdk-cloudctl.tar.xz
 ``` 
 # [Developer Docs & Utils](./dev)
