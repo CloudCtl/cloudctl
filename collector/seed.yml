@@ -17,7 +17,7 @@
           - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
           - 'docker-archive://{{ item.path }}/image-{{ item.name }}-{{ item.tag }}.tar'
           - --additional-tag
-          - '{{ item.uri }}/{{ item.name }}:{{ tag }}'
+          - '{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
         creates: "{{ dir_seed_img }}/image-{{ item.name }}-{{ item.tag }}.tar"
       with_items:
         - "{{ cloudctl_seed }}"
