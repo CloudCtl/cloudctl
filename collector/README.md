@@ -20,7 +20,7 @@ mkdir -p ${HOME}/bundle;\
 sudo podman run -it --rm --pull always \
     --volume ${HOME}/bundle:/root/bundle:z \
     --volume ${HOME}/.docker:/root/.docker:z \
-  cloudctl/koffer:latest bundle --silent \
+  quay.io/cloudctl/koffer:latest bundle --silent \
     --config https://git.io/JToYG
 
 ```
