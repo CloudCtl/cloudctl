@@ -24,7 +24,5 @@ systemctl restart systemd-resolved.service
 cat /etc/resolve.conf
 netstat -tulpn | grep ':53 '
 ```
-```
-reboot
-```
+
 ### Now you are ready to deploy cloudctl
