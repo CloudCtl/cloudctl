@@ -10,7 +10,7 @@ set -ex
 [[ $(which jq 2>&1 1>/dev/null ; echo $?) == 0 ]] || exit 1
 
 # Static Variables
-git clone https://github.com/containercraft/Koffer.git /tmp/koffer;
+git clone https://github.com/cloudctl/Koffer.git /tmp/koffer;
 cd /tmp/koffer;
 git checkout ${BRANCH};
 
@@ -34,7 +34,7 @@ podman build \
     --build-arg varVerHelm=${varVerHelm} \
     --build-arg varVerTerraform=${varVerTerraform} \
     --build-arg varVerOpenshift=${varVerOpenshift} \
-    --tag docker.io/containercraft/koffer:${TAG}
+    --tag docker.io/cloudctl/koffer:${TAG}
 
 cd ${originPwd}
 rm -rf /tmp/koffer

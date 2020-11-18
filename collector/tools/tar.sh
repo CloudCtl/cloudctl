@@ -2,8 +2,8 @@
 
 # Offline Image Table
 declare -A img_table=(\
-  ['konductor']="docker.io/containercraft/konductor" \
-  ['runner']="docker.io/containercraft/ansible-runner-service" \
+  ['konductor']="docker.io/cloudctl/konductor" \
+  ['runner']="docker.io/cloudctl/ansible-runner-service" \
   ['registry']="docker.io/library/registry" \
   ['pause']="k8s.gcr.io/pause" \
 )

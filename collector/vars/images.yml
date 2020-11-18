@@ -1,11 +1,11 @@
 cloudctl_seed:
   - name: konductor
     tag: latest
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
     path: "{{ dir_seed_img }}"
-  - name: ansible-runner-service
+  - name: runner
     tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
     path: "{{ dir_seed_img }}"
   - name: registry
     tag: latest
@@ -21,29 +21,29 @@ cloudctl_images:
     tag: latest
     uri: "k8s.gcr.io"
   - name: pause
+    tag: 3.1
+    uri: "k8s.gcr.io"
+  - name: pause
     tag: 3.2
     uri: "k8s.gcr.io"
   - name: koffer
     tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
   - name: konductor
     tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
   - name: coredns
     tag: latest
-    uri: "docker.io/coredns"
+    uri: "docker.io/cloudctl"
   - name: registry
     tag: latest
-    uri: "docker.io/library"
-  - name: ansible-runner-service
+    uri: "docker.io/cloudctl"
+  - name: runner
     tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
   - name: nginx
     tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"
   - name: haproxy
     tag: "latest"
-    uri: "docker.io/containercraft"
-  - name: iperf3
-    tag: "latest"
-    uri: "docker.io/containercraft"
+    uri: "docker.io/cloudctl"

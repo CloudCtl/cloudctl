@@ -20,7 +20,7 @@
           --volume {{ dir_platform }}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:z
           --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/haproxy.crt
           --volume {{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/haproxy.key
-        docker.io/containercraft/haproxy
+        docker.io/cloudctl/haproxy
   args:
     creates: "{{ dir_tmp }}/{{ name_pod_cloudctl }}-haproxy.pid"
   register: haproxy_pid

@@ -9,6 +9,6 @@ sudo podman run -it --rm --pull always \
     --volume /tmp/.bashrc:/root/.bashrc:z \
     --volume /tmp/.gitconfig:/root/.gitconfig:z \
     --entrypoint bash --workdir /root/koffer \
-  docker.io/containercraft/koffer:latest
+  docker.io/cloudctl/koffer:latest
 
 #   --volume $(pwd)/aws/:/root/.aws/:z \

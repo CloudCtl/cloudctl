@@ -23,7 +23,7 @@ else
 
     # Pull from public internet if tar not found 
     echo ">> Pulling Konductor Image from DockerHub Repo"
-    podman pull docker.io/containercraft/konductor:latest
+    podman pull docker.io/cloudctl/konductor:latest
 fi
 
 # Run konductor image
@@ -33,4 +33,4 @@ time sudo podman run -it --rm --pull never \
     --volume /tmp/.ssh:/root/.ssh:z               \
     --workdir /root/platform/iac/cloudctl         \
     --volume $(pwd):/root/platform/iac/cloudctl:z \
-  docker.io/containercraft/konductor:latest
+  docker.io/cloudctl/konductor:latest

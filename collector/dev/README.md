@@ -8,7 +8,7 @@
 #### 1. Prepare Developer Environment
   a. Clone codebase under development
 ```
- git clone https://github.com/containercraft/koffer-openshift.git /tmp/koffer;
+ git clone https://github.com/cloudctl/koffer-openshift.git /tmp/koffer;
  cd /tmp/koffer && git checkout latest;
 ```
   b. Create persistence directories
@@ -34,7 +34,7 @@ sudo podman run \
     --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/mirror:/root/platform/mirror:z     \
     --volume /tmp/images:/root/platform/images:z     \
-  docker.io/containercraft/koffer:latest
+  docker.io/cloudctl/koffer:latest
 ```
 
   - Option B. Exec into container for manual development
@@ -46,7 +46,7 @@ sudo podman run \
     --volume /tmp/docker:/root/.docker:z           \
     --volume /tmp/mirror:/root/platform/mirror:z     \
     --volume /tmp/images:/root/platform/images:z     \
-  docker.io/containercraft/koffer:latest
+  docker.io/cloudctl/koffer:latest
 ```
   - Then manually exec the `/usr/bin/entrypoint` actions
 ```
@@ -95,4 +95,4 @@ sudo podman pod rm --force cloudctl
 for container in $(sudo podman ps -a | grep -v CONTAINER | awk '/busybox|one|registry|nginx/{print $1}'); do sudo podman rm --force ${container}; done
 for container in $(sudo podman images | grep -v CONTAINER | awk '/koffer|pause|busybox|one|registry|nginx/{print $3}'); do sudo podman rmi --force ${container}; done
 ```
-[this script]:https://github.com/containercraft/Koffer/blob/latest/dev/bin/build-local.sh
+[this script]:https://github.com/cloudctl/Koffer/blob/latest/dev/bin/build-local.sh
