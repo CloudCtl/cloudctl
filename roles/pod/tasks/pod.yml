@@ -10,6 +10,7 @@
     name: "{{ name_pod_cloudctl }}"
     hostname: "{{ name_pod_cloudctl }}"
     state: started
+    infra_image: "k8s.gcr.io/pause:latest"
     ports:
       - 80:80
       - 443:443
