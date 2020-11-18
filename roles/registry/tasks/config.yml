@@ -6,6 +6,7 @@
     mode: '{{ item.mode }}'
   loop: 
     - { mode: '0644', src: "registry/config.yml.j2", dest: "{{ dir_platform }}/mirror/config.yml"}
+    - { mode: '0644', src: "containers/registries.conf.j2", dest: "/etc/containers/registries.conf"}
 
 # Disabled due to no compatibile bcrypt algo for docker registry
 # name: '{{ ansible_name_module }} | htpasswd | Generate Default Registry Basic Auth'
