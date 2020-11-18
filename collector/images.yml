@@ -16,7 +16,7 @@
           - skopeo
           - copy
           - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
-          - 'docker://localhost:5000/{{ item.name }}:{{ item.tag }}'
+          - 'docker://localhost:5000/cloudctl/{{ item.name }}:{{ item.tag }}'
 #         - '--dest-no-creds'
       with_items:
         - "{{ cloudctl_seed }}"
