@@ -14,10 +14,10 @@
       command:
         argv:
           - skopeo
-#         - '--dest-no-creds'
           - copy
           - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
           - 'docker://localhost:5000/{{ item.name }}:{{ item.tag }}'
+#         - '--dest-no-creds'
       with_items:
         - "{{ cloudctl_seed }}"
         - "{{ cloudctl_images }}"
