@@ -1,6 +1,6 @@
 #!/bin/bash
 project="init"
-dir_bundle="$(pwd)/bundle"
+dir_bundle="$(pwd)/images"
 IMPORT_LIST="$(ls ${dir_bundle})"
 
 # Stage SSH Credentials
