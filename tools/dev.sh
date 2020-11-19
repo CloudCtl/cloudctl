@@ -9,7 +9,7 @@ sudo podman run -it --rm --pull always \
     --entrypoint bash --privileged \
     --volume /tmp/.ssh:/root/.ssh:z \
     --volume /tmp/.bashrc:/root/.bashrc:z \
-    --volume /tmp/.gitconfig:/root/.gitconfig:z \
     --volume $(pwd):/root/platform/iac/cloudctl:z \
     --workdir /root/platform/iac/cloudctl \
   quay.io/cloudctl/konductor:latest
+#   --volume /tmp/.gitconfig:/root/.gitconfig:z \

@@ -1,7 +1,16 @@
 #!/bin/bash
 project="init"
-dir_bundle="$(pwd)/images"
-IMPORT_LIST="$(ls ${dir_bundle})"
+dir_seed="$(pwd)/images"
+IMPORT_LIST="$(ls ${dir_seed})"
+dir_bundle="$(pwd)/bundle"
+EXTRACT_LIST="$(ls ${dir_bundle}/*.tar.xz 2>/dev/null)"
+
+# Extract bundles
+if [[ ! -z "${IMPORT_LIST}" ]]; then
+  for i in ${EXTRACT_LIST}; do
+    tar xvf ${i} -C /root
+  done
+fi
 
 # Stage SSH Credentials
 sudo rm -rf /tmp/.ssh
@@ -17,7 +26,7 @@ if [[ ! -z "${IMPORT_LIST}" ]]; then
   # Pull images from local tar files
   for IMG in ${IMPORT_LIST}; do
       echo ">> Loading Konductor Image from ${IMG}"
-      podman load --input ${dir_bundle}/${IMG}
+      podman load --input ${dir_seed}/${IMG}
   done
 else
 

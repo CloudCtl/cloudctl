@@ -5,6 +5,9 @@
     state: "absent"
   when: pod_force_rm == true
 
+- name: '{{ ansible_name_module }} | cmd:shell.podman.pull | Podman pull image {{ module }}' 
+  shell: 'podman pull quay.io/cloudctl/nginx:latest'
+
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
   containers.podman.podman_container:
     detach: yes
