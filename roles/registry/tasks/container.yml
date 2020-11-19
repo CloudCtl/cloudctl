@@ -8,7 +8,7 @@
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
   containers.podman.podman_container:
     name: registry
-    image: docker.io/cloudctl/registry
+    image: quay.io/cloudctl/registry
     state: "started"
     recreate: "true"
     pod: "cloudctl"
