@@ -18,6 +18,7 @@ the total payload to carry hovers around ~1.5G.
   - Stateful
   - Dynamic
   - Consistent
+  - Zero external dependencies (No yum/dnf rpm downloads)
   - Airgap Supported (with Koffer collector)
   - Behaves the same whether connected or disconnected from the internet
 #### Supported Distributions
