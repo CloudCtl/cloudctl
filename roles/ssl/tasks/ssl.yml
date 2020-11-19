@@ -7,7 +7,7 @@
 
 - name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | CloudCtl CSR'
   openssl_csr:
-    mode: 0600
+    mode: 0644
     path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
     common_name: "ctl"
@@ -38,7 +38,7 @@
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | CloudCtl Certificate'
   openssl_certificate:
-    mode: 0600
+    mode: 0644
     path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.crt"
     csr_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
@@ -49,7 +49,7 @@
 
 - name: '{{ ansible_name_module }} | openssl_csr | Certificate Signing Request | Ansible Runner Client'
   openssl_csr:
-    mode: 0600
+    mode: 0644
     path: "{{ dir_tmp }}/runner/ssl/client/runner.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
     common_name: "runner"
@@ -64,7 +64,7 @@
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | Ansible Runner Client'
   openssl_certificate:
-    mode: 0600
+    mode: 0644
     path: "{{ dir_tmp }}/runner/ssl/client/runner.crt"
     csr_path: "{{ dir_tmp }}/runner/ssl/client/runner.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
