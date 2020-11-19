@@ -16,6 +16,7 @@
         - "{{ dir_bundle }}/{{ tpdk_bundle_name }}"
         - "{{ dir_cloudctl }}/bundle/{{ bundle_sha }}"
         - "{{ dir_cloudctl }}/bundle/{{ bundle_name }}"
+        - "{{ dir_cloudctl }}/.git"
     
     - name: '{{ ansible_name_module }} | command:tar.compress.pigz | Build Platform Artifacts Bundle'
       command:
