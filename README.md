@@ -11,11 +11,13 @@ with core features delivered via [UBI8] based [Konductor] as primary
 orchestration base capable of dynamically allocating additional pod 
 contained services.
 #### Core Features
+  - Extensable
   - Portable 
   - Stateful
   - Dynamic
   - Consistent
   - Airgap Supported (with Koffer collector)
+  - Behaves the same whether connected or disconnected from the internet
 #### Supported Distributions
   - [Fedora] 32+
   - [CentOS] 8.0+
