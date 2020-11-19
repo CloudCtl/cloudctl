@@ -9,7 +9,9 @@ CloudCtl provides a [Podman] container [Pod] based "Point of Origin"
 Infrastructure as Code [(IaC)] toolkit for deployment operations tasks 
 with core features delivered via [UBI8] based [Konductor] as primary 
 orchestration base capable of dynamically allocating additional pod 
-contained services.
+contained services. All existing containerized services are delivered
+as UBI & UBI Minimal containerized services. When bundled for airgap usage
+the total payload to carry hovers around ~1.5G.
 #### Core Features
   - Extensable
   - Portable 
