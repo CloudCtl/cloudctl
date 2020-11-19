@@ -50,7 +50,8 @@
         warn: false
 
     - name: '{{ ansible_name_module }} | file:mode.0755 | Set Permissions on bundle'
-      file: '{{ dir_bundle }}'
+      file:
+        path: '{{ dir_bundle }}'
         owner: root
         group: root
         mode: 0755
