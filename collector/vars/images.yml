@@ -3,10 +3,6 @@ cloudctl_seed:
     tag: latest
     uri: "quay.io/cloudctl"
     path: "{{ dir_seed_img }}"
-  - name: runner
-    tag: "latest"
-    uri: "quay.io/cloudctl"
-    path: "{{ dir_seed_img }}"
   - name: registry
     tag: latest
     uri: "docker.io/cloudctl"
@@ -26,9 +22,6 @@ cloudctl_images:
   - name: pause
     tag: 3.2
     uri: "k8s.gcr.io"
-  - name: koffer
-    tag: "latest"
-    uri: "quay.io/cloudctl"
   - name: konductor
     tag: "latest"
     uri: "quay.io/cloudctl"
