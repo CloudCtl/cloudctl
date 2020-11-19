@@ -38,13 +38,6 @@
         dest: '{{ dir_cloudctl }}/bundle/{{ bundle_sha }}'
         mode: 0600
 
-#   - name: '{{ ansible_name_module }} | copy | Copy CloudCtl Directory into top layer bundle dir'
-#     copy:
-#       src: '{{ dir_cloudctl }}'
-#       dest: '{{ dir_tmp }}'
-#       remote_src: true
-#       mode: 0600
-
     - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Cradle'
       command:
         cmd:
@@ -55,3 +48,11 @@
         chdir: '{{ dir_local_home }}'
         creates: '{{ dir_bundle }}/{{ tpdk_bundle_name }}'
         warn: false
+
+    - name: '{{ ansible_name_module }} | file:mode.0755 | Set Permissions on bundle'
+      file: '{{ dir_bundle }}'
+        owner: root
+        group: root
+        mode: 0755
+        state: directory
+        recurse: yes
