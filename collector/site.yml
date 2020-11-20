@@ -12,3 +12,4 @@
 - import_playbook: seed.yml           # Save base CloudCtl seed images to local directory
 - import_playbook: config.yml         # Place pod startup artifacts
 - import_playbook: bundle.yml         # Bundle artifacts for airgap transport
+- import_playbook: finalize.yml       # Finalize

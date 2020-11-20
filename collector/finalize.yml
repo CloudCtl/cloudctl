@@ -1,0 +1,19 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ name_vendor }} | Koffer | tree.yml' 
+  hosts: koffer
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/git.yml'
+  vars:
+    module: "tree"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+
+    - name: '{{ ansible_name_module }} | file:directory | Set Permissions on Bundle'
+      file:
+        recurse: true
+        path: '{{ item }}'
+        state: directory
+        mode: 0777
+      loop:
+        - "{{ dir_bundle }}"
