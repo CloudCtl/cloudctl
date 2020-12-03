@@ -62,7 +62,6 @@ jobs:
         platforms: linux/amd64
         pull: true
         push: true
-        load: true
         tags: |
 
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
