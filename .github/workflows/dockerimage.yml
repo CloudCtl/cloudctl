@@ -48,6 +48,13 @@ jobs:
         echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${GITHUB_ENV};\
         echo "varverhelm=$(curl -sL https://api.github.com/repos/helm/helm/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
         echo "varverjq=$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')" >> ${GITHUB_ENV};\
+        echo "varvergrpcurl=$(curl -sL https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
+        echo "varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
+        echo "varveropm=$(curl -sL https://api.github.com/repos/operator-framework/operator-registry/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
+        echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
+        echo;  
+
+    - name: Build Image 
         echo "varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
         echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
         echo;  
@@ -70,7 +77,9 @@ jobs:
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
         build-args: |
           varVerJq=${{ env.jq }}
+          varVerOpm=${{ env.varveropm }}
           varVerHelm=${{ env.varverhelm }}
           varRunDate=${{ env.varrundate }}
+          varVerGrpcurl=${{ env.varvergrpcurl }}
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}

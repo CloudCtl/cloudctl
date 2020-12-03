@@ -7,10 +7,12 @@ FROM registry.access.redhat.com/ubi8/ubi:latest as ubi
 FROM registry.access.redhat.com/ubi8/ubi:latest
 #################################################################################
 # OCP Version set in src/ocp
+ARG varVerJq="${varVerJq}"
+ARG varVerOpm="${varVerOpm}"
+ARG varVer="${varVerGrpcurl}"
+ARG varVerHelm="${varVerHelm}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ARG varVerTerraform="${varVerTerraform}"
-ARG varVerHelm="${varVerHelm}"
-ARG varVerJq="${varVerJq}"
 
 # OC Download Urls
 ARG varUrlGit="${varUrlGit}"
@@ -20,11 +22,13 @@ ARG urlOCINST="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/
 # Binary Artifact URLS
 ARG varUrlGcloud="https://sdk.cloud.google.com"
 ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
+ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
 ARG urlRelease="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt"
+ARG varUrlOpm="https://github.com/operator-framework/operator-registry/releases/download/v${varVerOpm}/linux-amd64-opm"
 ARG varUrlTerraform="https://releases.hashicorp.com/terraform/${varVerTerraform}/terraform_${varVerTerraform}_linux_amd64.zip"
 ARG varUrlOsInst="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
 ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
-ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
+ARG varUrlGrpcurl="https://github.com/fullstorydev/grpcurl/releases/download/v${varVerGrpcurl}/grpcurl_${varVerGrpcurl}_linux_x86_64.tar.gz"
 
 # Build Variables
 ARG listManifest="/var/lib/koffer/release.list"
@@ -108,14 +112,19 @@ RUN set -ex                                                                     
      && dnf install ${YUM_FLAGS} ${varListRpms}                                 \
      && pip3 install ${varListPip}                                              \
      && dnf install ${YUM_FLAGS} bsdtar tar                                     \
+     && curl -L ${varUrlGrpcurl}                                                \
+          | tar xzvf - --directory /tmp grpcurl                                 \
+     && mv /tmp/grpcurl   /bin/grpcurl                                          \
      && curl -L ${varUrlHelm}                                                   \
           | tar xzvf - --directory /tmp linux-amd64/helm                        \
      && mv /tmp/linux-amd64/helm   /bin/                                        \
      && curl -L ${varUrlTerraform}                                              \
           | bsdtar -xvf- -C /bin                                                \
+     && curl -L ${varUrlOpm}                                                    \
+             -o /bin/opm                                                        \
      && curl -L ${varUrlJq}                                                     \
              -o /bin/jq                                                         \
-     && chmod +x /bin/{helm,terraform,jq}                                       \
+     && chmod +x /bin/{opm,helm,terraform,jq,grpcurl}                           \
      && terraform version                                                       \
      && chmod +x /usr/bin/entrypoint                                            \
      && mkdir /root/.bak && mv                                                  \
