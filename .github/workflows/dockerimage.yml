@@ -61,7 +61,7 @@ jobs:
         file: Dockerfile
         platforms: linux/amd64
         pull: true
-        push: false
+        push: true
         load: true
         tags: |
 
