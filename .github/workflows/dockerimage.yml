@@ -60,6 +60,7 @@ jobs:
         context: .
         file: Dockerfile
         platforms: linux/amd64
+        pull: true
         push: false
         load: true
         tags: |
@@ -98,3 +99,4 @@ jobs:
           varVerGrpcurl=${{ env.varvergrpcurl }}
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}
+
