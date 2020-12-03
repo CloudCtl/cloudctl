@@ -9,7 +9,7 @@ FROM registry.access.redhat.com/ubi8/ubi:latest
 # OCP Version set in src/ocp
 ARG varVerJq="${varVerJq}"
 ARG varVerOpm="${varVerOpm}"
-ARG varVer="${varVerGrpcurl}"
+ARG varVerGrpcurl="${varVerGrpcurl}"
 ARG varVerHelm="${varVerHelm}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ARG varVerTerraform="${varVerTerraform}"
