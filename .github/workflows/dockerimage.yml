@@ -62,6 +62,7 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: |
+          # CloudCtl Org
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
@@ -70,6 +71,27 @@ jobs:
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
+
+          # CodeSparta Org
+          quay.io/codesparta/${{ github.workflow }}
+          quay.io/codesparta/${{ github.workflow }}:latest
+          quay.io/codesparta/${{ github.workflow }}:${{ env.varveropenshift }}
+          quay.io/codesparta/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/codesparta/${{ github.workflow }}
+          docker.io/codesparta/${{ github.workflow }}:latest
+          docker.io/codesparta/${{ github.workflow }}:${{ env.varveropenshift }}
+          docker.io/codesparta/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
+
+          # ContainerCraft Org
+          quay.io/containercraft/${{ github.workflow }}
+          quay.io/containercraft/${{ github.workflow }}:latest
+          quay.io/containercraft/${{ github.workflow }}:${{ env.varveropenshift }}
+          quay.io/containercraft/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/containercraft/${{ github.workflow }}
+          docker.io/containercraft/${{ github.workflow }}:latest
+          docker.io/containercraft/${{ github.workflow }}:${{ env.varveropenshift }}
+          docker.io/containercraft/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
+
         build-args: |
           varVerJq=${{ env.jq }}
           varVerOpm=${{ env.varveropm }}
