@@ -64,6 +64,7 @@ jobs:
         push: false
         load: true
         tags: |
+
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
