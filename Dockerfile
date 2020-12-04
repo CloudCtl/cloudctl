@@ -161,7 +161,7 @@ RUN set -ex                                                                     
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
-ENV varVerOpenshift="${varVerOpenshift}" varUrlGit="${varUrlGit}"
+ENV varVerOpenshift="${varVerOpenshift}" varVerTpdk="${varVerOpenshift}"
 LABEL VENDOR="containercraft.io"                                                \
       NAME="Koffer"                                                             \
       BUILD_DATE="${varRunDate}"                                                \
