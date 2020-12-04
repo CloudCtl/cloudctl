@@ -72,6 +72,10 @@ jobs:
         push: true
         tags: |
 
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:latest
           quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}
