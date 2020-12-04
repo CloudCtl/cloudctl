@@ -9,13 +9,14 @@ FROM registry.access.redhat.com/ubi8/ubi:latest
 # OCP Version set in src/ocp
 ARG varVerJq="${varVerJq}"
 ARG varVerOpm="${varVerOpm}"
-ARG varVerGrpcurl="${varVerGrpcurl}"
+ARG varRunDate="${varRunDate}"
 ARG varVerHelm="${varVerHelm}"
+ARG varVerTpdk="${varVerOpenshift}"
+ARG varVerGrpcurl="${varVerGrpcurl}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ARG varVerTerraform="${varVerTerraform}"
 
 # OC Download Urls
-ARG varUrlGit="${varUrlGit}"
 ARG urlOC="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-client-linux.tar.gz"
 ARG urlOCINST="https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/${varVerOpenshift}/openshift-install-linux.tar.gz"
 
@@ -161,12 +162,24 @@ RUN set -ex                                                                     
 
 #################################################################################
 # ContainerOne | Cloud Orchestration Tools - Point of Origin
-ENV varVerOpenshift="${varVerOpenshift}" varVerTpdk="${varVerOpenshift}"
-LABEL VENDOR="containercraft.io"                                                \
-      NAME="Koffer"                                                             \
-      BUILD_DATE="${varRunDate}"                                                \
-      OpenShift="${varVerOpenshift}"                                            \
-      maintainer="ContainerCraft.io"                                            \
-      License=GPLv3 
+ENV \
+  varVerOpenshift="${varVerOpenshift}" \
+  varVerTpdk="${varVerOpenshift}"
+
+LABEL \
+  name="koffer"                                                                 \
+  license=GPLv3                                                                 \
+  version="${varVerTpdk}"                                                       \
+  vendor="ContainerCraft.io"                                                    \
+  build-date="${varRunDate}"                                                    \
+  maintainer="ContainerCraft.io"                                                \
+  distribution-scope="public"                                                   \
+  io.openshift.tags="tpdk koffer"                                               \
+  io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
+  summary="Koffer agnostic artifact collection engine."                         \
+  description="Koffer is designed to automate delarative enterprise artifact supply chain."\
+  io.k8s.description="Koffer is designed to automate delarative enterprise artifact supply chain."
+
 ENTRYPOINT ["/usr/bin/koffer"]
 WORKDIR /root/koffer
+
