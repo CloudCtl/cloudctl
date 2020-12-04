@@ -21,7 +21,7 @@ Compatibile Artifact Types:
   - capability to add more artifact types with custom collector plugins
 
 ## How To
-  - Example: [collector-infra](https://github.com/containercraft/collector-infra) plugin
+  - Example: [collector-infra](https://github.com/CodeSparta/collector-ocp) plugin
 
 ### 1. Create Koffer Bundle Directory
 ```
@@ -30,9 +30,9 @@ mkdir -p ~/bundle
 ### 2. Run Koffer
 ```
 sudo podman run -it --rm --pull always \
-    --volume $(pwd)/bundle:/root/deploy/bundle:z \
-  docker.io/containercraft/koffer bundle \
-        --config https://git.io/JUzf0
+    --volume $${HOME}/bundle:/root/bundle:z \
+  docker.io/cloudctl/koffer bundle \
+        --config https://git.io/JIY6k
 ```
 ### 3. Verify Bundle
 ```
