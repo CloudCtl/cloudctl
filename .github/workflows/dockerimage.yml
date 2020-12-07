@@ -70,9 +70,8 @@ jobs:
         echo "varvergrpcurl=$(curl -sL https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
         echo "varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
         echo "varveropm=$(curl -sL https://api.github.com/repos/operator-framework/operator-registry/releases/latest | jq -r '.tag_name' | sed 's/v//g')" >> ${GITHUB_ENV};\
-        echo "varveropenshift=4.6.4" >> ${GITHUB_ENV};\
+        echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
         echo;  
-       #echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
 
     - name: Build Image 
       uses: docker/build-push-action@v2
