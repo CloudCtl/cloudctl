@@ -57,6 +57,7 @@ ARG varListPip="\
 ARG YUM_FLAGS="\
     -y \
     --nobest \
+    --nogpgcheck \
     --allowerasing \
     --setopt=tsflags=nodocs \
     --disablerepo "ubi-8-appstream" \
