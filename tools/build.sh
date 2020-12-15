@@ -9,6 +9,7 @@ varvergrpcurl=$(curl -sL https://api.github.com/repos/fullstorydev/grpcurl/relea
 varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')
 varveropm=$(curl -sL https://api.github.com/repos/operator-framework/operator-registry/releases/latest | jq -r '.tag_name' | sed 's/v//g')
 varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')
+
 cat <<EOF
 >> Detected:
       RunDate:            $varrundate
@@ -23,11 +24,11 @@ EOF
 
 pull_images () {
 PULL_LIST="\
-docker.io/library/centos:latest
-quay.io/cloudctl/registry:latest
-quay.io/cloudctl/koffer-go:latest
-registry.access.redhat.com/ubi8/ubi:latest
-quay.io/openshift/origin-operator-registry:latest
+docker.io/library/centos:latest \
+quay.io/cloudctl/registry:latest \
+quay.io/cloudctl/koffer-go:latest \
+registry.access.redhat.com/ubi8/ubi:latest \
+quay.io/openshift/origin-operator-registry:latest \
 "
 
 for i in ${PULL_LIST}; do
@@ -36,7 +37,15 @@ for i in ${PULL_LIST}; do
 done
 }
 
+prep_project () {
+  echo ">> Building project in /tmp/koffer"
+  sudo rm -rf /tmp/koffer
+  git clone https://github.com/CloudCtl/Koffer.git /tmp/koffer
+  cd /tmp/koffer
+}
+
 run_build () {
+  echo ">> Building Koffer"
   sudo podman build \
     -f Dockerfile \
     --build-arg varVerJq=${varverjq} \
@@ -52,7 +61,9 @@ run_build () {
 main () {
   fetch_vars
   pull_images
+  prep_project
   run_build
+  cd $START_DIR
 }
 
 main
