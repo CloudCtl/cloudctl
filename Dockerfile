@@ -31,6 +31,7 @@ ARG DNF_LIST="\
   git \
   tar \
   tree \
+  curl \
   tmux \
   pigz \
   rsync \
@@ -110,7 +111,7 @@ RUN set -ex                                                                     
 RUN set -ex                                                                     \
      && curl -L ${varUrlJq} -o /bin/jq                                          \
      && chmod +x /bin/jq                                                        \
-     && jq --version                                                            \
+     && /bin/jq --version                                                       \
     && echo
 
 # Install grpcurl
@@ -118,14 +119,14 @@ RUN set -ex                                                                     
      && curl -L ${varUrlGrpcurl}                                                \
         | tar xzvf - --directory /bin grpcurl                                   \
      && chmod +x /bin/grpcurl                                                   \
-     && grpcurl --version                                                       \
+     && /bin/grpcurl --version                                                  \
     && echo
 
 # Install OPM
 RUN set -ex                                                                     \
      && curl -L ${varUrlOpm} -o /bin/opm                                        \
      && chmod +x /bin/opm                                                       \
-     && opm version                                                             \
+     && /bin/opm version                                                        \
     && echo
 
 # Install Terraform
@@ -133,7 +134,7 @@ RUN set -ex                                                                     
      && curl -L ${varUrlTerraform}                                              \
         | bsdtar -xvf- -C /bin                                                  \
      && chmod +x /bin/terraform                                                 \
-     && terraform version                                                       \
+     && /bin/terraform version                                                  \
     && echo
 
 # Install Helm
@@ -142,8 +143,8 @@ RUN set -ex                                                                     
         | tar xzvf - --directory /tmp linux-amd64/helm                          \
      && mv /tmp/linux-amd64/helm /bin/helm                                      \
      && chmod +x /bin/helm                                                      \
-     && helm version                                                            \
      && rm -rf /tmp/linux-amd64                                                 \
+     && /bin/helm version                                                       \
     && echo
 
 # PIP Install Packages
