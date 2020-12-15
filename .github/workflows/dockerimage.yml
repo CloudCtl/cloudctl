@@ -115,7 +115,7 @@ jobs:
           docker.io/containercraft/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
 
         build-args: |
-          varVerJq=${{ env.jq }}
+          varVerJq=${{ env.varverjq }}
           varVerOpm=${{ env.varveropm }}
           varVerHelm=${{ env.varverhelm }}
           varRunDate=${{ env.varrundate }}
