@@ -8,15 +8,15 @@ FROM base
 #################################################################################
 # Build Variables
 ARG varRunDate="${varRunDate}"
+ARG varVerTpdk="${varVerOpenshift}"
 
 # Package versions
 ARG varVerJq="${varVerJq}"
 ARG varVerOpm="${varVerOpm}"
 ARG varVerHelm="${varVerHelm}"
-ARG varVerTpdk="${varVerOpenshift}"
 ARG varVerGrpcurl="${varVerGrpcurl}"
-ARG varVerOpenshift="${varVerOpenshift}"
 ARG varVerTerraform="${varVerTerraform}"
+ARG varVerOpenshift="${varVerOpenshift}"
 
 # Binary Artifact URLS
 ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
@@ -85,16 +85,6 @@ COPY                   conf/registry-config.yml  /etc/docker/registry/config.yml
 RUN set -ex                                                                     \
      && dnf update  ${YUM_FLAGS}                                                \
      && dnf install ${YUM_FLAGS} ${DNF_LIST}                                    \
-     && dnf clean all                                                           \
-     && rm -rf                                                                  \
-          /var/cache/*                                                          \
-          /var/log/dnf*                                                         \
-          /var/log/yum*                                                         \
-          /root/buildinfo                                                       \
-          /root/original-ks.cfg                                                 \
-          /root/anaconda-ks.cfg                                                 \
-          /root/anaconda-post.log                                               \
-          /root/anaconda-post-nochroot.log                                      \
      # Configure Buildah for Nested Image Builds
      && mkdir -p                                                                \
           /var/lib/shared/overlay-images \                                      \
@@ -105,6 +95,17 @@ RUN set -ex                                                                     
             -e 's|^#mount_program|mount_program|g'                              \
             -e '/additionalimage.*/a "/var/lib/shared",'                        \
           /etc/containers/storage.conf                                          \
+     # Purge garbage
+     && dnf clean all                                                           \
+     && rm -rf                                                                  \
+          /var/cache/*                                                          \
+          /var/log/dnf*                                                         \
+          /var/log/yum*                                                         \
+          /root/buildinfo                                                       \
+          /root/original-ks.cfg                                                 \
+          /root/anaconda-ks.cfg                                                 \
+          /root/anaconda-post.log                                               \
+          /root/anaconda-post-nochroot.log                                      \
     && echo
 
 # Install jq
@@ -153,6 +154,30 @@ RUN set -ex                                                                     
     && echo
 
 #################################################################################
+# Finalize
+ENV \
+  varVerOpenshift="${varVerOpenshift}" \
+  varVerTpdk="${varVerOpenshift}"
+
+LABEL \
+  name="koffer"                                                                 \
+  license=GPLv3                                                                 \
+  version="${varVerTpdk}"                                                       \
+  build-date="${varRunDate}"                                                    \
+  distribution-scope="public"                                                   \
+  io.openshift.tags="tpdk koffer"                                               \
+  io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
+  summary="Koffer agnostic artifact collection engine."                         \
+  description="Koffer is designed to automate delarative enterprise artifact supply chain."\
+  io.k8s.description="Koffer is designed to automate delarative enterprise artifact supply chain."
+
+ENTRYPOINT ["/usr/bin/koffer"]
+WORKDIR /root/koffer
+
+#################################################################################
+# vendor="ContainerCraft.io"                                                    \
+# maintainer="ContainerCraft.io"                                                \
+#################################################################################
 # OLM Hack
 #COPY --from=olm        /bin/registry-server      /usr/bin/registry-server
 #COPY --from=olm        /bin/initializer          /usr/bin/initializer
@@ -164,27 +189,3 @@ RUN set -ex                                                                     
 #         --manifests /manifests/                                                \
 #         --output /db/bundles.db                                                \
 #   && echo
-
-#################################################################################
-# Finalize
-
-ENV \
-  varVerOpenshift="${varVerOpenshift}" \
-  varVerTpdk="${varVerOpenshift}"
-
-LABEL \
-  name="koffer"                                                                 \
-  license=GPLv3                                                                 \
-  version="${varVerTpdk}"                                                       \
-  vendor="ContainerCraft.io"                                                    \
-  build-date="${varRunDate}"                                                    \
-  maintainer="ContainerCraft.io"                                                \
-  distribution-scope="public"                                                   \
-  io.openshift.tags="tpdk koffer"                                               \
-  io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
-  summary="Koffer agnostic artifact collection engine."                         \
-  description="Koffer is designed to automate delarative enterprise artifact supply chain."\
-  io.k8s.description="Koffer is designed to automate delarative enterprise artifact supply chain."
-
-ENTRYPOINT ["/usr/bin/koffer"]
-WORKDIR /root/koffer
