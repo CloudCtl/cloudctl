@@ -9,7 +9,7 @@ varveropm=$(curl -sL https://api.github.com/repos/operator-framework/operator-re
 varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')
 
 sudo podman build \
-    -f Dockerfile.test \
+    -f Dockerfile \
     --build-arg varVerJq=${varverjq} \
     --build-arg varVerOpm=${varveropm} \
     --build-arg varVerHelm=${varverhelm} \
