@@ -19,6 +19,7 @@ cat <<EOF
       GrpCurl Version:    $varvergrpcurl
       Terraform Version:  $varverterraform
       OpenShift Version:  $varveropenshift
+
 EOF
 }
 
@@ -34,6 +35,7 @@ quay.io/openshift/origin-operator-registry:latest \
 for i in ${PULL_LIST}; do
   echo ">>  Pulling image: $i"
   sudo podman pull $i
+  echo
 done
 }
 
@@ -59,6 +61,7 @@ run_build () {
 }
 
 main () {
+  clear
   fetch_vars
   pull_images
   prep_project
