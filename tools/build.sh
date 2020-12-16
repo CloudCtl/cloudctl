@@ -3,12 +3,12 @@
 fetch_vars () {
 echo ">> Collecting run variables"
 varrundate=$(date +%y%m%d%I%M%S)
-varverhelm=$(curl -sL https://api.github.com/repos/helm/helm/releases/latest | jq -r '.tag_name' | sed 's/v//g')
-varverjq=$(curl -sL https://api.github.com/repos/stedolan/jq/releases/latest | jq -r '.tag_name' | sed 's/jq-//g')
-varvergrpcurl=$(curl -sL https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | jq -r '.tag_name' | sed 's/v//g')
-varverterraform=$(curl -sL https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r '.tag_name' | sed 's/v//g')
-varveropm=$(curl -sL https://api.github.com/repos/operator-framework/operator-registry/releases/latest | jq -r '.tag_name' | sed 's/v//g')
+varverhelm=$(curl -s https://api.github.com/repos/helm/helm/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
+varverjq=$(curl -s https://api.github.com/repos/stedolan/jq/releases/latest | awk -F '["jq-]' '/tag_name/{print $7}')
+varvergrpcurl=$(curl -s https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
+varverterraform=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
 varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')
+varveropm=$(curl -s https://api.github.com/repos/operator-framework/operator-registry/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
 
 cat <<EOF
 >> Detected:
