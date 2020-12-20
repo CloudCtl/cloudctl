@@ -2,59 +2,68 @@ FROM quay.io/openshift/origin-operator-registry as olm
 FROM quay.io/cloudctl/registry                  as registry
 FROM quay.io/cloudctl/koffer-go                 as entrypoint
 
-FROM quay.io/cloudctl/ansible:latest
+#FROM quay.io/cloudctl/ansible:latest
+FROM quay.io/cloudctl/ubi:builder
 USER root
 
 #################################################################################
-# Build Variables
-ARG varVerTpdk="${varVerOpenshift}"
-
-# Package versions
-ARG varVerJq="${varVerJq}"
-ARG varVerOpm="${varVerOpm}"
-ARG varVerHelm="${varVerHelm}"
-ARG varVerGrpcurl="${varVerGrpcurl}"
-ARG varVerTerraform="${varVerTerraform}"
-ARG varVerOpenshift="${varVerOpenshift}"
-
-# Binary Artifact URLS
-ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
-ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
-ARG varUrlOpm="https://github.com/operator-framework/operator-registry/releases/download/v${varVerOpm}/linux-amd64-opm"
-ARG varUrlTerraform="https://releases.hashicorp.com/terraform/${varVerTerraform}/terraform_${varVerTerraform}_linux_amd64.zip"
-ARG varUrlGrpcurl="https://github.com/fullstorydev/grpcurl/releases/download/v${varVerGrpcurl}/grpcurl_${varVerGrpcurl}_linux_x86_64.tar.gz"
-
-#################################################################################
-# Package Lists
+# Package List
 ARG DNF_LIST="\
   skopeo \
 "
 
+#################################################################################
+# Load Entrypoint from Cradle
+ADD ./rootfs /
+COPY --from=entrypoint /root/koffer              /usr/bin/koffer
+COPY --from=registry   /bin/registry             /usr/bin/registry
+
+#################################################################################
+# Install jq
+ARG varVerJq="${varVerJq}"
+ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlJq} -o /bin/jq                                          \
+     && chmod +x /bin/jq                                                        \
+     && /bin/jq --version                                                       \
+    && echo
+
+# Install grpcurl
+ARG varVerGrpcurl="${varVerGrpcurl}"
+ARG varUrlGrpcurl="https://github.com/fullstorydev/grpcurl/releases/download/v${varVerGrpcurl}/grpcurl_${varVerGrpcurl}_linux_x86_64.tar.gz"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlGrpcurl}                                                \
+        | tar xzvf - --directory /bin grpcurl                                   \
+     && chmod +x /bin/grpcurl                                                   \
+     && /bin/grpcurl --version                                                  \
+    && echo
+
+# Install OPM
+ARG varVerOpm="${varVerOpm}"
+ARG varUrlOpm="https://github.com/operator-framework/operator-registry/releases/download/v${varVerOpm}/linux-amd64-opm"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlOpm} -o /bin/opm                                        \
+     && chmod +x /bin/opm                                                       \
+     && /bin/opm version                                                        \
+    && echo
+
+# Install Terraform
+ARG varVerTerraform="${varVerTerraform}"
+ARG varUrlTerraform="https://releases.hashicorp.com/terraform/${varVerTerraform}/terraform_${varVerTerraform}_linux_amd64.zip"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlTerraform}                                              \
+        | bsdtar -xvf- -C /bin                                                  \
+     && chmod +x /bin/terraform                                                 \
+     && /bin/terraform version                                                  \
+    && echo
+
+#################################################################################
+# DNF Install Packages
 ARG YUM_FLAGS="\
   -y \
   --setopt=tsflags=nodocs \
   --exclude container-selinux \
 "
-#  --nobest \
-#  --nogpgcheck \
-#  --allowerasing \
-#  --disablerepo="ubi-8-baseos" \
-#  --disablerepo "ubi-8-appstream" \
-#  --disablerepo="ubi-8-codeready-builder" \
-
-#################################################################################
-# Load Entrypoint from Cradle
-COPY --from=entrypoint /root/koffer              /usr/bin/koffer
-
-# Load Docker Registry:2 Binary
-COPY --from=registry   /bin/registry             /bin/registry
-
-# Configure Docker Registry:2 Service
-COPY                   bin/run_registry.sh       /usr/bin/run_registry.sh
-COPY                   conf/registries.conf      /etc/containers/registries.conf
-COPY                   conf/registry-config.yml  /etc/docker/registry/config.yml
-
-#################################################################################
 # DNF Update & Install Packages
 ADD ./repos/centos/etc /etc/
 RUN set -ex                                                                     \
@@ -67,48 +76,19 @@ RUN set -ex                                                                     
           /var/log/yum*                                                         \
     && echo
 
-# Install jq
-RUN set -ex                                                                     \
-     && curl -L ${varUrlJq} -o /bin/jq                                          \
-     && chmod +x /bin/jq                                                        \
-     && /bin/jq --version                                                       \
-    && echo
-
-# Install grpcurl
-RUN set -ex                                                                     \
-     && curl -L ${varUrlGrpcurl}                                                \
-        | tar xzvf - --directory /bin grpcurl                                   \
-     && chmod +x /bin/grpcurl                                                   \
-     && /bin/grpcurl --version                                                  \
-    && echo
-
-# Install OPM
-RUN set -ex                                                                     \
-     && curl -L ${varUrlOpm} -o /bin/opm                                        \
-     && chmod +x /bin/opm                                                       \
-     && /bin/opm version                                                        \
-    && echo
-
-# Install Terraform
-RUN set -ex                                                                     \
-     && curl -L ${varUrlTerraform}                                              \
-        | bsdtar -xvf- -C /bin                                                  \
-     && chmod +x /bin/terraform                                                 \
-     && /bin/terraform version                                                  \
-    && echo
-
-# Install Helm
-RUN set -ex                                                                     \
-     && curl -L ${varUrlHelm}                                                   \
-        | tar xzvf - --directory /tmp linux-amd64/helm                          \
-     && mv /tmp/linux-amd64/helm /bin/helm                                      \
-     && chmod +x /bin/helm                                                      \
-     && rm -rf /tmp/linux-amd64                                                 \
-     && /bin/helm version                                                       \
-    && echo
-
+# --nobest \
+# --nogpgcheck \
+# --allowerasing \
+# --disablerepo="ubi-8-baseos" \
+# --disablerepo "ubi-8-appstream" \
+# --disablerepo="ubi-8-codeready-builder" \
 #################################################################################
 # Finalize
+ENTRYPOINT ["/usr/bin/koffer"]
+WORKDIR /root/koffer
+
+ARG varVerTpdk="${varVerOpenshift}"
+ARG varVerOpenshift="${varVerOpenshift}"
 ENV \
   varVerOpenshift="${varVerOpenshift}" \
   varVerTpdk="${varVerOpenshift}"
@@ -123,6 +103,3 @@ LABEL \
   summary="Koffer agnostic artifact collection engine."                         \
   description="Koffer is designed to automate delarative enterprise artifact supply chain."\
   io.k8s.description="Koffer is designed to automate delarative enterprise artifact supply chain."
-
-ENTRYPOINT ["/usr/bin/koffer"]
-WORKDIR /root/koffer

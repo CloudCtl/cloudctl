@@ -55,8 +55,7 @@ run_build () {
 main () {
   clear
   fetch_vars
-  pull_images
-  prep_project
+  #pull_images
   run_build
   cd $START_DIR
 }
