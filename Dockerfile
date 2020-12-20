@@ -65,7 +65,6 @@ ARG YUM_FLAGS="\
   --exclude container-selinux \
 "
 # DNF Update & Install Packages
-ADD ./repos/centos/etc /etc/
 RUN set -ex                                                                     \
      && dnf install ${YUM_FLAGS} ${DNF_LIST}                                    \
      && dnf clean all                                                           \
