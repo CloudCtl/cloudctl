@@ -1,13 +1,12 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest as base
-FROM docker.io/library/centos                   as repos
-FROM quay.io/cloudctl/koffer-go                 as entrypoint
-FROM quay.io/cloudctl/registry                  as registry
 FROM quay.io/openshift/origin-operator-registry as olm
-FROM base
+FROM quay.io/cloudctl/registry                  as registry
+FROM quay.io/cloudctl/koffer-go                 as entrypoint
+
+FROM quay.io/cloudctl/ansible:latest
+USER root
 
 #################################################################################
 # Build Variables
-ARG varRunDate="${varRunDate}"
 ARG varVerTpdk="${varVerOpenshift}"
 
 # Package versions
@@ -28,49 +27,24 @@ ARG varUrlGrpcurl="https://github.com/fullstorydev/grpcurl/releases/download/v${
 #################################################################################
 # Package Lists
 ARG DNF_LIST="\
-  git \
-  tar \
-  tree \
-  curl \
-  tmux \
-  pigz \
-  rsync \
-  unzip \
   skopeo \
-  bsdtar \
-  buildah \
-  openssl \
-  python3-pip \
-  fuse-overlayfs \
-"
-
-ARG PIP_LIST="\
-  ansible \
-  passlib \
 "
 
 ARG YUM_FLAGS="\
   -y \
-  --nobest \
-  --nogpgcheck \
-  --allowerasing \
   --setopt=tsflags=nodocs \
   --exclude container-selinux \
-  --disablerepo="ubi-8-baseos" \
-  --disablerepo "ubi-8-appstream" \
-  --disablerepo="ubi-8-codeready-builder" \
 "
+#  --nobest \
+#  --nogpgcheck \
+#  --allowerasing \
+#  --disablerepo="ubi-8-baseos" \
+#  --disablerepo "ubi-8-appstream" \
+#  --disablerepo="ubi-8-codeready-builder" \
 
 #################################################################################
 # Load Entrypoint from Cradle
 COPY --from=entrypoint /root/koffer              /usr/bin/koffer
-
-# Load CentOS 8 Repos
-COPY --from=repos      /etc/pki/                 /etc/pki
-COPY --from=repos      /etc/os-release           /etc/os-release
-COPY --from=repos      /etc/yum.repos.d/         /etc/yum.repos.d
-COPY --from=repos      /etc/redhat-release       /etc/redhat-release
-COPY --from=repos      /etc/system-release       /etc/system-release
 
 # Load Docker Registry:2 Binary
 COPY --from=registry   /bin/registry             /bin/registry
@@ -82,30 +56,15 @@ COPY                   conf/registry-config.yml  /etc/docker/registry/config.yml
 
 #################################################################################
 # DNF Update & Install Packages
+ADD ./repos/centos/etc /etc/
 RUN set -ex                                                                     \
-     && dnf update  ${YUM_FLAGS}                                                \
      && dnf install ${YUM_FLAGS} ${DNF_LIST}                                    \
-     # Configure Buildah for Nested Image Builds
-     && mkdir -p                                                                \
-          /var/lib/shared/overlay-images \                                      \
-          /var/lib/shared/overlay-layers \                                      \
-     && touch /var/lib/shared/overlay-images/images.lock \                      \
-     && touch /var/lib/shared/overlay-layers/layers.lock \                      \
-     && sed -i                                                                  \
-            -e 's|^#mount_program|mount_program|g'                              \
-            -e '/additionalimage.*/a "/var/lib/shared",'                        \
-          /etc/containers/storage.conf                                          \
-     # Purge garbage
      && dnf clean all                                                           \
      && rm -rf                                                                  \
+          /root/*                                                               \
           /var/cache/*                                                          \
           /var/log/dnf*                                                         \
           /var/log/yum*                                                         \
-          /root/buildinfo                                                       \
-          /root/original-ks.cfg                                                 \
-          /root/anaconda-ks.cfg                                                 \
-          /root/anaconda-post.log                                               \
-          /root/anaconda-post-nochroot.log                                      \
     && echo
 
 # Install jq
@@ -148,11 +107,6 @@ RUN set -ex                                                                     
      && /bin/helm version                                                       \
     && echo
 
-# PIP Install Packages
-RUN set -ex                                                                     \
-     && pip3 install ${PIP_LIST}                                                \
-    && echo
-
 #################################################################################
 # Finalize
 ENV \
@@ -163,7 +117,6 @@ LABEL \
   name="koffer"                                                                 \
   license=GPLv3                                                                 \
   version="${varVerTpdk}"                                                       \
-  build-date="${varRunDate}"                                                    \
   distribution-scope="public"                                                   \
   io.openshift.tags="tpdk koffer"                                               \
   io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
@@ -173,19 +126,3 @@ LABEL \
 
 ENTRYPOINT ["/usr/bin/koffer"]
 WORKDIR /root/koffer
-
-#################################################################################
-# vendor="ContainerCraft.io"                                                    \
-# maintainer="ContainerCraft.io"                                                \
-#################################################################################
-# OLM Hack
-#COPY --from=olm        /bin/registry-server      /usr/bin/registry-server
-#COPY --from=olm        /bin/initializer          /usr/bin/initializer
-#RUN set -ex                                                                     \
-#    && mkdir -p /manifests                                                      \
-#    && mkdir -p /db                                                             \
-#    && touch /db/bundles.db                                                     \
-#    && initializer                                                              \
-#         --manifests /manifests/                                                \
-#         --output /db/bundles.db                                                \
-#   && echo
