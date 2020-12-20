@@ -63,6 +63,7 @@ ARG YUM_FLAGS="\
   -y \
   --setopt=tsflags=nodocs \
   --exclude container-selinux \
+  --setopt=install_weak_deps=false \
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
