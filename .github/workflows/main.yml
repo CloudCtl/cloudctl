@@ -80,3 +80,19 @@ jobs:
           varVerGrpcurl=${{ env.varvergrpcurl }}
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}
+
+    - name: Build Image 
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: Dockerfile.extra
+        platforms: linux/amd64
+        pull: true
+        push: true
+        tags: |
+
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:extra
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:extra-${{ env.varrundate }}-${{ github.sha }}
+
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:extra
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:extra-${{ env.varrundate }}-${{ github.sha }}
