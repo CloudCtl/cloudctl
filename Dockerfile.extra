@@ -37,6 +37,7 @@ RUN set -ex                                                                     
      && sed -i -e 's|^#mount_program|mount_program|g'                           \
                -e '/additionalimage.*/a "/var/lib/shared",'                     \
             /etc/containers/storage.conf                                        \
+     && echo 'cgroup_manager="cgroupfs"' > /etc/containers/libpod.conf          \
     && echo
 
 #################################################################################
