@@ -54,7 +54,7 @@ jobs:
         echo "varveropm=$(curl -s https://api.github.com/repos/operator-framework/operator-registry/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo;  
 
-    - name: Build Image 
+    - name: Build Image | koffer:latest
       uses: docker/build-push-action@v2
       with:
         context: .
@@ -81,7 +81,7 @@ jobs:
           varVerOpenshift=${{ env.varveropenshift }}
           varVerTerraform=${{ env.varverterraform }}
 
-    - name: Build Image 
+    - name: Build Image | koffer:extra
       uses: docker/build-push-action@v2
       with:
         context: .

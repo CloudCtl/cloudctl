@@ -4,7 +4,6 @@ USER root
 #################################################################################
 # Package List
 ARG DNF_LIST="\
-  skopeo         \
   podman         \
   buildah        \
   fuse-overlayfs \
