@@ -22,11 +22,11 @@ Compatibile Artifact Types:
 
 ## How To
 ### 1. Create Koffer Bundle Directory
-  - Example: [collector-ocp](https://github.com/CodeSparta/collector-ocp) plugin
 ```
 mkdir -p ~/bundle
 ```
 ### 2.a Run Koffer
+  - Example: [collector-ocp](https://github.com/CodeSparta/collector-ocp) plugin
 ```
 sudo podman run -it --rm --pull always \
     --volume $${HOME}/bundle:/root/bundle:z \
