@@ -59,7 +59,7 @@ RUN set -ex                                                                     
 
 #################################################################################
 # DNF Install Packages
-ARG YUM_FLAGS="\
+ARG DNF_FLAGS="\
   -y \
   --setopt=tsflags=nodocs \
   --exclude container-selinux \
@@ -67,7 +67,7 @@ ARG YUM_FLAGS="\
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
-     && dnf install ${YUM_FLAGS} ${DNF_LIST}                                    \
+     && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && dnf clean all                                                           \
      && rm -rf                                                                  \
           /root/*                                                               \
