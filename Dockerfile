@@ -15,8 +15,34 @@ ARG DNF_LIST="\
 #################################################################################
 # Load Entrypoint from Cradle
 ADD ./rootfs /
-COPY --from=entrypoint /root/koffer              /usr/bin/koffer
-COPY --from=registry   /bin/registry             /usr/bin/registry
+COPY --from=entrypoint /root/koffer  /usr/bin/koffer
+COPY --from=registry   /bin/registry /usr/bin/registry
+
+#################################################################################
+# DNF Install Packages
+ARG DNF_FLAGS="\
+  -y \
+  --setopt=tsflags=nodocs \
+  --exclude container-selinux \
+  --setopt=install_weak_deps=false \
+"
+# DNF Update & Install Packages
+RUN set -ex                                                                     \
+     && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
+     && dnf clean all                                                           \
+     && rm -rf                                                                  \
+          /root/*                                                               \
+          /var/cache/*                                                          \
+          /var/log/dnf*                                                         \
+          /var/log/yum*                                                         \
+    && echo
+
+# --nobest \
+# --nogpgcheck \
+# --allowerasing \
+# --disablerepo="ubi-8-baseos" \
+# --disablerepo "ubi-8-appstream" \
+# --disablerepo="ubi-8-codeready-builder" \
 
 #################################################################################
 # Install jq
@@ -58,31 +84,6 @@ RUN set -ex                                                                     
     && echo
 
 #################################################################################
-# DNF Install Packages
-ARG DNF_FLAGS="\
-  -y \
-  --setopt=tsflags=nodocs \
-  --exclude container-selinux \
-  --setopt=install_weak_deps=false \
-"
-# DNF Update & Install Packages
-RUN set -ex                                                                     \
-     && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
-     && dnf clean all                                                           \
-     && rm -rf                                                                  \
-          /root/*                                                               \
-          /var/cache/*                                                          \
-          /var/log/dnf*                                                         \
-          /var/log/yum*                                                         \
-    && echo
-
-# --nobest \
-# --nogpgcheck \
-# --allowerasing \
-# --disablerepo="ubi-8-baseos" \
-# --disablerepo "ubi-8-appstream" \
-# --disablerepo="ubi-8-codeready-builder" \
-#################################################################################
 # Finalize
 ENTRYPOINT ["/usr/bin/koffer"]
 WORKDIR /root/koffer
@@ -101,5 +102,5 @@ LABEL \
   io.openshift.tags="tpdk koffer"                                               \
   io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
   summary="Koffer agnostic artifact collection engine."                         \
-  description="Koffer is designed to automate delarative enterprise artifact supply chain."\
-  io.k8s.description="Koffer is designed to automate delarative enterprise artifact supply chain."
+  description="Koffer is an automation runtime for delarative enterprise artifact supply chain."\
+  io.k8s.description="Koffer is an automation runtime for delarative enterprise artifact supply chain."
