@@ -91,8 +91,9 @@ WORKDIR /root/koffer
 ARG varVerTpdk="${varVerOpenshift}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ENV \
+  varVerTpdk="${varVerOpenshift}" \
   varVerOpenshift="${varVerOpenshift}" \
-  varVerTpdk="${varVerOpenshift}"
+  REGISTRY_AUTH_FILE='/root/.docker/config.json'
 
 LABEL \
   name="koffer"                                                                 \
