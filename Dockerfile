@@ -1,9 +1,7 @@
-FROM quay.io/openshift/origin-operator-registry as olm
 FROM quay.io/cloudctl/registry                  as registry
 FROM quay.io/cloudctl/koffer-go                 as entrypoint
-
-FROM quay.io/cloudctl/ansible:latest
 #FROM quay.io/cloudctl/ubi:builder
+FROM quay.io/cloudctl/ansible:latest
 USER root
 
 #################################################################################
