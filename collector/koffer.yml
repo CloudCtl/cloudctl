@@ -1,7 +1,7 @@
 koffer:
-  silent: false
+  silent: true
   plugins:
     cloudctl:
-      version: master
-      service: github.com
       organization: cloudctl
+      version: registry-vars
+      service: github.com
