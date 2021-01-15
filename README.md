@@ -60,7 +60,11 @@ On Ubuntu 20.04+
 ```
 ./init.sh
 ```
-####  3. Verify API Access
+####  3. Exec into Konductor Userspace
+```
+podman exec -it konductor connect
+```
+####  4. Verify API Access
 ```
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
@@ -73,7 +77,11 @@ curl -ks \
 ```
 {"status": "OK", "msg": "0 playbook found", "data": {"playbooks": []}}
 ```
-####  4. Review pod status
+####  5. SSH to Konductor over port 2222
+```
+ssh -p 2222 root@10.88.0.1
+```
+####  6. Review pod status
 ```
 sudo podman pod ps
 sudo podman ps --all
