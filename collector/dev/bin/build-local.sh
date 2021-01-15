@@ -34,7 +34,7 @@ podman build \
     --build-arg varVerHelm=${varVerHelm} \
     --build-arg varVerTerraform=${varVerTerraform} \
     --build-arg varVerOpenshift=${varVerOpenshift} \
-    --tag quay.io/cloudctl/koffer:${TAG}
+    --tag {{ upstream_registry }}/cloudctl/koffer:${TAG}
 
 cd ${originPwd}
 rm -rf /tmp/koffer

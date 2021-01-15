@@ -9,6 +9,6 @@ sudo podman run -it --rm --pull always \
     --volume /tmp/.bashrc:/root/.bashrc:z \
     --volume /tmp/.gitconfig:/root/.gitconfig:z \
     --entrypoint bash --workdir /root/koffer \
-  quay.io/cloudctl/koffer:latest
+  {{ upstream_registry }}/cloudctl/koffer:latest
 
 #   --volume $(pwd)/aws/:/root/.aws/:z \
