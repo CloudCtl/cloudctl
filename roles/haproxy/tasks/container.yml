@@ -12,7 +12,7 @@
     pod: "cloudctl"
     state: "started"
     recreate: "true"
-    image: quay.io/cloudctl/haproxy
+    image: "{{ upstream_registry }}/cloudctl/haproxy"
     volume:
       - "{{ dir_platform }}/haproxy/haproxy.cfg:/haproxy.cfg:z"
       - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/haproxy.crt"

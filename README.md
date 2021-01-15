@@ -97,6 +97,14 @@ sudo podman ps --all
 11305c527abe  Up 18 hours ago    konductor
 fbf274723577  Up 18 hours ago    c7fc137831c8-infra
 ```
+----------------------------------------------------------------------------------
+####  Cleanup
+```
+podman pod rm --force cloudctl
+podman image prune --all
+rm -rf /root/platform /tmp/konductor
+rm -rf /root/cloudctl
+```
 [Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
 [UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
 [(IaC)]:https://www.ibm.com/cloud/learn/infrastructure-as-code

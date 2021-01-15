@@ -1,11 +1,11 @@
 cloudctl_seed:
   - name: konductor
     tag: latest
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
     path: "{{ dir_seed_img }}"
   - name: registry
     tag: latest
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
     path: "{{ dir_seed_img }}"
   - name: pause
     tag: latest
@@ -24,19 +24,19 @@ cloudctl_images:
     uri: "k8s.gcr.io"
   - name: konductor
     tag: "latest"
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
   - name: coredns
     tag: latest
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
   - name: registry
     tag: latest
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
   - name: runner
     tag: "latest"
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
   - name: nginx
     tag: "latest"
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"
   - name: haproxy
     tag: "latest"
-    uri: "quay.io/cloudctl"
+    uri: "{{ upstream_registry }}/cloudctl"

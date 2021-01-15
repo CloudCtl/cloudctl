@@ -3,6 +3,9 @@
 domain_base: codectl.io
 domain_cluster: 'ocp.{{ domain_base }}'
 
+# Remote Registry Can be set to either quay.io or docker.io
+upstream_registry: quay.io
+
 # TPDK | Trusted Platform Delivery Kit Release or Dev Branch 
 tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
 

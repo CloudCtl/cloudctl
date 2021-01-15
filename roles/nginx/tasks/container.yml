@@ -6,7 +6,7 @@
   when: pod_force_rm == true
 
 - name: '{{ ansible_name_module }} | cmd:shell.podman.pull | Podman pull image {{ module }}' 
-  shell: 'podman pull quay.io/cloudctl/nginx:latest'
+  shell: 'podman pull {{ upstream_registry }}/cloudctl/nginx:latest'
 
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
   containers.podman.podman_container:
@@ -15,7 +15,7 @@
     pod: "cloudctl"
     state: "started"
     recreate: "true"
-    image: quay.io/cloudctl/nginx:latest
+    image: "{{ upstream_registry }}/cloudctl/nginx:latest"
     volume:
       - "{{ dir_platform }}/nginx/html:/var/www/html:z"
       - "{{ dir_platform }}/nginx/nginx.conf:/etc/nginx/nginx.conf:z"

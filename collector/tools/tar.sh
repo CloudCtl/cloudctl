@@ -3,9 +3,9 @@
 # Offline Image Table
 declare -A img_table=(\
   ['pause']="k8s.gcr.io/pause" \
-  ['runner']="quay.io/cloudctl/runner" \
-  ['registry']="quay.io/cloudctl/registry" \
-  ['konductor']="quay.io/cloudctl/konductor" \
+  ['runner']="{{ upstream_registry }}/cloudctl/runner" \
+  ['registry']="{{ upstream_registry }}/cloudctl/registry" \
+  ['konductor']="{{ upstream_registry }}/cloudctl/konductor" \
 )
 dir_bundle="$(pwd)/bundle"
 mkdir -p {dir_bundle}
