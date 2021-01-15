@@ -56,18 +56,11 @@ On Ubuntu 20.04+
  https://github.com/CloudCtl/CloudCtl.git && \
  cd ~/cloudctl
 ```
-####  2. Validate ability to ssh to self as root
-```
-[[ -f /root/.ssh/id_rsa ]] || ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
-cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
-chmod 0644 /root/.ssh/authorized_keys
-ssh root@localhost whoami
-```
-####  3. Initialize CloudCtl Pod
+####  2. Initialize CloudCtl Pod
 ```
 ./init.sh
 ```
-####  4. Verify API Access
+####  3. Verify API Access
 ```
 curl -ks \
     --key  /root/platform/secrets/cloudctl/certs/ssl/server/cloudctl.pem \
@@ -80,7 +73,7 @@ curl -ks \
 ```
 {"status": "OK", "msg": "0 playbook found", "data": {"playbooks": []}}
 ```
-####  5. Review pod status
+####  4. Review pod status
 ```
 sudo podman pod ps
 sudo podman ps --all
