@@ -12,7 +12,7 @@ if (( $EUID != 0  )); then
 else
 
 # konductor builds the cloudctl pod on the localhost over ansible ssh connection 
-  ready=$(ssh root@10.88.0.1 whoami ; echo $?)
+  ready=$(ssh root@localhost whoami ; echo $?)
   if [[ ! ${ready} == 0 ]] && \
      [[ -f "/root/.ssh/id_rsa" ]]; then
         echo ">> Host ssh connection discovered successfully"
@@ -23,7 +23,7 @@ else
         || ssh-keygen -f ${HOME}/.ssh/id_rsa -t rsa -N ''
         cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
         chmod 0644 ${HOME}/.ssh/authorized_keys
-        ready=$(ssh root@10.88.0.1 whoami ; echo $?)
+        ready=$(ssh root@localhost whoami ; echo $?)
         if [[ ! ${ready} == 0 ]]; then
               echo ">> Host ssh connection configured successfully"
         else
