@@ -2,7 +2,7 @@
 start_konductor: true
 start_registry: true
 start_nginx: true
-start_dns: true
+start_dns: false
 start_runner: false
 start_haproxy: false
 start_dhcp: false
