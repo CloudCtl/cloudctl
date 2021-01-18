@@ -33,7 +33,7 @@
       - "DNS:nginx.{{ domain_cluster }}"
       - "DNS:registry.{{ domain_cluster }}"
       - "DNS:cloudctl.{{ domain_cluster }}"
-      - "IP:{{ ansible_default_ipv4.address }}"
+      - "IP:{{ listen_address }}"
   delegate_to: localhost
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | CloudCtl Certificate'
@@ -59,7 +59,7 @@
       - "DNS:localhost"
       - "DNS:cloudctl"
       - "DNS:cloudctl.{{ domain_cluster }}"
-      - "IP:{{ ansible_default_ipv4.address }}"
+      - "IP:{{ listen_address }}"
   delegate_to: localhost
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | Ansible Runner Client'
