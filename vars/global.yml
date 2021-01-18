@@ -2,6 +2,7 @@
 # Custom Variables
 domain_base: codectl.io
 domain_cluster: 'ocp.{{ domain_base }}'
+listen_address: "{{ lookup('env', 'PUBLISH_ADDRESS') | default(ansible_default_ipv4.address, true) }}"
 
 # Remote Registry Can be set to either quay.io or docker.io
 upstream_registry: quay.io
