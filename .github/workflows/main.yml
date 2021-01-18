@@ -48,6 +48,7 @@ jobs:
         echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${GITHUB_ENV};\
         echo "varverhelm=$(curl -s https://api.github.com/repos/helm/helm/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo "varverjq=$(curl -s https://api.github.com/repos/stedolan/jq/releases/latest | awk -F '["jq-]' '/tag_name/{print $7}')" >> ${GITHUB_ENV};\
+        echo "varveryq=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo "varvergrpcurl=$(curl -s https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo "varverterraform=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
@@ -73,6 +74,7 @@ jobs:
           docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varveropenshift }}-${{ env.varrundate }}-${{ github.sha }}
 
         build-args: |
+          varVerYq=${{ env.varveryq}}
           varVerJq=${{ env.varverjq }}
           varVerOpm=${{ env.varveropm }}
           varVerHelm=${{ env.varverhelm }}

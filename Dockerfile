@@ -1,6 +1,5 @@
 FROM quay.io/cloudctl/registry                  as registry
 FROM quay.io/cloudctl/koffer-go                 as entrypoint
-#FROM quay.io/cloudctl/ubi:builder
 FROM quay.io/cloudctl/ansible:latest
 USER root
 
@@ -51,6 +50,12 @@ RUN set -ex                                                                     
      && chmod +x /bin/jq                                                        \
      && /bin/jq --version                                                       \
     && echo
+
+# Install yq
+ARG varUrlYq="https://github.com/mikefarah/yq/releases/download/${varVerYq}/yq_linux_amd64"
+RUN set -ex \
+     && curl -L ${varUrlYq} -o /bin/yq                                          \
+   && echo
 
 # Install grpcurl
 ARG varVerGrpcurl="${varVerGrpcurl}"
