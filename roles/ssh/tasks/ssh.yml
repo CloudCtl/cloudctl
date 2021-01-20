@@ -1,4 +1,10 @@
 ---
+- name: '{{ ansible_name_module }} | shell:alternate | Set python3 as default python interpreter'
+  command:
+    cmd: |
+      alternatives --set python /usr/bin/python3
+  ignore_errors: yes
+
 - name: '{{ ansible_name_module }} | ssh | openssh_keypair | Generate CloudCtl SSH Key Pair'
   openssh_keypair:
     path: "{{ dir_secrets }}/ssh/id_rsa_cloudctl"

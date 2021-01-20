@@ -8,5 +8,35 @@
   vars:
     module: "tree"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
-  roles:
-    - tree
+  tasks:
+
+    - name: '{{ ansible_name_module }} | file | Create Directory Structure' 
+      file:
+        path: '{{ item }}'
+        state: directory
+        mode: '0755'
+      with_items:
+        - '{{ dir_platform }}/config/user-data'
+        - '{{ dir_platform }}/cluster/manifests'
+        - '{{ dir_platform }}/cluster/ignition'
+        - '{{ dir_platform }}/cluster/aux'
+        - '{{ dir_platform }}/cluster/aux/manifests'
+        - '{{ dir_platform }}/cluster/aux/openshift'
+        - '{{ dir_platform }}/cluster/config'
+        - '{{ dir_platform }}/cluster/'
+        - '{{ dir_platform }}/mirror'
+        - '{{ dir_platform }}/images'
+        - '{{ dir_platform }}/nginx'
+        - '{{ dir_platform }}/iac'
+    - file:
+        path: '{{ item }}'
+        state: directory
+        mode: '0644'
+      with_items:
+        - '{{ dir_secrets }}/registry/ssl'
+        - '{{ dir_secrets }}/registry/auth'
+        - '{{ dir_secrets }}/cluster'
+        - '{{ dir_secrets }}/docker'
+        - '{{ dir_secrets }}/ssh'
+        - '{{ dir_local_home }}/.kube'
+        - '{{ dir_tmp }}'
