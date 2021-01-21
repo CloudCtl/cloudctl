@@ -31,15 +31,15 @@ du -sh ~/bundle/koffer-bundle.tpdk-cloudctl.tar.xz
 ```
  rsync --progress -avzh bundle -e "ssh -i ~/.ssh/id_rsa" core@$10.11.12.261:~ 
 ```
-### 4. SSH or login to disconnected host with bundle
 ### 5. Extract bundle to /root/
 ```
  sudo tar -xvf ${HOME}/bundle/koffer-bundle.tpdk-cloudctl.tar.xz -C /root
 ``` 
-### 6. Extract bundle to /root/
+### 6. SSH or login to remote host with bundle
+### 7. Extract bundle to /root/
 ```
  sudo -i
  cd /root/cloudctl
 ``` 
-### 7. Resume normal cloudctl startup @ [Step: 2]
+### 6. Resume normal cloudctl startup @ [Step: 2]
 [Step: 2]:https://github.com/CloudCtl/CloudCtl#2-initialize-cloudctl-pod
