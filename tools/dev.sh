@@ -23,6 +23,10 @@ else
         || ssh-keygen -f ${HOME}/.ssh/id_rsa -t rsa -N ''
         cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
         chmod 0644 ${HOME}/.ssh/authorized_keys
+        
+        sed -i 's/PermitRootLogin no/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+        systemctl restart sshd
+        
         ready=$(ssh root@localhost whoami ; echo $?)
         if [[ ! ${ready} == 0 ]]; then
               echo ">> Host ssh connection configured successfully"
