@@ -14,7 +14,7 @@
     pod: "cloudctl"
     detach: yes
     volume:
-      - "{{ dir_iac }}:/usr/share/ansible-runner-service/project:z"
+      - "{{ dir_iac }}:{{ dir_iac }}:z"
       - "{{ dir_platform }}/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z"
       - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z"
       - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z"
