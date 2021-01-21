@@ -15,6 +15,7 @@
     detach: yes
     volume:
       - "{{ dir_platform }}:{{ dir_platform }}:z"
+      - "{{ dir_cloudctl }}:{{ dir_iac }}/cloudctl:z"
       - "{{ dir_secrets }}/ssh/id_rsa_cloudctl:/root/.ssh/id_rsa:z"
       - "{{ dir_secrets }}/ssh/id_rsa_cloudctl.pub:/root/.ssh/id_rsa.pub:z"
       - "{{ dir_platform }}/secrets/ssh/authorized_keys:/root/.ssh/authorized_keys:z"
