@@ -25,7 +25,7 @@ else
         chmod 0644 ${HOME}/.ssh/authorized_keys
         
         sed -i 's/PermitRootLogin no/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-        systemctl restart sshd
+        systemctl restart sshd && sleep 2
         
         ready=$(ssh root@localhost whoami ; echo $?)
         if [[ ! ${ready} == 0 ]]; then
