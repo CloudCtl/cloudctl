@@ -13,7 +13,8 @@ else
 
 # konductor builds the cloudctl pod on the localhost over ansible ssh connection 
   ready=$(ssh root@localhost whoami ; echo $?)
-  if [[ ! ${ready} == 0 ]] && \
+  if [[ ! ${ready} == '0' ]] && \
+     [[ ! ${ready} == '255' ]] && \
      [[ -f "/root/.ssh/id_rsa" ]]; then
         echo ">> Host ssh connection discovered successfully"
   else
