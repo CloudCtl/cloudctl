@@ -95,6 +95,7 @@ WORKDIR /root/koffer
 ARG varVerTpdk="${varVerOpenshift}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ENV \
+  GIT_SSL_NO_VERIFY=true \
   varVerTpdk="${varVerOpenshift}" \
   varVerOpenshift="${varVerOpenshift}" \
   REGISTRY_AUTH_FILE='/root/.docker/config.json'
