@@ -11,9 +11,9 @@ if (( $EUID != 0  )); then
   exit 1
 else
 
-# konductor builds the cloudctl pod on the localhost over ansible ssh connection 
-  ready=$(ssh root@localhost whoami ; echo $?)
-  if [[ ! ${ready} == 0 ]] && \
+# konductor builds the cloudctl pod on the localhost over ansible ssh connection
+  ready=$(ssh root@localhost whoami 1>/dev/null ; echo $?)
+  if [[ ${ready} == '0' ]] && \
      [[ -f "/root/.ssh/id_rsa" ]]; then
         echo ">> Host ssh connection discovered successfully"
   else
@@ -23,12 +23,17 @@ else
         || ssh-keygen -f ${HOME}/.ssh/id_rsa -t rsa -N ''
         cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
         chmod 0644 ${HOME}/.ssh/authorized_keys
-        ready=$(ssh root@localhost whoami ; echo $?)
-        if [[ ! ${ready} == 0 ]]; then
+
+        sed -i 's/PermitRootLogin no/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+        systemctl restart sshd
+        sleep 2
+
+        ready=$(ssh root@localhost whoami 1>/dev/null ; echo $?)
+        if [[ ${ready} == 0 ]]; then
               echo ">> Host ssh connection configured successfully"
         else
               echo ">> Failed to configure localhost ssh connection."
-              exit 1 
+              exit 1
         fi
   fi
 fi
