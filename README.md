@@ -17,7 +17,7 @@ Compatibile Artifact Types:
     - performs terraform init at time of capture
   - docker images
     - Pulls & hydrates built in docker registry service to persistent local path
-    - high side is served with generic docker registry:2 container
+    - high side is served with generic docker registry:2 or nginx container 
   - capability to add more artifact types with custom collector plugins
 
 ## How To
