@@ -31,7 +31,7 @@ mkdir -p ~/bundle
 sudo podman run -it --rm --pull always \
     --volume $${HOME}/bundle:/root/bundle:z \
   docker.io/cloudctl/koffer bundle \
-        --config https://git.io/JIY6k
+        --config https://codectl.io/docs/config/stable/sparta.yml
 ```
 ### 2.b Run Koffer with nested container build support
   - Example: [collector-operators](https://github.com/CodeSparta/collector-operators) plugin
