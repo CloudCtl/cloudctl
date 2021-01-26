@@ -29,7 +29,7 @@ mkdir -p ~/bundle
   - Example: [collector-ocp](https://github.com/CodeSparta/collector-ocp) plugin
 ```
 podman run -it --rm --pull always \
-    --volume $${HOME}/bundle:/root/bundle:z \
+    --volume ${HOME}/bundle:/root/bundle:z \
   docker.io/cloudctl/koffer bundle \
         --config https://codectl.io/docs/config/stable/sparta.yml
 ```
