@@ -38,10 +38,10 @@ sudo podman run -it --rm --pull always \
 ```
 podman run -it --rm \
     --env BUNDLE=false \
-    --publish 10.88.0.1:5000:5000 \
-    --volume /tmp/koffer/.ssh:/root/.ssh:z \
-    --env OPERATORS=kubevirt-hyperconverged \
-  quay.io/cloudctl/koffer:latest bundle \
+    --env OPERATORS='cluster-logging,rhsso-operator,servicemeshoperator' \
+    --volume ${HOME}/operators:/root/operators:z \
+    --volume ${HOME}/bundle:/root/bundle:z \
+  quay.io/cloudctl/koffer:extra bundle \
     --plugin collector-operators
 ```
 ### 3. Verify Bundle
