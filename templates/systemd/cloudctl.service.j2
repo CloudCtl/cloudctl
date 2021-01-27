@@ -1,0 +1,8 @@
+[Unit]
+Description=Start the Cloudctl Podman pod
+Wants=syslog.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman pod start cloudctl
+[Install]
+WantedBy=multi-user.target
