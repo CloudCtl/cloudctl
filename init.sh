@@ -12,7 +12,7 @@ if (( $EUID != 0  )); then
 else
 
 # konductor builds the cloudctl pod on the localhost over ansible ssh connection
-  ready=$(ssh root@localhost whoami 1>/dev/null ; echo $?)
+  ready=$(ssh -o "BatchMode yes" -o "StrictHostKeyChecking no" root@localhost whoami 1>/dev/null ; echo $?)
   if [[ ${ready} == '0' ]] && \
      [[ -f "/root/.ssh/id_rsa" ]]; then
         echo ">> Host ssh connection discovered successfully"
@@ -28,7 +28,7 @@ else
         systemctl restart sshd
         sleep 2
 
-        ready=$(ssh root@localhost whoami 1>/dev/null ; echo $?)
+        ready=$(ssh -o "BatchMode yes" -o "StrictHostKeyChecking no" root@localhost whoami 1>/dev/null ; echo $?)
         if [[ ${ready} == 0 ]]; then
               echo ">> Host ssh connection configured successfully"
         else
