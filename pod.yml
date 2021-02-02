@@ -5,6 +5,7 @@
   become: true
   vars_files:
     - 'vars/global.yml'
+    - 'vars/run.yml'
   vars:
     module: "pod"
     ansible_name_module: "{{ ansible_name }} | {{ module }}"
