@@ -10,29 +10,13 @@
     mode: 0644
     path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
-    common_name: "10.88.0.1"
+    common_name: "{{ listen_address }}"
     subject_alt_name:
       - "DNS:127.0.0.1"
       - "DNS:127.0.1.1"
       - "DNS:localhost"
-      - "DNS:lb"
-      - "DNS:api"
-      - "DNS:ign"
-      - "DNS:dns"
-      - "DNS:ftp"
-      - "DNS:nginx"
-      - "DNS:registry"
       - "DNS:cloudctl"
-      - "DNS:lb.{{ domain_cluster }}"
-      - "DNS:api.{{ domain_cluster }}"
-      - "DNS:ign.{{ domain_cluster }}"
-      - "DNS:dns.{{ domain_cluster }}"
-      - "DNS:ftp.{{ domain_cluster }}"
-      - "DNS:ctl.{{ domain_cluster }}"
-      - "DNS:nginx.{{ domain_cluster }}"
-      - "DNS:registry.{{ domain_cluster }}"
       - "DNS:cloudctl.{{ domain_cluster }}"
-      - "IP:{{ listen_address }}"
     basic_constraints:
       - CA:TRUE
   delegate_to: localhost
