@@ -10,9 +10,8 @@
     mode: 0644
     path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.csr"
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
-    common_name: "ctl"
+    common_name: "10.88.0.1"
     subject_alt_name:
-      - "IP:10.88.0.1"
       - "DNS:127.0.0.1"
       - "DNS:127.0.1.1"
       - "DNS:localhost"
@@ -34,6 +33,8 @@
       - "DNS:registry.{{ domain_cluster }}"
       - "DNS:cloudctl.{{ domain_cluster }}"
       - "IP:{{ listen_address }}"
+    basic_constraints:
+      - CA:TRUE
   delegate_to: localhost
 
 - name: '{{ ansible_name_module }} | openssl_certificate | Self Signed 365d TTL Certificate | CloudCtl Certificate'
