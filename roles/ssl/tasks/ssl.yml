@@ -12,6 +12,8 @@
     privatekey_path: "{{ dir_tmp }}/cloudctl/certs/ssl/server/cloudctl.pem"
     common_name: "{{ listen_address }}"
     subject_alt_name:
+      - "IP:{{ listen_address }}"
+      - "DNS:{{ listen_address }}"
       - "DNS:127.0.0.1"
       - "DNS:127.0.1.1"
       - "DNS:localhost"
