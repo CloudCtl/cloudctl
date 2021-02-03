@@ -1,8 +1,15 @@
 [Unit]
-Description=Start the Cloudctl Podman pod
+Description=TPDK CloudCtl Services Pod
+Documentation=https://github.com/CloudCtl/cloudctl
 Wants=syslog.service
-[Service]
-Restart=always
-ExecStart=/usr/bin/podman pod start cloudctl
+After=network-online.target
+
 [Install]
 WantedBy=multi-user.target
+
+[Service]
+Type=oneshot
+Restart=never
+RemainAfterExit=true
+ExecStop=/usr/bin/podman pod stop cloudctl
+ExecStart=/usr/bin/podman pod start cloudctl

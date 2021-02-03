@@ -8,7 +8,4 @@
   systemd:
     name: cloudctl
     daemon_reload: yes
-    state: restarted
     enabled: yes
-
-
