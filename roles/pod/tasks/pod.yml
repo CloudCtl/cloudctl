@@ -9,7 +9,7 @@
   containers.podman.podman_pod:
     name: "{{ name_pod_cloudctl }}"
     hostname: "{{ name_pod_cloudctl }}"
-    state: started
+    state: stopped
     infra_image: "k8s.gcr.io/pause:latest"
     ports:
       - 80:80
@@ -29,7 +29,7 @@
   containers.podman.podman_pod:
     name: "{{ name_pod_cloudctl }}"
     hostname: "{{ name_pod_cloudctl }}"
-    state: started
+    state: stopped
     infra_image: "k8s.gcr.io/pause:latest"
     ports:
       - 80:80
