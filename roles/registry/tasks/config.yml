@@ -1,4 +1,10 @@
 ---
+- name: '{{ ansible_name_module }} | copy:src_registries.conf | Backup /etc/containers/registries.conf'
+  copy:
+    src: '/etc/containers/registries.conf'
+    dest: '/etc/containers/registries.conf.original'
+    mode: 0644
+    
 - name: '{{ ansible_name_module }} | template | Build Registry config.yml' 
   template:
     src: '{{ item.src }}'
