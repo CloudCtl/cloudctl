@@ -1,7 +1,7 @@
 ---
 # Custom Variables
-domain_base: codectl.io
-domain_cluster: 'ocp.{{ domain_base }}'
+domain_base: "{{ listen_domain | default('codectl.io') }}"
+domain_cluster: '{{ cluster_name | default(default_cluster_name) }}.{{ domain_base }}'
 listen_address: "{{ lookup('env', 'PUBLISH_ADDRESS') | default(ansible_default_ipv4.address, true) }}"
 
 # Remote Registry Can be set to either quay.io or docker.io
@@ -80,3 +80,9 @@ sshkeys_pub_file: "{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ss
 sshkeys_priv_file: "{{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}"
 sshkeys_pub_string: "{{ lookup('file', '{{ sshkeys_pub_file }}') }}"
 sshkeys_priv_string: "{{ lookup('file', '{{ sshkeys_priv_file }}') }}"
+
+# CoreDNS Defaults
+default_domain_base: "codectl.io"
+default_cluster_name: "sparta"
+db_time: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}"
+dns_forwarder: "{{ dns_forward_ipv4 | default('10.0.0.2') }}"

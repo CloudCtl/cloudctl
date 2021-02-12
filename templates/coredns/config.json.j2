@@ -1,11 +1,11 @@
 .:5353 {
-    forward . 8.8.8.8:53
+    forward . {{ dns_forwarder }}:53
     log
     errors
 }
 
-cloud.codectl.io:5353 {
-    file /root/8.8.8.8.db
+{{ domain_cluster }}:5353 {
+    file /core.db
     log
     errors
 }

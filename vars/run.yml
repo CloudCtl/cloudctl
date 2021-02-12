@@ -1,9 +1,9 @@
 ---
 start_konductor: true
 start_registry: true
-start_runner: true
+start_runner: false
 start_nginx: true
 start_haproxy: false
-start_dns: false
+start_dns: true
 start_dhcp: false
 start_tftp: false

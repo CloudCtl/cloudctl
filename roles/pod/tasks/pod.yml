@@ -12,34 +12,32 @@
     state: stopped
     infra_image: "k8s.gcr.io/pause:latest"
     ports:
-      - 80:80
-      - 443:443
-      - 53:5353
-      - 5353:5353
-      - 2222:2222
-      - 6443:6443
-      - 8080:8082
-      - 8443:8843
-      - 5000:5000
-      - 5001:5001
-      - 22623:22623
+      - '80:80'
+      - '443:443'
+      - '53:5353'
+      - '2222:2222'
+      - '6443:6443'
+      - '8080:8082'
+      - '8443:8843'
+      - '5000:5000'
+      - '5001:5001'
+      - '22623:22623'
   when: start_dns
 
-- name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
-  containers.podman.podman_pod:
-    name: "{{ name_pod_cloudctl }}"
-    hostname: "{{ name_pod_cloudctl }}"
-    state: stopped
-    infra_image: "k8s.gcr.io/pause:latest"
-    ports:
-      - 80:80
-      - 443:443
-      - 5353:5353
-      - 2222:2222
-      - 6443:6443
-      - 8080:8082
-      - 8443:8843
-      - 5000:5000
-      - 5001:5001
-      - 22623:22623
-  when: not start_dns
+# name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
+# containers.podman.podman_pod:
+#   name: "{{ name_pod_cloudctl }}"
+#   hostname: "{{ name_pod_cloudctl }}"
+#   state: stopped
+#   infra_image: "k8s.gcr.io/pause:latest"
+#   ports:
+#     - '80:80'
+#     - '443:443'
+#     - '2222:2222'
+#     - '6443:6443'
+#     - '8080:8082'
+#     - '8443:8843'
+#     - '5000:5000'
+#     - '5001:5001'
+#     - '22623:22623'
+# when: not start_dns

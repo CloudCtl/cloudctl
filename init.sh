@@ -56,9 +56,9 @@ if [[ ! -z "${IMPORT_LIST}" ]]; then
       echo ">> Loading Konductor Image from ${IMG}"
       podman load --input ${dir_seed}/${IMG}
   done
-else
-    echo ">> Pulling Konductor Image from DockerHub Repo"
-    podman pull quay.io/cloudctl/konductor:latest
+#else
+#    echo ">> Pulling Konductor Image from DockerHub Repo"
+#    podman pull quay.io/cloudctl/konductor:latest
 fi
 
 sudo podman run -it --rm --pull never \
@@ -67,4 +67,4 @@ sudo podman run -it --rm --pull never \
     --volume /tmp/konductor/.ssh:/root/.ssh:z     \
     --workdir /root/platform/iac/cloudctl         \
     --volume $(pwd):/root/platform/iac/cloudctl:z \
-  quay.io/cloudctl/konductor:latest
+  quay.io/cloudctl/konductor:latest $@
