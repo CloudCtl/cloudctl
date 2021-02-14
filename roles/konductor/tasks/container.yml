@@ -1,19 +1,13 @@
 ---
-- name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
-  containers.podman.podman_container:
-    name: "konductor"
-    state: "absent"
-  when: pod_force_rm == true
-
 - name: '{{ ansible_name_module }} | cmd:podman.run | Podman create {{ name_pod_cloudctl }}' 
   containers.podman.podman_container:
+    pod: "cloudctl"
+    detach: yes
     name: konductor
-    image: "{{ upstream_registry }}/cloudctl/konductor"
     state: "started"
     recreate: "true"
-    pod: "cloudctl"
     privileged: yes
-    detach: yes
+    image: "{{ upstream_registry }}/cloudctl/konductor"
     volume:
       - "{{ dir_platform }}:{{ dir_platform }}:z"
       - "{{ dir_cloudctl }}:{{ dir_iac }}/cloudctl:z"

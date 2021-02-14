@@ -1,16 +1,10 @@
 ---
-# name: '{{ ansible_name_module }} | cmd:podman.pod.rm | Podman purge {{ name_pod_cloudctl }}' 
-# containers.podman.podman_pod:
-#   name: "{{ name_pod_cloudctl }}"
-#   state: absent
-# when: pod_force_rm == true
-
 - name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
   containers.podman.podman_pod:
-    name: "{{ name_pod_cloudctl }}"
-    hostname: "{{ name_pod_cloudctl }}"
     state: started
     recreate: true
+    name: "{{ name_pod_cloudctl }}"
+    hostname: "{{ name_pod_cloudctl }}"
     infra_image: "k8s.gcr.io/pause:latest"
     publish:
       - '{{ listen_address }}:80:80/tcp'
@@ -27,10 +21,10 @@
 
 - name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
   containers.podman.podman_pod:
+    recreate: true
+    state: started
     name: "{{ name_pod_cloudctl }}"
     hostname: "{{ name_pod_cloudctl }}"
-    state: started
-    recreate: true
     infra_image: "k8s.gcr.io/pause:latest"
     publish:
       - '{{ listen_address }}:80:80/tcp'

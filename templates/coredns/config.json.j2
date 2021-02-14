@@ -1,7 +1,8 @@
 .:5353 {
     forward . {{ dns_forwarder }}
-    log
     errors
+    cache
+    log
 }
 
 {{ domain_cluster }}:5353 {

@@ -1,7 +1,7 @@
 {{ domain_cluster }}.          IN SOA   registry.{{ domain_cluster }}. cloudctl.{{ domain_cluster }}. {{ db_time }} 7200 3600 1209600 3600
 cloudctl.{{ domain_cluster }}. IN A     {{ listen_address }}
 registry.{{ domain_cluster }}. IN A     {{ listen_address }}
-*.apps.{{ domain_cluster }}.    IN CNAME {{ apps_elb_fqdn  | default('null') }}
+*.apps.{{ domain_cluster }}.   IN CNAME {{ apps_elb_fqdn  | default('null') }}
 api.{{ domain_cluster }}.      IN CNAME {{ infra_elb_fqdn | default('null') }}
 api-int.{{ domain_cluster }}.  IN CNAME {{ infra_elb_fqdn | default('null') }}
 etcd-0.{{ domain_cluster }}.   IN A     {{ master_ipv4_a  | default('10.0.0.51') }}

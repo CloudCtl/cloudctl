@@ -1,10 +1,4 @@
 ---
-# name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
-# containers.podman.podman_container:
-#   name: "coredns"
-#   state: "absent"
-# when: pod_force_rm == true
-
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
   containers.podman.podman_container:
     detach: yes
@@ -12,8 +6,8 @@
     pod: "cloudctl"
     state: "started"
     recreate: "true"
-    privileged: yes
     image: "{{ upstream_registry }}/cloudctl/coredns"
     volume:
       - "{{ dir_platform }}/coredns/config.json:/CoreFile:z"
       - "{{ dir_platform }}/coredns/core.db:/core.db:z"
+#   privileged: yes
