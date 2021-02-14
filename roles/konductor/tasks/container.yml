@@ -12,6 +12,7 @@
     state: "started"
     recreate: "true"
     pod: "cloudctl"
+    privileged: yes
     detach: yes
     volume:
       - "{{ dir_platform }}:{{ dir_platform }}:z"
