@@ -1,6 +1,6 @@
 #!/bin/bash
 project="init"
-dir_seed="$(pwd)/images"
+dir_seed="$(pwd)/seed"
 IMPORT_LIST="$(ls ${dir_seed})"
 dir_bundle="$(pwd)/bundle"
 EXTRACT_LIST="$(ls ${dir_bundle}/*.tar.xz 2>/dev/null)"
