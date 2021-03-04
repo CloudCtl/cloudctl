@@ -1,0 +1,174 @@
+name: base
+on:
+  repository_dispatch:
+    types: [base]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+
+    - name: Login public.ecr.aws
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: public.ecr.aws
+        username: ${{ secrets.ROBOT_KEY_ID_AWS_ECR }}
+        password: ${{ secrets.ROBOT_SECRET_KEY_AWS_ECR }}
+      env:
+        AWS_REGION: us-east-1
+
+    - name: Login ghcr.io
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: ghcr.io
+        username: ${{ secrets.ROBOT_USER_GHCR }}
+        password: ${{ secrets.ROBOT_TOKEN_GHCR }}
+
+    - name: Login Docker.io
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: docker.io
+        username: ${{ secrets.ROBOT_USER_DOCKERHUB }}
+        password: ${{ secrets.ROBOT_TOKEN_DOCKERHUB }}
+
+    - name: Login Quay.io
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: quay.io
+        username: ${{ secrets.ROBOT_USER_QUAY }}
+        password: ${{ secrets.ROBOT_TOKEN_QUAY }}
+
+    - name: Rake Variables
+      run: |
+        set -x ; \
+        echo "varimgname=ubi" >> ${GITHUB_ENV};\
+        echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${GITHUB_ENV};\
+        echo;  
+
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Build Micro
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/${{ github.workflow }}
+        file: ./containers/${{ github.workflow }}/Dockerfile.micro
+        platforms: linux/amd64
+        pull: true
+        push: true
+       #load: true
+        tags: |
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:${{ github.workflow }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:${{ github.workflow }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:${{ github.workflow }}-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:${{ github.workflow }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:${{ github.workflow }}-${{ env.varrundate }}-${{ github.sha }}
+          quay.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}
+          quay.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}
+          docker.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}-${{ env.varrundate }}-${{ github.sha }}
+
+    - name: Build CloudCtl Registry Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: registry
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build Minimal
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/${{ github.workflow }}
+        file: ./containers/${{ github.workflow }}/Dockerfile.minimal
+        platforms: linux/amd64
+        pull: true
+        push: true
+        tags: |
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:minimal
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:minimal
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:minimal
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
+          quay.io/containercraft/${{ env.varimgname }}:minimal
+          quay.io/containercraft/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/containercraft/${{ env.varimgname }}:minimal
+          docker.io/containercraft/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
+
+    - name: Build CloudCtl CoreDNS Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: coredns
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build CloudCtl NGINX Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: nginx
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build CloudCtl Haproxy Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: haproxy
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build CloudCtl TFTPd Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: tftpd
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build Builder
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/${{ github.workflow }}
+        file: ./containers/${{ github.workflow }}/Dockerfile.builder
+        platforms: linux/amd64
+        pull: true
+        push: true
+        tags: |
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:builder
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:builder
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:builder-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:builder
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ env.varimgname }}:builder-${{ env.varrundate }}-${{ github.sha }}
+          quay.io/containercraft/${{ env.varimgname }}:builder
+          quay.io/containercraft/${{ env.varimgname }}:builder-${{ env.varrundate }}-${{ github.sha }}
+          docker.io/containercraft/${{ env.varimgname }}:builder
+          docker.io/containercraft/${{ env.varimgname }}:builder-${{ env.varrundate }}-${{ github.sha }}
+
+    - name: Build CloudCtl Git Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: git
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build CloudCtl Ansible Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: ansible
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

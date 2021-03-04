@@ -1,0 +1,108 @@
+#################################################################################
+## ContainerOne | Point of Origin for Deploy & Development 
+FROM quay.io/cloudctl/konductor-builder:latest AS builder
+FROM quay.io/cloudctl/konductor-go AS entrypoint
+FROM registry.access.redhat.com/ubi8/ubi:latest
+## Build Variables
+ARG varVerOpenshift=${varVerOpenshift}
+ARG versOCP=${varVerOpenshift}
+ENV varVerOpenshift=${varVerOpenshift}
+ENV versOCP=${varVerOpenshift}
+ARG varDirDependencies="/root/dependencies"
+ARG varListPip="\
+                boto3 \
+                awscli \
+                ansible \
+                openshift \
+               "       
+#################################################################################
+## Copy in static assets
+#COPY lib/google                 /root/.bashrc.d/google
+COPY lib/bashrc                 /root/.bashrc
+COPY lib/connect                /bin/connect
+COPY lib/entrypoint             /bin/entrypoint
+COPY lib/bash_profile           /root/.bash_profile
+COPY lib/sshd_config            /etc/ssh/sshd_config
+COPY lib/registries.conf        /etc/containers/registries.conf
+COPY lib/run_registry.sh        /usr/local/bin/run_registry.sh
+COPY lib/registry-config.yml    /etc/docker/registry/config.yml
+COPY --from=builder /var/lib/koffer /var/lib/koffer
+COPY --from=builder /root/build     /root/build    
+COPY --from=entrypoint /root/konductor /bin/konductor    
+COPY --from=builder /root/build/dependencies.tar.gz /root/build/dependencies.tar.gz
+#################################################################################
+## Run build
+WORKDIR /root
+RUN set -ex \
+      && du -sh /root/build                                                     \
+      && du -sh /root/build/dependencies.tar.gz                                 \
+      && ls -lah /root/build                                                    \
+      && mv /root/build/dependencies.tar.gz /root                               \
+      && dnf install -y bsdtar gzip tar                                         \
+      && tar -xv -f /root/dependencies.tar.gz                                   \
+      && chmod +x                                                               \
+             ${varDirDependencies}/bin/*                                        \
+             /usr/local/bin/run_registry.sh                                     \
+      && mv ${varDirDependencies}/bin/* /bin/                                   \
+      && ls -l ${varDirDependencies}/rpm/                                       \
+      && dnf remove  -y bsdtar tar                                              \
+      && dnf install -y --allowerasing --nobest ${varDirDependencies}/rpm/*.rpm \
+      && pip3 install                                                           \
+               --no-index                                                       \
+               --find-links ${varDirDependencies}/pip/ ${varListPip}            \
+      && mkdir -p                                                               \
+             /etc/ssh                                                           \
+             /root/.bak                                                         \
+             /root/.aws                                                         \
+             /root/.ssh                                                         \
+             /root/.kube                                                        \
+             /root/.docker                                                      \
+             /root/platform                                                     \
+             /root/.bashrc.d                                                    \
+             /root/deploy/.profile.d                                            \
+             /root/deploy/.secrets.d                                            \
+             /var/lib/shared/overlay-images                                     \
+             /var/lib/shared/overlay-layers                                     \
+             /root/deploy/secrets/google                                        \
+      && mv                                                                     \
+              /root/original-ks.cfg                                             \
+              /root/anaconda-ks.cfg                                             \
+              /root/anaconda-post-nochroot.log                                  \
+              /root/anaconda-post.log                                           \
+              /root/buildinfo                                                   \
+           /root/.bak/                                                          \
+      && touch /var/lib/shared/overlay-images/images.lock                       \
+      && touch /var/lib/shared/overlay-layers/layers.lock                       \
+      && sed -i                                                                 \
+               -e 's|^#mount_program|mount_program|g'                           \
+               -e '/additionalimage.*/a "/var/lib/shared",'                     \
+               -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g'    \
+             /etc/containers/storage.conf                                       \
+      && dnf clean all                                                          \
+      && rm -rf                                                                 \
+                /root/build                                                     \
+                /root/dependencies.tar.gz                                       \
+                /root/dependencies                                              \
+                /var/cache                                                      \
+                /var/log/dnf*                                                   \
+                /var/log/yum.*                                                  \
+                /run/nologin                                                    \
+      && echo
+
+# TODO: Redesign for airgap devsecops pipeline support
+RUN set -ex \
+      && dnf install -y tar                                         \
+      && ansible-galaxy collection install containers.podman \
+      && echo
+
+#################################################################################
+## Set static environment variables
+ENV BUILDAH_ISOLATION=chroot
+ENV varVerOpenshift=${varVerOpenshift}
+ENV varVerTpdk=${varVerOpenshift}
+ENV varVerKoffer=${varVerOpenshift}
+ENV varVerKonductor=${varVerOpenshift}
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/platform/bin"
+#################################################################################
+ENTRYPOINT ["/bin/entrypoint"]
+WORKDIR /root/platform

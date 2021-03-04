@@ -1,0 +1,82 @@
+name: ansible
+on:
+  repository_dispatch:
+    types: [ansible]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+
+    - name: Rake Variables
+      run: |
+        set -x ; \
+        echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${GITHUB_ENV};\
+        echo;  
+
+    - name: Login ghcr.io
+      uses: docker/login-action@v1
+      with:
+        logout: true
+        registry: ghcr.io
+        username: ${{ secrets.ROBOT_USER_GHCR }}
+        password: ${{ secrets.ROBOT_TOKEN_GHCR }}
+
+    - name: Login Docker.io
+      uses: docker/login-action@v1
+      with:
+        logout: true
+        registry: docker.io
+        username: ${{ secrets.ROBOT_USER_DOCKERHUB }}
+        password: ${{ secrets.ROBOT_TOKEN_DOCKERHUB }}
+
+    - name: Login Quay.io
+      uses: docker/login-action@v1
+      with:
+        logout: true
+        registry: quay.io
+        username: ${{ secrets.ROBOT_USER_QUAY }}
+        password: ${{ secrets.ROBOT_TOKEN_QUAY }}
+
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Build Ansible Image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/${{ github.workflow }}
+        file: ./containers/${{ github.workflow }}/Dockerfile
+        platforms: linux/amd64
+        pull: true
+        push: true
+        tags: |
+          ghcr.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varrundate }}-${{ github.sha }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.varrundate }}-${{ github.sha }}
+          quay.io/containercraft/${{ github.workflow }}
+          quay.io/containercraft/${{ github.workflow }}:${{ env.varrundate }}-${{ github.sha }}
+          docker.io/containercraft/${{ github.workflow }}
+          docker.io/containercraft/${{ github.workflow }}:${{ env.varrundate }}-${{ github.sha }}
+
+    - name: Build CloudCtl Ansible Runner Service Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: runner
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+    - name: Build CloudCtl Koffer Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: koffer
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

@@ -1,0 +1,69 @@
+#################################################################################
+# Builder Image
+FROM docker.io/library/centos:8 as rpm
+FROM registry.access.redhat.com/ubi8/ubi as builder
+
+#################################################################################
+# DNF Package Install List
+ARG DNF_LIST="\
+  dnf \
+  openssl \
+  coreutils-single \
+  glibc-minimal-langpack \
+"
+
+#################################################################################
+# DNF Package Install Flags
+ARG DNF_FLAGS="\
+  -y \
+  --releasever 8 \
+  --installroot /rootfs \
+"
+ARG DNF_FLAGS_EXTRA="\
+  --nodocs \
+  --setopt=install_weak_deps=false \
+  ${DNF_FLAGS} \
+"
+
+#################################################################################
+# Build UBI8 Rootfs
+ARG BUILD_PATH='/rootfs'
+RUN set -ex \
+     && mkdir -p ${BUILD_PATH} \
+     && cp -r /etc/pki            /rootfs/etc/ \
+     && cp -r /etc/yum.repos.d    /rootfs/etc/ \
+     && cp -r /etc/os-release     /rootfs/etc/os-release \
+     && cp -r /etc/redhat-release /rootfs/etc/redhat-release \
+     && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
+     && dnf update ${DNF_FLAGS_EXTRA} \
+     && dnf clean all ${DNF_FLAGS} \
+     && rm -rf \
+           ${BUILD_PATH}/var/cache/* \
+     && du -sh ${BUILD_PATH} \
+    && echo
+
+#################################################################################
+# Add CentOS 8 repos to rootfs
+COPY --from=rpm     /etc/pki            /rootfs/etc/pki
+COPY --from=rpm     /etc/os-release     /rootfs/etc/os-release
+COPY --from=rpm     /etc/yum.repos.d    /rootfs/etc/yum.repos.d
+COPY --from=rpm     /etc/redhat-release /rootfs/etc/redhat-release
+
+#################################################################################
+# Create image from rootfs
+FROM scratch
+COPY --from=builder /rootfs /
+CMD /bin/bash
+
+#################################################################################
+# Finalize image
+MAINTAINER ContainerCraft.io
+LABEL \
+  license=GPLv3                                                                 \
+  name="minimal"                                                                \
+  distribution-scope="public"                                                   \
+  io.openshift.tags="minimal"                                                   \
+  io.k8s.display-name="ubi:minimal"                                             \
+  summary="Minimal Base Image | Red Hat UBI Supportable Image"            \
+  description="Minimal Base Image | Red Hat UBI Supportable Image"        \
+  io.k8s.description="Minimal Base Image | Red Hat UBI Supportable Image"
