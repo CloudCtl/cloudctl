@@ -1,7 +1,7 @@
 #!/bin/bash
 project="init"
 dir_seed="$(pwd)/seed"
-IMPORT_LIST="$(ls ${dir_seed})"
+IMPORT_LIST="$(ls ${dir_seed} 2>/dev/null)"
 dir_bundle="$(pwd)/bundle"
 EXTRACT_LIST="$(ls ${dir_bundle}/*.tar.xz 2>/dev/null)"
 
