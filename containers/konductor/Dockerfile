@@ -16,6 +16,7 @@ ARG DNF_LIST="\
   tmux \
   which \
   iputils \
+  findutils \
   azure-cli \
   procps-ng \
   net-tools \
