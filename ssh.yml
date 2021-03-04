@@ -1,0 +1,12 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ ansible_name }} | ssh.yml' 
+  hosts: cloudctl
+  become_user: root
+  become: true
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "ssh"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  roles:
+    - ssh

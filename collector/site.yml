@@ -1,0 +1,15 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' Sparta | Koffer | Collector CloudCtl | Artifact Bundle Plugin' 
+  hosts: koffer
+  vars_files:
+    - './vars/global.yml'
+
+# Stage Pod Artifacts
+- import_playbook: clean.yml          # Purge pre-existing artifacts for clean capture
+- import_playbook: git.yml            # Collect git based artifacts
+- import_playbook: tree.yml           # Create base platform directory tree
+- import_playbook: images.yml         # Hydrate base catalog of cloudctl artifacts
+- import_playbook: seed.yml           # Save base CloudCtl seed images to local directory
+- import_playbook: config.yml         # Place pod startup artifacts
+- import_playbook: bundle.yml         # Bundle artifacts for airgap transport
+- import_playbook: finalize.yml       # Finalize

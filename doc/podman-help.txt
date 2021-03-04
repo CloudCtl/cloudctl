@@ -1,0 +1,30 @@
+      --authfile string                          Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cap-add strings                          Add capabilities to the container
+      --cidfile string                           Write the container ID to the file
+  -d, --detach                                   Run container in background and print container ID
+  -t, --tty                                      Allocate a pseudo-TTY for container
+  -i, --interactive                              Keep STDIN open even if not attached
+      --device strings                           Add a host device to the container
+      --dns strings                              Set custom DNS servers
+      --dns-opt strings                          Set custom DNS options
+      --dns-search strings                       Set custom DNS search domains
+      --entrypoint string                        Overwrite the default ENTRYPOINT of the image
+  -e, --env stringArray                          Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,TERM=xterm])
+      --env-file strings                         Read in a file of environment variables
+      --expose strings                           Expose a port or a range of ports
+  -p, --publish strings                          Publish a container's port, or a range of ports, to the host (default [])
+  -h, --hostname string                          Set container hostname
+      --mount stringArray                        Attach a filesystem mount to the container
+      --name string                              Assign a name to the container
+      --pod string                               Run container in an existing pod
+      --pod-id-file string                       Read the pod ID from the file
+      --privileged                               Give extended privileges to container
+      --pull string                              Pull image before creating ("always"|"missing"|"never") (default "missing")
+      --replace                                  If a container with the same name exists, replace it
+      --restart string                           Restart policy to apply when a container exits ("always"|"no"|"on-failure")
+      --rm                                       Remove container (and pod if created) after exit
+  -u, --user string                              Username or UID (format: <name|uid>[:<group|gid>])
+      --userns string                            User namespace to use
+  -v, --volume stringArray                       Bind mount a volume into the container
+      --volumes-from strings                     Mount volumes from the specified container(s)
+  -w, --workdir string                           Working directory inside the container

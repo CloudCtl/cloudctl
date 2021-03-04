@@ -1,0 +1,11 @@
+.:5353 {
+    forward . {% dns_forward %}:53
+    log
+    errors
+}
+
+{% dns_zone %}:5353 {
+    file /root/{% dns_zone %}.db
+    log
+    errors
+}

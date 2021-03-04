@@ -1,0 +1,56 @@
+# The format of this file is documented in the dhcpd.leases(5) manual page.
+# This lease file was written by isc-dhcp-4.4.1
+
+# authoring-byte-order entry is generated, DO NOT DELETE
+authoring-byte-order little-endian;
+
+lease 172.10.10.101 {
+  starts 3 2020/02/12 06:06:41;
+  ends 3 2020/02/12 06:16:41;
+  tstp 3 2020/02/12 06:16:41;
+  cltt 3 2020/02/12 06:06:41;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 00:16:3e:ad:67:8c;
+  uid "\377;h\260<\000\002\000\000\253\021\242cv\373%\334\253'";
+  client-hostname "u01";
+}
+server-duid "\000\001\000\001%\326B\340\002x\\\363\275p";
+
+lease 172.10.10.101 {
+  starts 3 2020/02/12 06:10:15;
+  ends 4 2020/02/13 06:10:15;
+  tstp 4 2020/02/13 06:10:15;
+  cltt 3 2020/02/12 06:10:15;
+  binding state abandoned;
+  next binding state free;
+  rewind binding state free;
+}
+lease 172.10.10.102 {
+  starts 3 2020/02/12 06:10:19;
+  ends 3 2020/02/12 06:20:19;
+  cltt 3 2020/02/12 06:10:19;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 00:16:3e:ad:67:8c;
+  uid "\377;h\260<\000\002\000\000\253\021\242cv\373%\334\253'";
+  client-hostname "u01";
+}
+lease 172.10.10.102 {
+  starts 3 2020/02/12 06:10:19;
+  ends 3 2020/02/12 06:20:19;
+  tstp 3 2020/02/12 06:20:19;
+  cltt 3 2020/02/12 06:10:19;
+  binding state free;
+  hardware ethernet 00:16:3e:ad:67:8c;
+  uid "\377;h\260<\000\002\000\000\253\021\242cv\373%\334\253'";
+}
+lease 172.10.10.101 {
+  starts 3 2020/02/12 06:10:15;
+  ends 4 2020/02/13 06:10:15;
+  tstp 4 2020/02/13 06:10:15;
+  cltt 3 2020/02/12 06:10:15;
+  binding state free;
+}

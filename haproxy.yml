@@ -1,0 +1,14 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ ansible_name }} | haproxy.yml' 
+  hosts: cloudctl
+  become: true
+  become_user: root
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/run.yml'
+  vars:
+    module: "haproxy"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  roles:
+    - role: haproxy
+      when: start_haproxy == true

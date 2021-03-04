@@ -1,0 +1,20 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' TPDK | CloudCtl Collector Plugin | git.yml' 
+  hosts: koffer
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/git.yml'
+  vars:
+    module: "git"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    - name: '{{ ansible_name_module }} | git:clone | Clone Git Dependencies' 
+      git:
+        clone: yes
+        force: yes
+        update: true
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        version: "{{ item.branch }}"
+      with_items:
+        - "{{ ansiblerepos }}"

@@ -1,0 +1,42 @@
+cloudctl_seed:
+  - name: konductor
+    tag: latest
+    uri: "{{ upstream_registry }}/cloudctl"
+    path: "{{ dir_seed_img }}"
+  - name: registry
+    tag: latest
+    uri: "{{ upstream_registry }}/cloudctl"
+    path: "{{ dir_seed_img }}"
+  - name: pause
+    tag: latest
+    uri: "k8s.gcr.io"
+    path: "{{ dir_seed_img }}"
+
+cloudctl_images:
+  - name: pause
+    tag: latest
+    uri: "k8s.gcr.io"
+  - name: pause
+    tag: 3.1
+    uri: "k8s.gcr.io"
+  - name: pause
+    tag: 3.2
+    uri: "k8s.gcr.io"
+  - name: konductor
+    tag: "latest"
+    uri: "{{ upstream_registry }}/cloudctl"
+  - name: coredns
+    tag: latest
+    uri: "{{ upstream_registry }}/cloudctl"
+  - name: registry
+    tag: latest
+    uri: "{{ upstream_registry }}/cloudctl"
+  - name: runner
+    tag: "latest"
+    uri: "{{ upstream_registry }}/cloudctl"
+  - name: nginx
+    tag: "latest"
+    uri: "{{ upstream_registry }}/cloudctl"
+  - name: haproxy
+    tag: "latest"
+    uri: "{{ upstream_registry }}/cloudctl"

@@ -1,0 +1,10 @@
+---
+- name: '{{ ansible_name_module }} | file | Create Directories' 
+  file:
+    mode: '0775'
+    path: '{{ item }}'
+    state: directory
+    recurse: true
+  with_items:
+    - '{{ dir_platform }}/nginx'
+    - '{{ dir_platform }}/nginx/html'

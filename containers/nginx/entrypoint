@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+if [[ -z $1 ]]; then
+	#chown nginx:nginx -R /var/www/html
+        /usr/sbin/nginx -g 'daemon off;'
+else
+	$@
+fi

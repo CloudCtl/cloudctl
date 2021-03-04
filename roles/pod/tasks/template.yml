@@ -1,0 +1,12 @@
+---
+- name: '{{ ansible_name_module }} | template | Stage cloudctl pod systemd file' 
+  template:
+    src: templates/systemd/cloudctl.service.j2
+    dest: /etc/systemd/system/cloudctl.service
+
+- name: '{{ ansible_name_module }} | systemd | Enable cloudctl service'
+  systemd:
+    name: cloudctl
+    daemon_reload: yes
+    state: started
+    enabled: yes

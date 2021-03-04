@@ -1,0 +1,5 @@
+---
+- name: '{{ ansible_name_module }} | role:include_tasks | tree.yml' 
+  include_tasks: tree.yml
+- name: '{{ ansible_name_module }} | role:include_tasks | ssh.yml' 
+  include_tasks: ssh.yml

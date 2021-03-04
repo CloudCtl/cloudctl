@@ -1,0 +1,7 @@
+---
+collections:
+  - name: community.libvirt
+  - name: community.kubernetes
+  - name: containers.podman
+  - name: amazon.aws
+  - name: sparta.collector

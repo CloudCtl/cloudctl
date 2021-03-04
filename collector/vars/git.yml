@@ -1,0 +1,8 @@
+---
+url_git_cloudctl: 'https://github.com/CloudCtl/CloudCtl.git'
+dir_git_cloudctl: "{{ dir_cloudctl }}"
+
+ansiblerepos:
+  - repo: "{{ url_git_cloudctl }}"
+    dest: "{{ dir_git_cloudctl }}"
+    branch: "{{ tpdk_version | default('master', true) }}"

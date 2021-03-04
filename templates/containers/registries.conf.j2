@@ -1,0 +1,43 @@
+unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.io", "quay.io", "docker.io"]
+
+[[registry]]
+  prefix = "10.88.0.1:5000"
+  insecure = true
+  location = "10.88.0.1:5000"
+  mirror-by-digest-only = false
+
+[[registry]]
+  prefix = "quay.io"
+  location = "quay.io"
+  mirror-by-digest-only = false
+
+  [[registry.mirror]]
+    location = "10.88.0.1:5000"
+    insecure = true
+
+[[registry]]
+  prefix = "docker.io"
+  location = "docker.io"
+  mirror-by-digest-only = false
+
+  [[registry.mirror]]
+    location = "10.88.0.1:5000"
+    insecure = true
+
+[[registry]]
+  prefix = "registry.redhat.io"
+  location = "registry.redhat.io"
+  mirror-by-digest-only = false
+
+  [[registry.mirror]]
+    location = "10.88.0.1:5000"
+    insecure = true
+
+[[registry]]
+  prefix = "registry.access.redhat.com"
+  location = "registry.access.redhat.com"
+  mirror-by-digest-only = false
+
+  [[registry.mirror]]
+    location = "10.88.0.1:5000"
+    insecure = true

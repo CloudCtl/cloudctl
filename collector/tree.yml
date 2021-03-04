@@ -1,0 +1,26 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' Sparta | Koffer | Collector CloudCtl | tree.yml' 
+  hosts: koffer
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "tree"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    - name: '{{ ansible_name_module }} | file | Create Directory Structure' 
+      file:
+        mode: '0644'
+        recurse: false
+        state: directory
+        path: '{{ item }}'
+      with_items:
+        - '{{ dir_iac }}'
+        - '{{ dir_mirror }}'
+        - '{{ dir_images }}'
+        - '{{ dir_bundle }}'
+        - '{{ dir_secrets }}'
+        - '{{ dir_platform }}'
+        - '{{ dir_cloudctl }}'
+        - '{{ dir_seed_cfg }}'
+        - '{{ dir_seed_img }}'
+        - '{{ dir_tmp }}/bundle'

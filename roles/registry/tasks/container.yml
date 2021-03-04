@@ -1,0 +1,40 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
+  containers.podman.podman_container:
+    name: "coredns"
+    state: "absent"
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
+  containers.podman.podman_container:
+    name: registry
+    image: "{{ upstream_registry }}/cloudctl/registry:latest"
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z"
+      - "{{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z"
+      - "{{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/registry.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/registry.key:z"
+
+- name: '{{ ansible_name_module }} | cmd:pause.seconds.5 | Pause to re-start {{ module }}' 
+  pause:
+    seconds: 5
+
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman start {{ module }}' 
+  containers.podman.podman_container:
+    name: registry
+    image: "{{ upstream_registry }}/cloudctl/registry:latest"
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_platform }}/mirror:{{ dir_platform }}/mirror:z"
+      - "{{ dir_platform }}/secrets/registry/auth:/etc/docker/registry/auth:z"
+      - "{{ dir_platform }}/mirror/config.yml:/etc/docker/registry/config.yml:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/registry.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/registry.key:z"

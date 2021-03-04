@@ -1,0 +1,17 @@
+---
+- name: '{{ ansible_name_module }} | shell:date | Date CMD'
+  shell: "date '+%Y%m%d%H'"
+  register: date_YmdH
+
+- name: '{{ ansible_name_module }} | Register date %Y%m%d%H'
+  set_fact:
+    coredns_date_YmdH: "{{ date_YmdH }}"
+
+- name: '{{ ansible_name_module }} | template | Build CoreDNS config.yml' 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  loop: 
+    - { mode: '0655', src: "coredns/config.json.j2", dest: "{{ dir_platform }}/coredns/config.json"}
+    - { mode: '0655', src: "coredns/core.db.j2", dest: "{{ dir_platform }}/coredns/core.db"}

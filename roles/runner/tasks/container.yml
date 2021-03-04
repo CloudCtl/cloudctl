@@ -1,0 +1,21 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
+  containers.podman.podman_container:
+    name: "coredns"
+    state: "absent"
+  when: pod_force_rm == true
+
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ name_pod_cloudctl }}' 
+  containers.podman.podman_container:
+    name: runner
+    image: "{{ upstream_registry }}/cloudctl/runner"
+    state: "started"
+    recreate: "true"
+    pod: "cloudctl"
+    detach: yes
+    volume:
+      - "{{ dir_iac }}:{{ dir_iac }}:z"
+      - "{{ dir_platform }}/runner/usr/share/ansible-runner-service:/usr/share/ansible-runner-service:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/ca.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.crt:/etc/ansible-runner-service/certs/server/server.crt:z"
+      - "{{ dir_secrets }}/cloudctl/certs/ssl/server/cloudctl.pem:/etc/ansible-runner-service/certs/server/server.key:z"
