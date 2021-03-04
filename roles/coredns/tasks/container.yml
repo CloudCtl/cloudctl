@@ -1,0 +1,13 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman_container | Podman create {{ module }}' 
+  containers.podman.podman_container:
+    detach: yes
+    name: "coredns"
+    pod: "cloudctl"
+    state: "started"
+    recreate: "true"
+    image: "{{ upstream_registry }}/cloudctl/coredns"
+    volume:
+      - "{{ dir_platform }}/coredns/config.json:/CoreFile:z"
+      - "{{ dir_platform }}/coredns/core.db:/core.db:z"
+#   privileged: yes

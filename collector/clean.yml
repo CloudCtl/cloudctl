@@ -1,0 +1,17 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' TPDK | CloudCtl Collector Plugin | clean.yml' 
+  hosts: koffer
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "clean"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+  - name: '{{ ansible_name_module }} | file | Clean/Purge Platform Artifacts' 
+    file:
+      state: absent
+      path: '{{ item }}'
+    with_items:
+      - '{{ dir_tmp }}'
+      - '{{ dir_cloudctl }}'
+      - '{{ dir_platform }}'

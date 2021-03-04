@@ -1,0 +1,14 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ ansible_name }} | registry.yml' 
+  hosts: cloudctl
+  become_user: root
+  become: true
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/run.yml'
+  vars:
+    module: "registry"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  roles:
+    - role: registry
+      when: start_registry == true

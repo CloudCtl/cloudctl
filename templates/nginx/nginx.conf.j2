@@ -1,0 +1,37 @@
+#user nginx;
+user root;
+worker_processes auto;
+error_log /dev/stdout info;
+include /usr/share/nginx/modules/*.conf;
+include /etc/nginx/conf.d/*.conf;
+pid /run/nginx.pid;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  server {
+    listen 8082;
+    listen [::]:8082;
+    location / {
+      root /var/www/html/;
+    }
+  }
+
+  server {
+    listen 8843 ssl;
+    listen [::]:8843 ssl;
+
+    ssl_certificate "/nginx.crt";
+    ssl_certificate_key "/nginx.key";
+    ssl_session_cache shared:SSL:1m;
+
+    location / {
+      root /var/www/html/;
+    }
+  }
+
+  autoindex on;        
+}

@@ -1,0 +1,81 @@
+---
+# Custom Variables
+domain_base: codectl.io
+domain_cluster: 'ocp.{{ domain_base }}'
+# Remote Registry Can be set to either quay.io or docker.io
+upstream_registry: quay.io
+
+# TPDK | Trusted Platform Delivery Kit Release or Dev Branch 
+#tpdk_version: "{{ lookup('env', 'varVerOpenshift') }}"
+tpdk_version: "master"
+
+# Core variables
+name_vendor: ' TPDK'
+ansible_name: " {{ name_vendor }} | CloudCtl | {{ ansible_distribution }}"
+
+# Ansible Playbook Run Variables
+ssh_enabled: true
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+ansible_python_interpreter: auto_silent
+
+# CloudCtl Variables
+pod_force_rm: true
+name_pod_cloudctl: cloudctl
+image_tag_konductor: quay.io/codesparta/konductor
+sshkeys_pub: "{{ lookup('file', '{{ local_home }}/.ssh/id_rsa.pub') }}"
+
+# Local Environment 
+dir_platform_name: "platform"
+local_user: "{{ lookup('env', 'USER') }}"
+dir_mirror: "{{ dir_platform }}/mirror"
+dir_images: "{{ dir_platform }}/images"
+dir_local_home: "{{ lookup('env','HOME') }}"
+dir_local_path: "{{ lookup('env','PWD') }}"
+dir_koffer: "{{ dir_local_home }}/koffer"
+dir_bundle: "{{ dir_local_home }}/bundle"
+dir_platform: "{{ dir_local_home }}/{{ dir_platform_name }}"
+dir_cloudctl: "{{ dir_local_home }}/cloudctl"
+dir_seed_cfg: "{{ dir_cloudctl }}/config"
+dir_seed_img: "{{ dir_cloudctl }}/images"
+
+bundle_name: "cloudctl.tar.xz"
+bundle_sha: "{{ bundle_name }}.sha256"
+tpdk_bundle_name: "koffer-bundle.tpdk-cloudctl.tar.xz"
+
+# Remote Environment 
+dir_secrets: "{{ dir_platform }}/secrets"
+dir_iac: "{{ dir_platform }}/iac"
+dir_tmp: "/tmp/cloudctl"
+
+# Dir Structure
+ctltree:
+  - path: "{{ dir_tmp }}"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_iac }}"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_platform }}"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_platform }}/bin"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_platform }}/pod"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_platform }}/secrets"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_platform }}/profile.d"
+    state: directory
+    mode: '0744'
+  - path: "{{ dir_secrets }}/registry/auth"
+    state: directory
+    mode: '0744'
+
+# SSH Keys
+sshkeys_pub_file: "{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}.pub"
+sshkeys_priv_file: "{{{ lookup('env', 'HOME') }}/platform/{{ cluster_domain }}/.ssh/id_rsa_{{ cluster_domain }}"
+sshkeys_pub_string: "{{ lookup('file', '{{ sshkeys_pub_file }}') }}"
+sshkeys_priv_string: "{{ lookup('file', '{{ sshkeys_priv_file }}') }}"

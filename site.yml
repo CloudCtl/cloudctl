@@ -1,0 +1,19 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' CloudCtl | Konductor:Bootstrap | site.yml' 
+  hosts: cloudctl 
+
+#### Base minimum CloudCtl Functionality
+- import_playbook: tree.yml           # CloudCtl host directory tree 
+- import_playbook: pod.yml            # CloudCtl Container Pod
+- import_playbook: ssh.yml            # CloudCtl SSH Key Pair & pubkey Exchange
+- import_playbook: ssl.yml            # CloudCtl Self Signed Certificate CA
+
+#### These playbooks should be built for delivery via ansible-runner-service container delivery
+- import_playbook: registry.yml       # Docker Image Registry
+- import_playbook: runner.yml         # Nginx Artifact File Service
+- import_playbook: konductor.yml      # Konductor Userspace Container
+- import_playbook: nginx.yml          # Nginx Artifact File Service
+- import_playbook: haproxy.yml        # HaProxy LB Service
+- import_playbook: dns.yml            # CoreDNS Service
+# import_playbook: dhcp.yml           # ISC-DHCP Service
+# import_playbook: tftpd.yml          # Tftpd Service

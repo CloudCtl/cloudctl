@@ -1,0 +1,12 @@
+.:5353 {
+    forward . {{ dns_forwarder }}
+    errors
+    cache
+    log
+}
+
+{{ domain_cluster }}:5353 {
+    file /core.db
+    log
+    errors
+}

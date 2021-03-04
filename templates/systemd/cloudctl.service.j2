@@ -1,0 +1,18 @@
+[Unit]
+Description=TPDK CloudCtl Services Pod
+Documentation=https://github.com/CloudCtl/cloudctl
+Wants=syslog.service
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=oneshot
+Restart=never
+RestartSec=90
+RemainAfterExit=true
+ExecStart=/usr/bin/podman pod start cloudctl
+TimeoutStartSec=15
+ExecStop=/usr/bin/podman pod stop cloudctl
+TimeoutStopSec=45

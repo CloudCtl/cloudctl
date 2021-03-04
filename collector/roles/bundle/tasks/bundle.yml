@@ -1,0 +1,50 @@
+---
+- name: '{{ ansible_name_module }} | copy:content.date | Log CloudCtl bundle date'
+  copy:
+    content: "{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
+    dest: '{{ dir_platform }}/nginx/tpdk-bundle.date'
+    mode: 0777
+
+- name: '{{ ansible_name_module }} | file:absent | Purge pre-existing bundles'
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop:
+    - '{{ dir_bundle }}/{{ tpdk_bundle_name }}'
+    - "{{ dir_cloudctl }}/bundle/{{ bundle_sha }}"
+    - "{{ dir_cloudctl }}/bundle/{{ bundle_name }}"
+
+- name: '{{ ansible_name_module }} | command:tar | build base cloudctl pod artifact bundle'
+  command:
+    cmd:
+      tar -vc --use-compress-program='pigz -9'
+           -f {{ dir_cloudctl }}/bundle/{{ bundle_name }}
+           -C {{ dir_local_home }}
+         platform
+  args:
+    creates: "{{ dir_cloudctl }}/bundle/{{ bundle_name }}"
+    warn: false
+
+- name: '{{ ansible_name_module }} | stat:sha256 | SHA {{ bundle_name }}'
+  command: 'sha256sum {{ dir_cloudctl }}/bundle/{{ bundle_name }}'
+  args:
+    warn: false
+    chdir: '{{ dir_tmp }}'
+  register: bundle_sha
+
+- name: '{{ ansible_name_module }} | copy:content.bcrypt_htpasswd | Write sha256sum to {{ bundle_sha }}'
+  copy:
+    content: '{{ bundle_sha.stdout }}'
+    dest: "{{ dir_cloudctl }}/bundle/{{ bundle_sha }}"
+    mode: 0660
+
+- name: '{{ ansible_name_module }} | command:tar.cvf | Build unified bundle with auxilary unpack+launch utilities'
+  command:
+    cmd:
+      tar -vc --use-compress-program='pigz -9' -C {{ dir_tmp }}
+          -f {{ dir_bundle }}/{{ tpdk_bundle_name }}
+        cloudctl 
+  ars:
+    chdir: '{{ dir_local_home }}'
+    creates: '{{ dir_bundle }}/{{ tpdk_bundle_name }}'
+    warn: false

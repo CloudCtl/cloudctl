@@ -1,0 +1,27 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: ' TPDK | CloudCtl Collector Plugin | bundle.yml' 
+  hosts: koffer
+  vars_files:
+    - 'vars/global.yml'
+  vars:
+    module: "bundle"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+    
+    - name: '{{ ansible_name_module }} | file:absent | Purge pre-existing bundles'
+      file:
+        path: '{{ dir_bundle }}/{{ bootstrap_bundle_name }}'
+        state: absent
+    
+    - name: '{{ ansible_name_module }} | command:tar.compress | Build CloudCtl Pod Artifacts Bundle'
+      command:
+        tar -cvf {{ bootstrap_bundle_name }} \
+                 -C {{ dir_tmp }} \
+                 config \
+                 images \
+                 {{ bundle_sha }} \
+                 {{ bundle_name }}
+      args:
+        chdir: '{{ dir_bundle }}'
+        creates: '{{ dir_bundle }}/{{ bootstrap_bundle_name }}'
+        warn: false

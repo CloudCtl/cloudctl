@@ -1,0 +1,39 @@
+---
+- name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
+  containers.podman.podman_pod:
+    state: started
+    recreate: true
+    name: "{{ name_pod_cloudctl }}"
+    hostname: "{{ name_pod_cloudctl }}"
+    infra_image: "k8s.gcr.io/pause:latest"
+    publish:
+      - '{{ listen_address }}:80:80/tcp'
+      - '{{ listen_address }}:53:5353/udp'
+      - '{{ listen_address }}:443:443/tcp'
+      - '{{ listen_address }}:2222:2222/tcp'
+      - '{{ listen_address }}:6443:6443/tcp'
+      - '{{ listen_address }}:8080:8082/tcp'
+      - '{{ listen_address }}:8443:8843/tcp'
+      - '{{ listen_address }}:5000:5000/tcp'
+      - '{{ listen_address }}:5001:5001/tcp'
+      - '{{ listen_address }}:22623:22623/tcp'
+  when: start_dns
+
+- name: '{{ ansible_name_module }} | cmd:podman_pod | Podman create {{ module }}' 
+  containers.podman.podman_pod:
+    recreate: true
+    state: started
+    name: "{{ name_pod_cloudctl }}"
+    hostname: "{{ name_pod_cloudctl }}"
+    infra_image: "k8s.gcr.io/pause:latest"
+    publish:
+      - '{{ listen_address }}:80:80/tcp'
+      - '{{ listen_address }}:443:443/tcp'
+      - '{{ listen_address }}:2222:2222/tcp'
+      - '{{ listen_address }}:6443:6443/tcp'
+      - '{{ listen_address }}:8080:8082/tcp'
+      - '{{ listen_address }}:8443:8843/tcp'
+      - '{{ listen_address }}:5000:5000/tcp'
+      - '{{ listen_address }}:5001:5001/tcp'
+      - '{{ listen_address }}:22623:22623/tcp'
+  when: not start_dns

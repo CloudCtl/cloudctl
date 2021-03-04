@@ -1,0 +1,4 @@
+---
+dns_forward: "8.8.8.8"
+dns_zone: "{{ {{ domain_cluster }} | default(cloud.codectl.io) }}"
+db_time: "{{ coredns_date_YmdH }}"

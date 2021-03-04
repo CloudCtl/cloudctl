@@ -1,0 +1,22 @@
+#!/usr/local/bin/ansible-playbook --inventory=inventory.yaml
+- name: '{{ name_vendor }} | Koffer | shaman.yml' 
+  hosts: local
+  vars_files:
+    - 'vars/global.yml'
+    - 'vars/git.yml'
+  vars:
+    module: "shaman"
+    ansible_name_module: "{{ ansible_name }} | {{ module }}"
+  tasks:
+
+    ####### Terraform Init
+    - name: '{{ ansible_name_module }} | command:terraform | init'
+      command:
+        cmd: terraform init
+        chdir: "{{ item }}"
+      loop:
+        - "{{ dir_terraform }}/shaman/resource-import"
+        - "{{ dir_terraform }}/shaman"
+        - "{{ dir_terraform }}/shaman/elb"
+        - "{{ dir_terraform }}/shaman/control-plane"
+        - "{{ dir_terraform }}/shaman/route53"

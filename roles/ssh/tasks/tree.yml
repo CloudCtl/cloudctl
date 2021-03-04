@@ -1,0 +1,16 @@
+---
+- name: '{{ ansible_name_module }} | file:state.directory | Create Directory Structure' 
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0644'
+  with_items:
+    - '{{ dir_secrets }}/ssh'
+
+- name: '{{ ansible_name_module }} | file:state.file | Create authorized_keys' 
+  file:
+    path: '{{ item }}'
+    mode: '0644'
+    state: touch
+  with_items:
+    - '{{ dir_secrets }}/ssh/authorized_keys'

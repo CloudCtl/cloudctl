@@ -1,0 +1,7 @@
+koffer:
+  silent: true
+  plugins:
+    cloudctl:
+      organization: cloudctl
+      version: registry-vars
+      service: github.com

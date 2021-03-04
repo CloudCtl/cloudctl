@@ -1,0 +1,41 @@
+apiVersion: v1
+additionalTrustBundle: |
+{{ lookup("file", "{{ dir_artifacts }}/ssl/{{ cluster_domain }}.crt") | indent( width=2, indentfirst=True) }}
+baseDomain: {{ name_domain }}
+imageContentSources:
+- mirrors:
+  - registry.{{ cluster_domain }}:5000/ocp-{{ version_openshift }}
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - registry.{{ cluster_domain }}:5000/ocp-{{ version_openshift }}
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+compute:
+- name: worker
+  replicas: 3
+  platform:
+    {{ cloud_provider }}:
+      type: {{ cloud_instance_type_worker }}
+      zones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+controlPlane:
+  name: master
+  replicas: 3
+  platform:
+    {{ cloud_provider }}:
+      type: {{ cloud_instance_type_worker }}
+      zones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+metadata:
+  name: {{ cluster_name }}
+platform:
+  {{ cloud_provider }}:
+    amiID: {{ cloud_instance_ami }}
+    region: us-east-1
+pullSecret: '{{ lookup('file', '{{ dir_artifacts }}/.docker/mirror.json') | regex_replace("\'", "\"") }}'
+sshKey: '{{ sshkeys_pub_string }}'
+publish: {{ openshift_install_publish }}
+fips: {{ cloud_instance_fips }}

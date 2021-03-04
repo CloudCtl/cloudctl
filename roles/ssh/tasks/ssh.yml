@@ -1,0 +1,31 @@
+---
+- name: '{{ ansible_name_module }} | shell:alternate | Set python3 as default python interpreter'
+  command:
+    cmd: |
+      alternatives --set python /usr/bin/python3
+  ignore_errors: yes
+
+- name: '{{ ansible_name_module }} | ssh | openssh_keypair | Generate CloudCtl SSH Key Pair'
+  openssh_keypair:
+    path: "{{ dir_secrets }}/ssh/id_rsa_cloudctl"
+    comment: "konductor@cloudctl"
+
+- name: '{{ ansible_name_module }} | slurp:src.register | Lookup Host SSH Public Key on CloudCtl Host'
+  slurp:
+    src: "/root/.ssh/id_rsa.pub"
+  register: local_ssh_pubkey
+
+- name: '{{ ansible_name_module }} | slurp:src.register | Lookup CloudCtl SSH Public Key'
+  slurp:
+    src: "{{ dir_secrets }}/ssh/id_rsa_cloudctl.pub"
+  register: cloudctl_ssh_pubkey
+
+- name: '{{ ansible_name_module }} | ssh | openssh_keypair | Install CloudCtl Pub Key on Pod Host'
+  lineinfile:
+    path: "/root/.ssh/authorized_keys"
+    line: "{{ cloudctl_ssh_pubkey['content'] | b64decode }}"
+
+- name: '{{ ansible_name_module }} | slurp:src.register | Install Host SSH Public Key on CloudCtl Pod'
+  lineinfile:
+    path: "{{ dir_secrets }}/ssh/authorized_keys"
+    line: "{{ local_ssh_pubkey['content'] | b64decode }}"

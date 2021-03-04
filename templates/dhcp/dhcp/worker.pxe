@@ -1,0 +1,11 @@
+
+host worker01 {
+  fixed-address  172.10.2.41;
+  option host-name "worker01.ocp.ministack.dev";
+  hardware ethernet 02:fa:01:53:6e:b2;
+}
+host worker02 {
+  fixed-address  172.10.2.42;
+  option host-name "worker02.ocp.ministack.dev";
+  hardware ethernet 02:da:07:2a:2e:59;
+}
