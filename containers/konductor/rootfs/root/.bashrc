@@ -55,8 +55,6 @@ esac
 #  - gitup add text file
 # Git stage/commit/push
 gitup () {
-  sudo chown -R $USER ~/.ssh
-  sudo chown -R $USER ./
 
   git pull
   git_commit_msg="$@"
