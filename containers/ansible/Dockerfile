@@ -46,7 +46,7 @@ ADD ./rootfs /
 RUN set -ex                                                                     \
      && python3 -m pip install --upgrade pip                                    \
      && pip3 install --upgrade ${PIP_LIST}                                      \
-     && ansible-galaxy collection install -r /root/.ansible/install.yml         \
+     && ansible-galaxy collection install -r /root/.ansible/requirements.yml    \
     && echo
 
 CMD /bin/sh
