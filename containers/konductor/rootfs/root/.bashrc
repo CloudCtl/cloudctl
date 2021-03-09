@@ -82,4 +82,4 @@ alias ll="ls -lah"
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias cloc="git ls-files --exclude-standard -- ':!:**/*.[pjs][npv]g' ':!:**/*.ai' ':!:.idea' ':!:**/*.eslintrc' ':!:package-lock.json' ':!:LICENSE' | xargs wc -l"
+alias cloc="git count | xargs wc -l 2>/dev/null"
