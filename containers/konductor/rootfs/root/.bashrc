@@ -31,11 +31,11 @@ if [ 0 == 0 ]; then
   export PS1="\[[32m\]\u\[[35m\]@\[[36m\]\h \[[34m\]\W$ \[[m\]"
 fi
 # User specific environment
-if ! [[ "/root/.local/bin:/root/bin:/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin:/var/lib/snapd/snap/bin:/root/bin" =~ "/root/.local/bin:/root/bin:" ]]
-then
-    PATH="/root/.local/bin:/root/bin:/root/.local/bin:/root/bin:/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin:/var/lib/snapd/snap/bin:/root/bin"
-fi
-export PATH="$PATH:/root/platform/bin"
+#if ! [[ "/root/.local/bin:/root/bin:/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin:/var/lib/snapd/snap/bin:/root/bin" =~ "/root/.local/bin:/root/bin:" ]]
+#then
+#    PATH="/root/.local/bin:/root/bin:/root/.local/bin:/root/bin:/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin:/var/lib/snapd/snap/bin:/root/bin"
+#fi
+#export PATH="/root/platform/bin:$PATH"
 
 # User specific environment and startup programs
 # Source items only for interactive sessions (Fixes qemu+ssh header size error)
