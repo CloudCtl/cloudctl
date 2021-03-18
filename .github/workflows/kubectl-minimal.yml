@@ -1,0 +1,71 @@
+name: kubectl-minimal
+on:
+  repository_dispatch:
+    types: [kubectl-minimal]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+
+#   - name: Login public.ecr.aws
+#     uses: docker/login-action@v1
+#     with:
+#       logout: false
+#       registry: public.ecr.aws
+#       username: ${{ secrets.ROBOT_KEY_ID_AWS_ECR }}
+#       password: ${{ secrets.ROBOT_SECRET_KEY_AWS_ECR }}
+#     env:
+#       AWS_REGION: us-east-1
+
+#   - name: Login ghcr.io
+#     uses: docker/login-action@v1
+#     with:
+#       logout: false
+#       registry: ghcr.io
+#       username: ${{ secrets.ROBOT_USER_GHCR }}
+#       password: ${{ secrets.ROBOT_TOKEN_GHCR }}
+
+    - name: Login Docker.io
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: docker.io
+        username: ${{ secrets.ROBOT_USER_DOCKERHUB }}
+        password: ${{ secrets.ROBOT_TOKEN_DOCKERHUB }}
+
+    - name: Login Quay.io
+      uses: docker/login-action@v1
+      with:
+        logout: false
+        registry: quay.io
+        username: ${{ secrets.ROBOT_USER_QUAY }}
+        password: ${{ secrets.ROBOT_TOKEN_QUAY }}
+
+    - name: Rake Variables
+      run: |
+        set -x ; \
+        echo "KUBECTL_VERSION=$(curl --silent -L https://storage.googleapis.com/kubernetes-release/release/stable.txt | sed 's/v//g')" >> ${GITHUB_ENV};\
+        echo;  
+
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Build Image 
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/kubectl
+        file: ./containers/kubectl/Dockerfile.minimal
+        platforms: linux/amd64
+        pull: true
+        push: true
+       #load: true
+        tags: |
+          quay.io/${{ secrets.GIT_PROJECT }}/kubectl
+          quay.io/${{ secrets.GIT_PROJECT }}/kubectl:minimal
+          quay.io/${{ secrets.GIT_PROJECT }}/kubectl:${{ env.KUBECTL_VERSION }}
+          docker.io/${{ secrets.GIT_PROJECT }}/kubectl
+          docker.io/${{ secrets.GIT_PROJECT }}/kubectl:minimal
+          docker.io/${{ secrets.GIT_PROJECT }}/kubectl:${{ env.KUBECTL_VERSION }}
+        build-args: |
+          KUBECTL_VERSION=${{ env.KUBECTL_VERSION }}

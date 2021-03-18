@@ -1,7 +1,7 @@
-name: kubectl
+name: kubectl-micro
 on:
   repository_dispatch:
-    types: [kubectl]
+    types: [kubectl-micro]
 
 jobs:
   build:
@@ -54,16 +54,16 @@ jobs:
     - name: Build Image 
       uses: docker/build-push-action@v2
       with:
-        context: ./containers/${{ github.workflow }}
-        file: ./containers/${{ github.workflow }}/Dockerfile
+        context: ./containers/kubectl
+        file: ./containers/kubectl/Dockerfile.micro
         platforms: linux/amd64
         pull: true
         push: true
        #load: true
         tags: |
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.KUBECTL_VERSION }}
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:${{ env.KUBECTL_VERSION }}
+          quay.io/${{ secrets.GIT_PROJECT }}/kubectl:micro
+          quay.io/${{ secrets.GIT_PROJECT }}/kubectl:micro-${{ env.KUBECTL_VERSION }}
+          docker.io/${{ secrets.GIT_PROJECT }}/kubectl:micro
+          docker.io/${{ secrets.GIT_PROJECT }}/kubectl:micro-${{ env.KUBECTL_VERSION }}
         build-args: |
           KUBECTL_VERSION=${{ env.KUBECTL_VERSION }}

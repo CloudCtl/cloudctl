@@ -100,6 +100,15 @@ jobs:
           docker.io/containercraft/${{ env.varimgname }}:minimal
           docker.io/containercraft/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
 
+    - name: Build CloudCtl Minimal Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: kubectl-minimal
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
     - name: Build CloudCtl CoreDNS Container
       if: success()
       uses: peter-evans/repository-dispatch@v1
