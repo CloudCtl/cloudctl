@@ -54,6 +54,7 @@ RUN set -ex \
 
 #################################################################################
 # Finalize Image
+USER 1001
 WORKDIR /tmp
 ENTRYPOINT ["/entrypoint"]
 MAINTAINER ContainerCraft.io
