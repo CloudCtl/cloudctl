@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+#if [[ $2 == "version" ]]; then
+#    git version
+#elif [[ -z $2 ]]; then
+#    $@
+#else
+#    mkdir /clone
+#    git clone $1 /clone
+#    exit
+#fi
+kubectl $@
