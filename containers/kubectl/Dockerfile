@@ -32,7 +32,6 @@ ARG DNF_FLAGS_EXTRA="\
 #################################################################################
 # Build Rootfs
 USER root
-ADD ./rootfs /
 RUN set -ex \
      && mkdir -p ${BUILD_PATH} \
      && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
@@ -48,10 +47,10 @@ RUN set -ex \
 # Build Image from Rootfs
 FROM scratch
 COPY --from=builder /rootfs /
+ADD ./rootfs /
 RUN set -ex \
      && kubectl version --client || exit 1 \
     && echo
-CMD /bin/sh
 
 #################################################################################
 # Finalize Image
