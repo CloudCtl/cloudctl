@@ -23,20 +23,20 @@ jobs:
     - name: Setup Docker Buildx
       uses: docker/setup-buildx-action@v1
 
+    - name: Build CloudCtl Kubectl Micro Container
+      if: success()
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        event-type: kubectl-micro
+        token: ${{ secrets.GH_ACTIONS_TOKEN }}
+        repository: ${{ github.repository }}
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
     - name: Build CloudCtl Base Container Images
       if: success()
       uses: peter-evans/repository-dispatch@v1
       with:
         event-type: base
-        token: ${{ secrets.GH_ACTIONS_TOKEN }}
-        repository: ${{ github.repository }}
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
-
-    - name: Build CloudCtl Kubectl Container
-      if: success()
-      uses: peter-evans/repository-dispatch@v1
-      with:
-        event-type: kubectl
         token: ${{ secrets.GH_ACTIONS_TOKEN }}
         repository: ${{ github.repository }}
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

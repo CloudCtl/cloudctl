@@ -100,7 +100,7 @@ jobs:
           docker.io/containercraft/${{ env.varimgname }}:minimal
           docker.io/containercraft/${{ env.varimgname }}:minimal-${{ env.varrundate }}-${{ github.sha }}
 
-    - name: Build CloudCtl Minimal Container
+    - name: Build CloudCtl Kubectl Minimal Container
       if: success()
       uses: peter-evans/repository-dispatch@v1
       with:
