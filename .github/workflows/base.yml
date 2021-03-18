@@ -72,15 +72,6 @@ jobs:
           docker.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}
           docker.io/containercraft/${{ env.varimgname }}:${{ github.workflow }}-${{ env.varrundate }}-${{ github.sha }}
 
-    - name: Build CloudCtl Kubectl Container
-      if: success()
-      uses: peter-evans/repository-dispatch@v1
-      with:
-        event-type: kubectl
-        token: ${{ secrets.GH_ACTIONS_TOKEN }}
-        repository: ${{ github.repository }}
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
-
     - name: Build CloudCtl Registry Container
       if: success()
       uses: peter-evans/repository-dispatch@v1
