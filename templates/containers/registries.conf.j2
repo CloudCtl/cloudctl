@@ -1,9 +1,9 @@
 unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.io", "quay.io", "docker.io"]
 
 [[registry]]
-  prefix = "10.88.0.1:5000"
+  prefix = "{{ listen_address }}:5000"
   insecure = true
-  location = "10.88.0.1:5000"
+  location = "{{ listen_address }}:5000"
   mirror-by-digest-only = false
 
 [[registry]]
@@ -12,7 +12,7 @@ unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.
   mirror-by-digest-only = false
 
   [[registry.mirror]]
-    location = "10.88.0.1:5000"
+    location = "{{ listen_address }}:5000"
     insecure = true
 
 [[registry]]
@@ -21,7 +21,7 @@ unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.
   mirror-by-digest-only = false
 
   [[registry.mirror]]
-    location = "10.88.0.1:5000"
+    location = "{{ listen_address }}:5000"
     insecure = true
 
 [[registry]]
@@ -30,7 +30,7 @@ unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.
   mirror-by-digest-only = false
 
   [[registry.mirror]]
-    location = "10.88.0.1:5000"
+    location = "{{ listen_address }}:5000"
     insecure = true
 
 [[registry]]
@@ -39,5 +39,5 @@ unqualified-search-registries = ["registry.access.redhat.com", "registry.redhat.
   mirror-by-digest-only = false
 
   [[registry.mirror]]
-    location = "10.88.0.1:5000"
+    location = "{{ listen_address }}:5000"
     insecure = true

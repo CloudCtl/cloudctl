@@ -42,5 +42,5 @@
 - name: '{{ ansible_name_module }} | copy.content | Generate Registry Pull Secret {{ dir_secrets }}/registry/auth/config.json'
   copy:
     dest: "/root/.docker/config.json"
-    content: '{"auths": {"10.88.0.1:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
+    content: '{"auths": {"listen_address:5000": {"auth": "{{ "cloudctl:cloudctl" | b64encode }}","email": "admin@{{ domain_base }}" }}}'
     mode: 0600
