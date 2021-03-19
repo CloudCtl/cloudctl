@@ -35,7 +35,7 @@ RUN set -ex \
      && rm -rf \
            ${BUILD_PATH}/var/cache/* \
      && curl -L ${kubectl_url} --output /rootfs/bin/kubectl \
-     && chmod +x /rootfs/bin/kubectl \
+     && chmod +x /bin/kubectl \
      && kubectl version --client || exit 1 \
     && echo
 
