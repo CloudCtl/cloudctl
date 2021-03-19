@@ -34,7 +34,7 @@ RUN set -ex \
      && dnf clean all ${DNF_FLAGS} \
      && rm -rf \
            ${BUILD_PATH}/var/cache/* \
-     && curl -L ${kubectl_url} --output /rootfs/bin/kubectl \
+     && curl -L ${kubectl_url} --output /bin/kubectl \
      && chmod +x /bin/kubectl \
      && kubectl version --client || exit 1 \
     && echo
