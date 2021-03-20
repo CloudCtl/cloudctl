@@ -6,7 +6,7 @@
     pod: "cloudctl"
     state: "started"
     recreate: "true"
-    image: "{{ upstream_registry }}/cloudctl/nginx:latest"
+    image: "{{ upstream_registry }}/cloudctl/nginx"
     volume:
       - "{{ dir_platform }}/nginx:/var/www/html:z"
       - "{{ dir_platform }}/nginx/nginx.conf:/etc/nginx/nginx.conf:z"
