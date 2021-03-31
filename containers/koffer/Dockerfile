@@ -131,4 +131,4 @@ LABEL \
   io.k8s.display-name="tpdk-koffer-${varVerTpdk}"                               \
   summary="Koffer agnostic artifact collection engine."                         \
   description="Koffer is an automation runtime for delarative enterprise artifact supply chain."\
-  io.k8s.description="Koffer is an automation runtime for delarative enterprise artifact supply chain."
+  io.k8s.description="Koffer delarative enterprise artifact supply chain collection engine."
