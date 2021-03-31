@@ -35,7 +35,7 @@ RUN set -ex                                                                     
      && dnf clean all                                                           \
      && curl -L ${URL_WALLE} -o /bin/wall-e                                     \
      && chmod +x /bin/wall-e                                                    \
-     && sed -i '/sudo/,+3d' /bin/wall-e                                           \
+     && sed -i '/sudo/,+3d' /bin/wall-e                                         \
      && rm -rf                                                                  \
           /root/*                                                               \
           /var/cache/*                                                          \
@@ -51,6 +51,16 @@ RUN set -ex                                                                     
 # --disablerepo="ubi-8-codeready-builder" \
 
 #################################################################################
+# Install openshift client "oc"
+ARG varVerOpenshift="${varVerOpenshift}"
+ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux-${varVerOpenshift}.tar.gz"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlOpenshift}                                              \
+        | tar xzvf - --directory /bin oc kubectl                                \
+     && chmod +x /bin/oc /bin/kubectl                                           \
+     && /bin/oc version --client                                                \
+    && echo
+
 # Install jq
 ARG varVerJq="${varVerJq}"
 ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
@@ -109,7 +119,8 @@ ENV \
   GIT_SSL_NO_VERIFY=true \
   varVerTpdk="${varVerOpenshift}" \
   varVerOpenshift="${varVerOpenshift}" \
-  REGISTRY_AUTH_FILE='/root/.docker/config.json'
+  REGISTRY_AUTH_FILE='/root/.docker/config.json' \
+  PATH="/root/platform/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 LABEL \
   name="koffer"                                                                 \
