@@ -66,7 +66,8 @@ ENV \
   _BUILDAH_STARTED_IN_USERNS="" \
   varVerTpdk="${varVerOpenshift}" \
   varVerOpenshift="${varVerOpenshift}" \
-  REGISTRY_AUTH_FILE='/root/.docker/config.json'
+  REGISTRY_AUTH_FILE='/root/.docker/config.json' \
+  PATH="/root/platform/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 LABEL \
   name="koffer"                                                                 \
