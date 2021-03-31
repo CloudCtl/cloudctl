@@ -61,7 +61,7 @@ WORKDIR /root/koffer
 ARG varVerTpdk="${varVerOpenshift}"
 ARG varVerOpenshift="${varVerOpenshift}"
 ENV \
-  STORAGE_DRIVER=vfs \
+  STORAGE_DRIVER=overlay \
   BUILDAH_ISOLATION=chroot \
   _BUILDAH_STARTED_IN_USERNS="" \
   varVerTpdk="${varVerOpenshift}" \
