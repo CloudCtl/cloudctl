@@ -1,6 +1,7 @@
 ---
 collections:
   - name: amazon.aws
+  - name: github3.py
   - name: sparta.collector
   - name: containers.podman
   - name: community.general
