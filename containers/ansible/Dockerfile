@@ -17,6 +17,7 @@ ARG PIP_LIST="\
   ansible \
   botocore \
   openshift \
+  github3.py \
   kubernetes \
 "
 
