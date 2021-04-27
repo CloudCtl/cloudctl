@@ -21,7 +21,7 @@ pkill -KILL dnsmasq
 systemctl restart systemd-resolved.service
 ```
 ```
-cat /etc/resolve.conf
+cat /etc/resolv.conf
 netstat -tulpn | grep ':53 '
 ```
 
