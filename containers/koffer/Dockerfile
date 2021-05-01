@@ -52,6 +52,17 @@ RUN set -ex                                                                     
 
 #################################################################################
 # Install openshift client "oc"
+ARG varVerOpenshift="${varVerKuma}"
+ARG varUrlOpenshift="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlOpenshift}                                              \
+        | tar xzvf - --directory /bin kuma-${varVerKuma}/bin/kumactl            \
+     && chmod +x /bin/oc /bin/kubectl                                           \
+     && /bin/oc version --client                                                \
+    && echo
+
+#################################################################################
+# Install openshift client "oc"
 ARG varVerOpenshift="${varVerOpenshift}"
 ARG varUrlOpenshift="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux-${varVerOpenshift}.tar.gz"
 RUN set -ex                                                                     \
