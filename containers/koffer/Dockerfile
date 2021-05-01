@@ -51,15 +51,26 @@ RUN set -ex                                                                     
 # --disablerepo="ubi-8-codeready-builder" \
 
 #################################################################################
-# Install openshift client "oc"
-ARG varVerOpenshift="${varVerKuma}"
-ARG varUrlOpenshift="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
+# Install helm cli
+ARG varVerHelm="${varVerHelm}"
+ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
 RUN set -ex                                                                     \
-     && curl -L ${varUrlOpenshift}                                              \
-        | tar xzvf - --directory /bin kuma-${varVerKuma}/bin/kumactl            \
-     && chmod +x /bin/oc /bin/kubectl                                           \
-     && /bin/oc version --client                                                \
+     && curl -L ${varUrlHelm}                                                   \
+        | tar xzvf - --directory /bin linux-amd64/helm                          \
+     && chmod +x /bin/helm                                                      \
     && echo
+#    && /bin/oc version --client                                                \
+
+#################################################################################
+# Install kuma cli 'kumactl'
+ARG varVerKuma="${varVerKuma}"
+ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlKuma}                                                   \
+        | tar xzvf - --directory /bin kuma-${varVerKuma}/bin/kumactl            \
+     && chmod +x /bin/kumactl                                                   \
+    && echo
+#    && /bin/oc version --client                                                \
 
 #################################################################################
 # Install openshift client "oc"
