@@ -66,7 +66,7 @@ RUN set -ex                                                                     
 ARG varVerKuma="${varVerKuma}"
 ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
 RUN set -ex                                                                     \
-     && curl -L ${varUrlKuma}                                                   \
+     && curl -LO ${varUrlKuma}                                                   \
         | tar xzvf - --directory /bin kuma-${varVerKuma}/bin/kumactl            \
      && chmod +x /bin/kumactl                                                   \
     && echo
