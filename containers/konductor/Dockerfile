@@ -28,6 +28,7 @@ ARG DNF_LIST="\
   bash-completion \
 "
 
+
 #################################################################################
 # Load Entrypoint from Cradle
 COPY --from=entrypoint /root/konductor /bin/konductor
@@ -46,7 +47,9 @@ ARG DNF_FLAGS="\
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
-	 && rpm --import https://packages.microsoft.com/keys/microsoft.asc      \
+	 && rpm --import https://packages.microsoft.com/keys/microsoft.asc          \
+     && curl $(rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{rhel}/config.repo") \
+             | tee /etc/yum.repos.d/kong.repo                                   \
      && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && ln /usr/bin/vim /usr/bin/vi                                             \
      && dnf clean all                                                           \
