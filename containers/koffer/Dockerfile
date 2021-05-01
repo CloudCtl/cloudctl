@@ -56,21 +56,25 @@ ARG varVerHelm="${varVerHelm}"
 ARG varUrlHelm="https://get.helm.sh/helm-v${varVerHelm}-linux-amd64.tar.gz"
 RUN set -ex                                                                     \
      && curl -L ${varUrlHelm}                                                   \
-        | tar xzvf - --directory /bin linux-amd64/helm                          \
+        | tar xzvf - --directory /tmp linux-amd64/helm                          \
+     && mv /tmp/linux-amd64/helm /bin/helm                                      \
+     && rm -rf /tmp/linux-amd64                                                 \
      && chmod +x /bin/helm                                                      \
+     && /bin/helm version                                                       \
     && echo
-#    && /bin/oc version --client                                                \
 
 #################################################################################
 # Install kuma cli 'kumactl'
 ARG varVerKuma="${varVerKuma}"
 ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
 RUN set -ex                                                                     \
-     && curl -LO ${varUrlKuma}                                                   \
-        | tar xzvf - --directory /bin kuma-${varVerKuma}/bin/kumactl            \
+     && curl -LO ${varUrlKuma}                                                  \
+        | tar xzvf - --directory /tmp kuma-${varVerKuma}/bin/kumactl            \
+     && mv kuma-${varVerKuma}/bin/kumactl /bin/kumactl                          \
+     && rm -rf /tmp/kuma-${varVerKuma}                                          \
      && chmod +x /bin/kumactl                                                   \
+     && /bin/kumactl version                                                    \
     && echo
-#    && /bin/oc version --client                                                \
 
 #################################################################################
 # Install openshift client "oc"
