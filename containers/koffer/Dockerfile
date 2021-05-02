@@ -87,6 +87,15 @@ RUN set -ex                                                                     
      && /bin/oc version --client                                                \
     && echo
 
+# Install virtctl
+ARG varVerKubevirt="${varVerKubevirt}"
+ARG varUrlKubevirt="https://github.com/kubevirt/kubevirt/releases/download/v${varVerKubevirt}/virtctl-v${varVerKubevirt}-linux-amd64"
+RUN set -ex                                                                     \
+     && curl -L ${varUrlKubevirt} -o /bin/virtctl                               \
+     && chmod +x /bin/virtctl                                                   \
+     && /bin/virtctl version --client                                           \
+    && echo
+
 # Install jq
 ARG varVerJq="${varVerJq}"
 ARG varUrlJq="https://github.com/stedolan/jq/releases/download/jq-${varVerJq}/jq-linux64"
