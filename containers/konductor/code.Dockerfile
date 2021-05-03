@@ -1,3 +1,5 @@
+# Example Usage:
+#   - docker run --rm --publish 8088:8080 -d --name vscode --hostname vscode quay.io/cloudctl/konductor:code
 FROM quay.io/cloudctl/konductor:latest
 
 ## Build Variables
