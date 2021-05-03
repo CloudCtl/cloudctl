@@ -33,6 +33,7 @@ jobs:
       run: |
         set -x ; \
         echo "varrundate=$(date +%y%m%d%I%M%S)" >> ${GITHUB_ENV};\
+        echo "varvercode=$(curl -s https://api.github.com/repos/cdr/code-server/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')" >> ${GITHUB_ENV};\
         echo "varveropenshift=$(curl --silent https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/  Version/{print $2}')" >> ${GITHUB_ENV};\
         echo;  
 
@@ -85,3 +86,23 @@ jobs:
         build-args: |
           varRunDate=${{ env.varrundate }}
           varVerOpenshift=${{ env.varveropenshift }}
+
+    - name: Build containercraft/konductor:code
+      uses: docker/build-push-action@v2
+      with:
+        context: ./containers/${{ github.workflow }}
+        file: ./containers/${{ github.workflow }}/code.Dockerfile
+        push: true
+        pull: true
+#       load: true
+        tags: |
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
+          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
+          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
+
+        build-args: |
+          varRunDate=${{ env.varrundate }}
+          varVerCode=${{ env.varvercode }}
