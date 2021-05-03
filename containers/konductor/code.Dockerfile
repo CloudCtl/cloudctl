@@ -13,7 +13,7 @@ ARG DNF_LIST="\
 "
 #################################################################################
 # Load Entrypoint from Cradle
-COPY ./bin/code.entrypoint /bin/
+COPY ./bin/code.entrypoint /bin/entrypoint
 
 #################################################################################
 # DNF Install Packages
@@ -27,7 +27,7 @@ RUN set -ex                                                                     
      && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && code-server --install-extension vscodevim.vim                           \
      && code-server --install-extension esbenp.prettier-vscode                  \
-     && code-server --install-extension asvetliakov.vscode-neovim               \
+     && code-server --install-extension zhuangtongfa.Material-theme             \
      && dnf clean all                                                           \
      && rm -rf                                                                  \
           /root/*                                                               \

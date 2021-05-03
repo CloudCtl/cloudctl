@@ -47,6 +47,7 @@ run_sshd () {
 
   # Load user ssh identity
   run_user_ssh_identity
+  mkdir -p ~/.ssh
   chown -R $(whoami):$(whoami) ~/.ssh
   chmod -R 0600 ${ssh_user_identity_path}/*
   cp -rf ${ssh_user_identity_path}/* /root/.ssh/
