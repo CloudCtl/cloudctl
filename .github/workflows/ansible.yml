@@ -65,7 +65,7 @@ jobs:
 
     - name: Build CloudCtl Ansible Runner Service Container
       if: success()
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v1.1.3
       with:
         event-type: runner
         token: ${{ secrets.GH_ACTIONS_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
 
     - name: Build CloudCtl Koffer Container
       if: success()
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v1.1.3
       with:
         event-type: koffer
         token: ${{ secrets.GH_ACTIONS_TOKEN }}
