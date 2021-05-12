@@ -53,7 +53,7 @@ run_sshd () {
   cp -rf ${ssh_user_identity_path}/* /root/.ssh/
 
   # Start SSHD
-  /usr/sbin/sshd -e -f /etc/ssh/sshd_config &
+  /usr/sbin/sshd -e -f /etc/ssh/sshd_config -E /dev/stderr &
 }
 
 run_tmux_start () {
