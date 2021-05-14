@@ -1,10 +1,3 @@
----
-layout: default
-title: Koffer
-parent: Containers
-nav_order: 1
----
-
 # CloudCtl | Koffer
 ## Artifact Rake & Bundle Utility
 ![Docker Pulls](https://img.shields.io/docker/pulls/cloudctl/koffer?label=DockerHub%20Pulls)
