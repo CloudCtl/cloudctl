@@ -1,54 +1,89 @@
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/cloudctl/koffer/koffer/main?style=plastic) ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/cloudctl/koffer?style=plastic) ![Docker Pulls](https://img.shields.io/docker/pulls/cloudctl/koffer?style=plastic)
+---
+layout: default
+title: Koffer
+parent: Containers
+nav_order: 1
+---
+
+# CloudCtl | Koffer
+## Artifact Rake & Bundle Utility
+![Docker Pulls](https://img.shields.io/docker/pulls/cloudctl/koffer?label=DockerHub%20Pulls)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cloudctl/cloudctl/koffer?label=GH%20Actions)    
+Find on [Docker.io](https://hub.docker.com/r/cloudctl/koffer)  &  [Quay.io](https://quay.io/repository/cloudctl/koffer)    
+Find on [GitHub](https://github.com/cloudctl/cloudctl)    
     
-[![Docker Repository on Quay](https://quay.io/repository/cloudctl/koffer/status "Docker Repository on Quay")](https://quay.io/repository/cloudctl/koffer)
+    
+Koffer is an ansible automation runtime for declarative artifact rake
+and bundle tasks in support of Declarative Software Supply Chain and
+airgap operations. Current capabilities include support for dependencies
+required to deploy [Red Hat] [UPI] [OpenShift] Infrastructure, Pipelines,
+and applications into airgaped environments. Koffer is driven from a
+yaml spec engine and is designed to run against compliant external collector
+plugin repos.    
+    
+## Dependencies
+  - [Install Podman]
+  - Alternate: may work with docker in most cases
 
-# Koffer | Artifact Rake & Bundle Appliance
-## About
-Koffer is an automation runtime for raking in various artifacts required to
-deploy Kubernetes Infrastructure, Pipelines, and applications into airgaped 
-environments. Koffer is strictly an ansible consumer and requires run against
-external repo volume cloned or mounted inside the container at `/root/koffer`.
-
-## Creates
-Koffer produces a standardized tarball of all artifacts ready for transport
-
-## Supports
-Compatibile Artifact Types:
-  - git repos
-  - terraform codebases 
-    - performs terraform init at time of capture
-  - docker images
+## Artifact Types:
+  - Git Repos
+  - Terraform IaC
+    - Performs terraform init at time of capture
+  - Container Images
     - Pulls & hydrates built in docker registry service to persistent local path
-    - high side is served with generic docker registry:2 or nginx container 
-  - capability to add more artifact types with custom collector plugins
+    - High side is served with generic docker registry:2 container
+  - Extensible support for other ansible, python, go, and bash based tasks
 
-## How To
-### 1. Create Koffer Bundle Directory
+## Output:
+Koffer produces a standardized tarball of all artifacts on the host filesystem at `bundle/koffer-bundle.*.tar`
+
+## Example Usage
+  - Example run in unattended mode
+  - Example run with local koffer.yml config
+  - Example run from [Sparta](https://github.com/CodeSparta/sparta) collector/site.yml 
+    
+### 1. Copy & Paste your [Pull Secret] (registry credentials)
+  - Koffer will use the registry credentials for container image downloads
+```sh
+vi ${HOME}/pull-secret.json
 ```
-mkdir -p ~/bundle
+### 3. Create Koffer Bundle Directory
+```sh
+mkdir ${HOME}/bundle
 ```
-### 2.a Run Koffer
-  - Example: [collector-ocp](https://github.com/CodeSparta/collector-ocp) plugin
+    
+### 3. Download Koffer Config
+```sh
+curl --output ./koffer.yml -L https://codectl.io/docs/config/stable/sparta.yml
 ```
+    
+### 3. Run Koffer
+```sh
 podman run -it --rm --pull always \
     --volume ${HOME}/bundle:/root/bundle:z \
-  docker.io/cloudctl/koffer bundle \
-        --config https://codectl.io/docs/config/stable/sparta.yml
+    --volume ${HOME}/koffer.yml:/root/.koffer/config.yml:z \
+    --volume ${HOME}/pull-secret.json:/root/.docker/config.json:z \
+  quay.io/cloudctl/koffer:latest bundle --silent
 ```
-### 2.b Run Koffer with nested container build support
-  - Example: [collector-operators](https://github.com/CodeSparta/collector-operators) plugin
-  - Depends: `dnf install fuse-overlayfs`
+
+### 4. Verify Bundle
+```sh
+du -sh ${HOME}/bundle/*
 ```
-sudo podman run -it --rm \
-    --env BUNDLE=false \
-    --env OPERATORS='cluster-logging,rhsso-operator,servicemeshoperator' \
-    --volume ${HOME}/operators:/root/operators:z \
-    --volume ${HOME}/bundle:/root/bundle:z \
-    --privileged --device /dev/fuse \
-  quay.io/cloudctl/koffer:extra bundle \
-    --plugin collector-operators
-```
-### 3. Verify Bundle
-```
- sudo du -sh ~/bundle/*
-```
+    
+[UPI]:https://www.openshift.com/blog/deploying-a-upi-environment-for-openshift-4-1-on-vms-and-bare-metal
+[Red Hat]:https://www.redhat.com
+[OpenShift]:https://www.openshift.com
+[Pull Secret]:https://cloud.redhat.com/openshift/install/metal/user-provisioned
+[Pod]:https://kubernetes.io/docs/concepts/workloads/pods/pod
+[UBI8]:https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image
+[(IaC)]:https://www.ibm.com/cloud/learn/infrastructure-as-code
+[CloudCtl]:https://github.com/containercraft/CloudCTL
+[Podman]:https://docs.podman.io/en/latest
+[Install Podman]:https://podman.io/getting-started/installation
+[Fedora]:https://getfedora.org
+[Ubuntu]:https://ubuntu.com/download
+[CentOS]:https://www.centos.org/download
+[RedHat]:https://access.redhat.com/downloads
+[Fedora CoreOS]:https://getfedora.org/en/coreos?stream=stable
+[RedHat CoreOS]:https://coreos.com/
