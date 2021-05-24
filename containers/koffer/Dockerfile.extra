@@ -21,7 +21,6 @@ ARG DNF_FLAGS="\
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
      && dnf -y module enable container-tools:rhel8                              \
-     && dnf -y update                                                           \
      && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && dnf -y reinstall shadow-utils                                           \
      && dnf clean all                                                           \
