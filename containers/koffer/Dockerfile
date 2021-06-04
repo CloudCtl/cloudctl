@@ -12,7 +12,7 @@ ARG DNF_LIST="\
 
 ARG varRunPath="$varRunPath"
 ENV varRunPath="$varRunPath"
-ENV URL_WALLE="https://raw.githubusercontent.com/arvin-a/openshift-disconnected-operators/master/mirror-operator-catalogue.py"
+ENV URL_WALLE="https://raw.githubusercontent.com/redhat-cop/openshift-disconnected-operators/master/mirror-operator-catalogue.py"
 
 #################################################################################
 # Load Entrypoint from Cradle
