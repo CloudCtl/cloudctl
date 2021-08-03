@@ -15,7 +15,7 @@ jobs:
         echo;  
 
     - name: Login ghcr.io
-      uses: docker/login-action@v1.9.0
+      uses: docker/login-action@v1.10.0
       with:
         logout: true
         registry: ghcr.io
@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.ROBOT_TOKEN_GHCR }}
 
     - name: Login Docker.io
-      uses: docker/login-action@v1.9.0
+      uses: docker/login-action@v1.10.0
       with:
         logout: true
         registry: docker.io
@@ -31,7 +31,7 @@ jobs:
         password: ${{ secrets.ROBOT_TOKEN_DOCKERHUB }}
 
     - name: Login Quay.io
-      uses: docker/login-action@v1.9.0
+      uses: docker/login-action@v1.10.0
       with:
         logout: true
         registry: quay.io
