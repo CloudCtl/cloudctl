@@ -63,6 +63,20 @@ RUN set -ex                                                                     
      && /bin/helm version                                                       \
     && echo
 
+# Add Pulumi binary
+RUN set -ex \
+     && export urlPulumiRelease="https://api.github.com/repos/pulumi/pulumi/releases/latest"             \
+     && export urlPulumiVersion="$(curl -s ${urlPulumiRelease} | awk -F '["v,]' '/tag_name/{print $5}')" \
+     && export urlPulumiBase="https://github.com/pulumi/pulumi/releases/download"                        \
+     && export urlPulumiBin="pulumi-v${urlPulumiVersion}-linux-x64.tar.gz"                               \
+     && export urlPulumi="${urlPulumiBase}/v${urlPulumiVersion}/${urlPulumiBin}"                         \
+     && curl -L ${urlPulumi}                                                                             \
+        | tar xzvf - --directory /tmp                                                                    \
+     && mv /tmp/pulumi/* /usr/local/bin/                                                                 \
+     && rm -rf /tmp/pulumi                                                                               \
+     && pulumi version                                                                                   \
+    && echo
+
 #################################################################################
 # Install kuma cli 'kumactl'
 ARG varVerKuma="${varVerKuma}"
