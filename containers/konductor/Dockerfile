@@ -17,7 +17,6 @@ ARG DNF_LIST="\
   which \
   iputils \
   findutils \
-  azure-cli \
   procps-ng \
   net-tools \
   nmap-ncat \
@@ -27,6 +26,7 @@ ARG DNF_LIST="\
   libvarlink-util \
   bash-completion \
 "
+# azure-cli \
 
 
 #################################################################################
@@ -47,8 +47,6 @@ ARG DNF_FLAGS="\
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
-     && curl $(rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{rhel}/config.repo") \
-             | tee /etc/yum.repos.d/kong.repo                                   \
      && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && ln /usr/bin/vim /usr/bin/vi                                             \
      && dnf clean all                                                           \
@@ -59,6 +57,8 @@ RUN set -ex                                                                     
           /var/log/yum*                                                         \
     && echo
 
+#    && curl $(rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{rhel}/config.repo") \
+#            | tee /etc/yum.repos.d/kong.repo                                   \
 #    && rpm --import https://packages.microsoft.com/keys/microsoft.asc          \
 # --nobest \
 # --nogpgcheck \
