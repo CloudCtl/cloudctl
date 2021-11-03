@@ -9,7 +9,7 @@ jobs:
     steps:
 
     - name: Git Checkout
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v2.4.0
       with:
         ref: ${{ github.event.client_payload.sha }}
 
