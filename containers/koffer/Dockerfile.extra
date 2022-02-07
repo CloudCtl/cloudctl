@@ -46,11 +46,11 @@ RUN set -ex                                                                     
                -e '/^cgroup_manager.*/d'                                        \
                -e '/\#\ cgroup_manager\ =/a cgroup_manager = "cgroupfs"'        \
             /usr/share/containers/containers.conf                               \
-     && sed -i 's/10.88.0/10.89.0/g' /etc/cni/net.d/87-podman-bridge.conflist   \
      && sed -i                                                                  \
                -e 's|"/var/lib/shared",|#"/var/lib/shared",|'                   \
             /etc/containers/storage.conf                                        \
     && echo
+#    && sed -i 's/10.88.0/10.89.0/g' /etc/cni/net.d/87-podman-bridge.conflist   \
 
 #################################################################################
 # Finalize
