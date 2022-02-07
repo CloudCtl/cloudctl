@@ -79,17 +79,16 @@ RUN set -ex \
 
 #################################################################################
 # Install kuma cli 'kumactl'
-ARG varVerKuma="${varVerKuma}"
-ARG varVerKuma="1.4.1"
-ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
-RUN set -ex                                                                     \
-     && curl --output /tmp/kumactl.tar.gz -L ${varUrlKuma}                      \
-     && cd /tmp && tar xzvf /tmp/kumactl.tar.gz                                 \
-     && mv /tmp/kuma-${varVerKuma}/bin/kumactl /bin/kumactl                     \
-     && rm -rf /tmp/kumactl.tar.gz /tmp/kuma-${varVerKuma}                      \
-     && chmod +x /bin/kumactl                                                   \
-     && /bin/kumactl version                                                    \
-    && echo
+#ARG varVerKuma="${varVerKuma}"
+#ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
+#RUN set -ex                                                                     \
+#     && curl --output /tmp/kumactl.tar.gz -L ${varUrlKuma}                      \
+#     && cd /tmp && tar xzvf /tmp/kumactl.tar.gz                                 \
+#     && mv /tmp/kuma-${varVerKuma}/bin/kumactl /bin/kumactl                     \
+#     && rm -rf /tmp/kumactl.tar.gz /tmp/kuma-${varVerKuma}                      \
+#     && chmod +x /bin/kumactl                                                   \
+#     && /bin/kumactl version                                                    \
+#    && echo
 
 #################################################################################
 # Install openshift client "oc"
