@@ -34,7 +34,7 @@ RUN set -ex \
      && cp -r /etc/yum.repos.d    /rootfs/etc/ \
      && cp -r /etc/os-release     /rootfs/etc/os-release \
      && cp -r /etc/redhat-release /rootfs/etc/redhat-release \
-    && echo
+     && echo
 
 RUN set -ex \
      && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
@@ -57,6 +57,7 @@ COPY --from=rpm     /etc/dnf/vars/*     /rootfs/etc/dnf/vars/
 # Create image from rootfs
 FROM scratch
 COPY --from=builder /rootfs /
+COPY dnf.conf       /etc/dnf/dnf.conf
 CMD /bin/bash
 
 #################################################################################
