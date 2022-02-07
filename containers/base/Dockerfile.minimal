@@ -34,6 +34,9 @@ RUN set -ex \
      && cp -r /etc/yum.repos.d    /rootfs/etc/ \
      && cp -r /etc/os-release     /rootfs/etc/os-release \
      && cp -r /etc/redhat-release /rootfs/etc/redhat-release \
+    && echo
+
+RUN set -ex \
      && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
      && dnf update ${DNF_FLAGS_EXTRA} \
      && dnf clean all ${DNF_FLAGS} \
@@ -48,6 +51,7 @@ COPY --from=rpm     /etc/pki            /rootfs/etc/pki
 COPY --from=rpm     /etc/os-release     /rootfs/etc/os-release
 COPY --from=rpm     /etc/yum.repos.d    /rootfs/etc/yum.repos.d
 COPY --from=rpm     /etc/redhat-release /rootfs/etc/redhat-release
+COPY --from=rpm     /etc/dnf/vars/*     /rootfs/etc/dnf/vars/
 
 #################################################################################
 # Create image from rootfs

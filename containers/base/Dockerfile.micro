@@ -1,6 +1,6 @@
 #################################################################################
 # Builder Image
-FROM registry.access.redhat.com/ubi8/ubi as builder
+FROM registry.access.redhat.com/ubi9-beta/ubi as builder
 ARG BUILD_PATH='/rootfs'
 
 #################################################################################
