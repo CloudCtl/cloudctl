@@ -30,7 +30,6 @@ ARG DNF_FLAGS="\
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
-     && git config --global http.sslVerify false                                \
      && dnf install ${DNF_FLAGS} ${DNF_LIST}                                    \
      && dnf clean all                                                           \
      && curl -L ${URL_WALLE} -o /bin/wall-e                                     \
@@ -41,6 +40,7 @@ RUN set -ex                                                                     
           /var/cache/*                                                          \
           /var/log/dnf*                                                         \
           /var/log/yum*                                                         \
+     && git config --global http.sslVerify false                                \
     && echo
 
 # --nobest \
