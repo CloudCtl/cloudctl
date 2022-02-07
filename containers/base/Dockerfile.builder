@@ -35,7 +35,6 @@ RUN set -ex \
      && dnf -y install 'dnf-command(copr)' \
      && dnf -y copr enable rhcontainerbot/container-selinux \
      && curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo \
-     && dnf update ${DNF_FLAGS_EXTRA} \
      && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
      && dnf clean all ${DNF_FLAGS} \
      && rm -rf \
