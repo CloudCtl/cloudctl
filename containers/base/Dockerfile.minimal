@@ -1,6 +1,6 @@
 #################################################################################
 # Builder Image
-FROM docker.io/library/centos:8 as rpm
+FROM quay.io/centos/centos:stream8 as rpm
 FROM registry.access.redhat.com/ubi8/ubi as builder
 
 #################################################################################
