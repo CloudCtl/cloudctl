@@ -80,6 +80,7 @@ RUN set -ex \
 #################################################################################
 # Install kuma cli 'kumactl'
 ARG varVerKuma="${varVerKuma}"
+ARG varVerKuma="1.4.1"
 ARG varUrlKuma="https://download.konghq.com/mesh-alpine/kuma-${varVerKuma}-rhel-amd64.tar.gz"
 RUN set -ex                                                                     \
      && curl --output /tmp/kumactl.tar.gz -L ${varUrlKuma}                      \
