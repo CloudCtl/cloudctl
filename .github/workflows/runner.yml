@@ -43,7 +43,7 @@ jobs:
         password: ${{ secrets.ROBOT_TOKEN_QUAY }}
 
     - name: Git Checkout
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v3
 
     ## TODO: Enable dynamic ARS latest release update
     - name: Git Clone ansible/ansible-runner-service

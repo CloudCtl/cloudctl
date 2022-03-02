@@ -49,7 +49,7 @@ jobs:
         echo;  
 
     - name: Git Checkout
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v3
 
     - name: Build Image 
       uses: docker/build-push-action@v2.6.1
