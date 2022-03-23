@@ -103,7 +103,7 @@ jobs:
 
     - name: Build CloudCtl Konductor Container
       if: success()
-      uses: peter-evans/repository-dispatch@v1.1.3
+      uses: peter-evans/repository-dispatch@v2
       with:
         event-type: konductor
         token: ${{ secrets.GH_ACTIONS_TOKEN }}
