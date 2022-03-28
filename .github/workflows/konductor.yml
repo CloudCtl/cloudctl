@@ -87,22 +87,22 @@ jobs:
           varRunDate=${{ env.varrundate }}
           varVerOpenshift=${{ env.varveropenshift }}
 
-    - name: Build containercraft/konductor:code
-      uses: docker/build-push-action@v2.6.1
-      with:
-        context: ./containers/${{ github.workflow }}
-        file: ./containers/${{ github.workflow }}/code.Dockerfile
-        push: true
-        pull: true
+#   - name: Build containercraft/konductor:code
+#     uses: docker/build-push-action@v2.6.1
+#     with:
+#       context: ./containers/${{ github.workflow }}
+#       file: ./containers/${{ github.workflow }}/code.Dockerfile
+#       push: true
+#       pull: true
 #       load: true
-        tags: |
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
-          quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
-          docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
-
-        build-args: |
-          varRunDate=${{ env.varrundate }}
-          varVerCode=${{ env.varvercode }}
+#       tags: |
+#         quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
+#         quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
+#         quay.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
+#         docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code
+#         docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}
+#         docker.io/${{ secrets.GIT_PROJECT }}/${{ github.workflow }}:code-${{ env.varvercode }}-${{ github.sha }}
+#
+#       build-args: |
+#         varRunDate=${{ env.varrundate }}
+#         varVerCode=${{ env.varvercode }}
