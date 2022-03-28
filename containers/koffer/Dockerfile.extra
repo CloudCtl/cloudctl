@@ -17,6 +17,7 @@ ARG DNF_FLAGS="\
   --setopt=tsflags=nodocs \
   --exclude container-selinux \
   --setopt=install_weak_deps=false \
+  --disablerepo=* --enablerepo=ubi-8-* \
 "
 # DNF Update & Install Packages
 RUN set -ex                                                                     \
