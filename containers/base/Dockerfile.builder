@@ -14,7 +14,6 @@ ARG DNF_LIST="\
   rsync \
   unzip \
   bsdtar \
-  skopeo \
 "
 
 #################################################################################
@@ -32,14 +31,16 @@ ARG DNF_FLAGS_EXTRA="\
 #################################################################################
 # Build Rootfs
 RUN set -ex \
+     && dnf install skopeo -y --disablerepo=* --enablerepo=ubi-8-* \
      && dnf -y install 'dnf-command(copr)' \
      && dnf -y copr enable rhcontainerbot/container-selinux \
-     && curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo \
+     && rm /etc/yum.repos.d/_copr\:copr.fedorainfracloud.org\:rhcontainerbot\:container-selinux.repo \
      && dnf install ${DNF_FLAGS_EXTRA} ${DNF_LIST} \
      && dnf clean all ${DNF_FLAGS} \
      && rm -rf \
            ${BUILD_PATH}/var/cache/* \
     && echo
+#    && curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo \
 
 
 CMD /bin/sh
