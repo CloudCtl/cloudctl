@@ -1,7 +1,7 @@
 ---
 - name: '{{ ansible_name_module }} | cmd:podman_container | Podman purge {{ module }}' 
   containers.podman.podman_container:
-    name: "coredns"
+    name: "runner"
     state: "absent"
   when: pod_force_rm == true
 
