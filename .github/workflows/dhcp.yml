@@ -46,7 +46,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build Image cloudctl/dhcp:micro
-      uses: docker/build-push-action@v2.10.0
+      uses: docker/build-push-action@v3.1.0
       with:
         context: ./containers/${{ github.workflow }}
         file: ./containers/${{ github.workflow }}/Dockerfile
